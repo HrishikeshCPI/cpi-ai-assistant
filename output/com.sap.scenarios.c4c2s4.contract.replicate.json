@@ -226,6 +226,1573 @@
       "name": "Local Integration Process_Post_Processing"
     }
   ],
+  "wsdl_details": {
+    "COD_CONTRACT_CREATEFROM_DAT_S4CORE.wsdl": {
+      "messages": [
+        {
+          "name": "COD_CONTRACT_CREATEFROM_DAT01",
+          "parts": [
+            {
+              "name": "COD_CONTRACT_CREATEFROM_DAT01",
+              "type": "COD_CONTRACT_CREATEFROM_DAT01"
+            }
+          ]
+        }
+      ],
+      "operations": [],
+      "soap_address": null,
+      "target_namespace": null,
+      "parse_warnings": []
+    },
+    "ContractReplicationOut.wsdl": {
+      "messages": [
+        {
+          "name": "ContractReplicationRequestToExternal",
+          "parts": [
+            {
+              "name": "ContractReplicationRequestToExternal",
+              "type": "n2:ContractReplicationRequestToExternal"
+            }
+          ]
+        }
+      ],
+      "operations": [],
+      "soap_address": null,
+      "target_namespace": "http://sap.com/xi/AP/CRM/Global",
+      "parse_warnings": []
+    }
+  },
+  "mapping_details": {
+    "C4C_S4_ContractReplication.mmap": {
+      "field_mappings": [
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/@BEGIN",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/EDI_DC40/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/EDI_DC40/TABNAM",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/EDI_DC40/DIRECT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/EDI_DC40/IDOCTYP",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/EDI_DC40/MESTYP",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/EDI_DC40/SNDPOR",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/EDI_DC40/SNDPRT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/EDI_DC40/SNDPRN",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/EDI_DC40/RCVPOR",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/EDI_DC40/RCVPRT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/EDI_DC40/RCVPRN",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/EDI_DC40/SERIAL",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/RecepientID",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/SALESDOCUMENTIN",
+          "function": null
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ID",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/REFOBJKEY",
+          "function": null
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ProcessingTypeCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/DOC_TYPE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/BusinessArea/RecipientSalesOrganisationID",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/SALES_ORG",
+          "function": null
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/BusinessArea/DistributionChannelCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/DISTR_CHAN",
+          "function": null
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/BusinessArea/DivisionCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/DIVISION",
+          "function": null
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/BusinessArea/RecipientSalesGroupID",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/SALES_GRP",
+          "function": null
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/BusinessArea/RecipientSalesOfficeID",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/SALES_OFF",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/REQ_DATE_H",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/DeliveryTerms/Incoterms/ClassificationCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/INCOTERMS1",
+          "function": null
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/DeliveryTerms/Incoterms/TransferLocationName",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/INCOTERMS2",
+          "function": null
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/PricingTerms/CashDiscountTermsCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/PMNTTRMS",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/PRICE_DATE",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/QT_VALID_F",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/QT_VALID_T",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/CT_VALID_F",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/CT_VALID_T",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/BuyerID",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/PURCH_NO_C",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/DOC_DATE",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/Name",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/PP_SEARCH",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/SERV_DATE",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/PricingTerms/CurrencyCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/CURRENCY",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/CHKPRTAUTH",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/UPDATEFLAG",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/SALES_GRP",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/SALES_OFF",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/NAME",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/INCOTERMS1",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/INCOTERMS2",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/PRICE_DATE",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/CT_VALID_F",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/CT_VALID_T",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/PURCH_NO_C",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/DOC_DATE",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/PP_SEARCH",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/CURRENCY",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/CHKPRTAUTH",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ContractData",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTR",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTR/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTR/ITM_NUMBER",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTR/CON_ST_DAT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTR/CON_SI_DAT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTR/CON_EN_DAT",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ContractItem",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTR[1]",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTR[1]/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTR[1]/ITM_NUMBER",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTR[1]/CON_ST_DAT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTR[1]/CON_EN_DAT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTRX",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTRX/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTRX/ITM_NUMBER",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTRX/UPDATEFLAG",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTRX/CON_ST_DAT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTRX/CON_SI_DAT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTRX/CON_EN_DAT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTRX[1]",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTRX[1]/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTRX[1]/ITM_NUMBER",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTRX[1]/UPDATEFLAG",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTRX[1]/CON_ST_DAT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTRX[1]/CON_EN_DAT",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/BuyerParty",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/BuyerParty/RoleCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR/PARTN_ROLE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/BuyerParty/RecipientERPPartyID",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR/PARTN_NUMB",
+          "function": null
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ShipToParty",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[1]",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[1]/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ShipToParty/RoleCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[1]/PARTN_ROLE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ShipToParty/RecipientERPPartyID",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[1]/PARTN_NUMB",
+          "function": null
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/BillToParty",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[2]",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[2]/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/BillToParty/RoleCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[2]/PARTN_ROLE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/BillToParty/RecipientERPPartyID",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[2]/PARTN_NUMB",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[3]",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[3]/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[3]/PARTN_ROLE",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[3]/PARTN_NUMB",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/OtherParty",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[4]",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[4]/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/OtherParty/RoleCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[4]/PARTN_ROLE",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[4]/PARTN_NUMB",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/EmployeeResponsible/RecipientERPPartyID",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[5]",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[5]/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/EmployeeResponsible/RoleCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[5]/PARTN_ROLE",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[5]/PARTN_NUMB",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/SalesEmployeeResponsible/RecipientERPPartyID",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[6]",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[6]/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/SalesEmployeeResponsible/RoleCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[6]/PARTN_ROLE",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[6]/PARTN_NUMB",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/SalesEmployee/RecipientERPPartyID",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[7]",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[7]/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/SalesEmployee/RoleCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[7]/PARTN_ROLE",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[7]/PARTN_NUMB",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/PayerParty",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[8]",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[8]/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/PayerParty/RoleCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[8]/PARTN_ROLE",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[8]/PARTN_NUMB",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/AuthorizedParty/RecipientERPPartyID",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[9]",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[9]/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/AuthorizedParty/RoleCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[9]/PARTN_ROLE",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[9]/PARTN_NUMB",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ContractItem/ItemShipToParty",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[10]",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[10]/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ContractItem/ItemShipToParty/RoleCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[10]/PARTN_ROLE",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[10]/PARTN_NUMB",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[10]/ITM_NUMBER",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ContractItem/ItemBillToParty",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[11]",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[11]/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ContractItem/ItemBillToParty/RoleCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[11]/PARTN_ROLE",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[11]/PARTN_NUMB",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[11]/ITM_NUMBER",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ContractItem/ItemPayerParty",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[12]",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[12]/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ContractItem/ItemPayerParty/RoleCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[12]/PARTN_ROLE",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[12]/PARTN_NUMB",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[12]/ITM_NUMBER",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ContractItem/ItemOtherParty",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[13]",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[13]/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ContractItem/ItemOtherParty/RoleCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[13]/PARTN_ROLE",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[13]/PARTN_NUMB",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[13]/ITM_NUMBER",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND/ITM_NUMBER",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND/COND_ST_NO",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ContractItem/ExternalPriceComponent/TypeCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND/COND_TYPE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ContractItem/ExternalPriceComponent/Rate/DecimalValue",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND/COND_VALUE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ContractItem/ExternalPriceComponent/Rate/BaseDecimalValue",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND/COND_P_UNT",
+          "function": null
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ContractItem/ExternalPriceComponent/Rate/CurrencyCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND/CURR_ISO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ContractItem/ExternalPriceComponent/Rate/BaseMeasureUnitCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND/CD_UNT_ISO",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND/COND_COUNT_LONG",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND[1]",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND[1]/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND[1]/ITM_NUMBER",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND[1]/COND_ST_NO",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/PriceComponent/TypeCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND[1]/COND_TYPE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/PriceComponent/Rate/DecimalValue",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND[1]/COND_VALUE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/PriceComponent/Rate/BaseDecimalValue",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND[1]/COND_P_UNT",
+          "function": null
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/PriceComponent/Rate/CurrencyCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND[1]/CURR_ISO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/PriceComponent/Rate/BaseMeasureUnitCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND[1]/CD_UNT_ISO",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND[1]/COND_COUNT_LONG",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX/ITM_NUMBER",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX/COND_ST_NO",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX/COND_TYPE",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX/UPDATEFLAG",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX/COND_VALUE",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX/CURRENCY",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX/COND_UNIT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX/COND_P_UNT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX/COND_COUNT_LONG",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX[1]",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX[1]/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX[1]/ITM_NUMBER",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX[1]/COND_ST_NO",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX[1]/COND_TYPE",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX[1]/UPDATEFLAG",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX[1]/COND_VALUE",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX[1]/CURRENCY",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX[1]/COND_UNIT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX[1]/COND_P_UNT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX[1]/COND_COUNT_LONG",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ContractItem",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/ITM_NUMBER",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/HG_LV_ITEM",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ContractItem/CancellationReasonCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/REASON_REJ",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/BILL_DATE",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/TARGET_QTY",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/T_UNIT_ISO",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ContractItem/ProcessingTypeCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/ITEM_CATEG",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/SHORT_TEXT",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ContractItem/ItemDeliveryTerms/Incoterms/ClassificationCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/INCOTERMS1",
+          "function": null
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ContractItem/ItemDeliveryTerms/Incoterms/TransferLocationName",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/INCOTERMS2",
+          "function": null
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ContractItem/ItemPricingTerms/CashDiscountTermsCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/PMNTTRMS",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/PRICE_DATE",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/DLV_PRIO",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/E102COD_S_CONTRACT_ITEM",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/E102COD_S_CONTRACT_ITEM/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/E102COD_S_CONTRACT_ITEM/E103COD_S_CONTRACT_ITEM",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/E102COD_S_CONTRACT_ITEM/E103COD_S_CONTRACT_ITEM/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/E102COD_S_CONTRACT_ITEM/E103COD_S_CONTRACT_ITEM/MATERIAL_LONG",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/E102COD_S_CONTRACT_ITEM/E103COD_S_CONTRACT_ITEM/PR_REF_MAT_LONG",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/E102COD_S_CONTRACT_ITEM/E103COD_S_CONTRACT_ITEM/IS_C4C_TECH_OBJ_SCOPED",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ContractItem/ItemCoveredObjects",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/E101COD_S_TECHNICAL_OBJECT",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/E101COD_S_TECHNICAL_OBJECT/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/E101COD_S_TECHNICAL_OBJECT/EQUNR",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ContractItem/ItemCoveredObjects/SerialID",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/E101COD_S_TECHNICAL_OBJECT/SERNR",
+          "function": null
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ContractItem/ItemCoveredObjects/RecepientProductID",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/E101COD_S_TECHNICAL_OBJECT/MATNR",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/E101COD_S_TECHNICAL_OBJECT/TPLNR",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/ITM_NUMBER",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/UPDATEFLAG",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/MATERIAL",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/REASON_REJ",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/BILL_DATE",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/TARGET_QTY",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/TARGET_QU",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/T_UNIT_ISO",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/ITEM_CATEG",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/SHORT_TEXT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/INCOTERMS1",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/INCOTERMS2",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/PMNTTRMS",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/PRICE_DATE",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/DLV_PRIO",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT/DOC_NUMBER",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT/TEXT_ID",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT/LANGU_ISO",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT/E101COD_S_TLINE",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT/E101COD_S_TLINE/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT/E101COD_S_TLINE/TEXT_LINE",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT[1]",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT[1]/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT[1]/DOC_NUMBER",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT[1]/ITM_NUMBER",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT[1]/TEXT_ID",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT[1]/LANGU_ISO",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT[1]/E101COD_S_TLINE",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT[1]/E101COD_S_TLINE/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT[1]/E101COD_S_TLINE/TEXT_LINE",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/MessageHeader/SenderBusinessSystemID",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPI_SENDER",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPI_SENDER/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPI_SENDER/LOG_SYSTEM",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN/VBELN",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN/POSNR",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ContractItem/InvoiceScheduleNextInvoiceDateCalculationFunctionCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN/PERIO",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN/AUTTE",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN/BEDAT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN/ENDAT",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ContractItem/InvoiceScheduleHorizonDateCalculationFunctionCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN/HORIZ",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN[1]",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN[1]/@SEGMENT",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/ID",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN[1]/VBELN",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN[1]/POSNR",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/InvoiceScheduleNextInvoiceDateCalculationFunctionCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN[1]/PERIO",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN[1]/AUTTE",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN[1]/BEDAT",
+          "function": "complex"
+        },
+        {
+          "source": null,
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN[1]/ENDAT",
+          "function": "complex"
+        },
+        {
+          "source": "/ns0:ContractReplicationRequestToExternal/ContractRequest/ContractRequest/InvoiceScheduleHorizonDateCalculationFunctionCode",
+          "target": "/COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN[1]/HORIZ",
+          "function": null
+        }
+      ],
+      "parse_warnings": [
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/@BEGIN uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/EDI_DC40/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/EDI_DC40/TABNAM uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/EDI_DC40/DIRECT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/EDI_DC40/IDOCTYP uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/EDI_DC40/MESTYP uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/EDI_DC40/SNDPOR uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/EDI_DC40/SNDPRT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/EDI_DC40/SNDPRN uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/EDI_DC40/RCVPOR uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/EDI_DC40/RCVPRT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/EDI_DC40/RCVPRN uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/EDI_DC40/SERIAL uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/REQ_DATE_H uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/PRICE_DATE uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/QT_VALID_F uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/QT_VALID_T uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/CT_VALID_F uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/CT_VALID_T uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/DOC_DATE uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/SERV_DATE uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1/CHKPRTAUTH uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/UPDATEFLAG uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/SALES_GRP uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/SALES_OFF uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/NAME uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/INCOTERMS1 uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/INCOTERMS2 uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/PRICE_DATE uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/CT_VALID_F uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/CT_VALID_T uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/PURCH_NO_C uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/DOC_DATE uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/PP_SEARCH uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/CURRENCY uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDHD1X/CHKPRTAUTH uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTR/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTR/ITM_NUMBER uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTR/CON_ST_DAT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTR/CON_SI_DAT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTR/CON_EN_DAT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTR[1]/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTR[1]/ITM_NUMBER uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTR[1]/CON_ST_DAT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTR[1]/CON_EN_DAT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTRX uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTRX/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTRX/ITM_NUMBER uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTRX/UPDATEFLAG uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTRX/CON_ST_DAT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTRX/CON_SI_DAT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTRX/CON_EN_DAT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTRX[1] uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTRX[1]/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTRX[1]/ITM_NUMBER uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTRX[1]/UPDATEFLAG uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTRX[1]/CON_ST_DAT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICTRX[1]/CON_EN_DAT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[1]/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[2]/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[3] uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[3]/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[3]/PARTN_ROLE uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[3]/PARTN_NUMB uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[4]/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[4]/PARTN_NUMB uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[5]/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[5]/PARTN_NUMB uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[6]/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[6]/PARTN_NUMB uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[7]/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[7]/PARTN_NUMB uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[8]/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[8]/PARTN_NUMB uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[9]/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[9]/PARTN_NUMB uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[10]/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[10]/PARTN_NUMB uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[10]/ITM_NUMBER uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[11]/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[11]/PARTN_NUMB uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[11]/ITM_NUMBER uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[12]/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[12]/PARTN_NUMB uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[12]/ITM_NUMBER uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[13]/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[13]/PARTN_NUMB uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPIPARNR[13]/ITM_NUMBER uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND/ITM_NUMBER uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND/COND_ST_NO uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND/COND_COUNT_LONG uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND[1] uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND[1]/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND[1]/ITM_NUMBER uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND[1]/COND_ST_NO uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BAPICOND[1]/COND_COUNT_LONG uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX/ITM_NUMBER uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX/COND_ST_NO uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX/COND_TYPE uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX/UPDATEFLAG uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX/COND_VALUE uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX/CURRENCY uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX/COND_UNIT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX/COND_P_UNT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX/COND_COUNT_LONG uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX[1] uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX[1]/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX[1]/ITM_NUMBER uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX[1]/COND_ST_NO uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX[1]/COND_TYPE uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX[1]/UPDATEFLAG uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX[1]/COND_VALUE uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX[1]/CURRENCY uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX[1]/COND_UNIT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX[1]/COND_P_UNT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPICONDX[1]/COND_COUNT_LONG uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/ITM_NUMBER uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/HG_LV_ITEM uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/BILL_DATE uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/TARGET_QTY uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/T_UNIT_ISO uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/SHORT_TEXT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/PRICE_DATE uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/DLV_PRIO uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/E102COD_S_CONTRACT_ITEM uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/E102COD_S_CONTRACT_ITEM/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/E102COD_S_CONTRACT_ITEM/E103COD_S_CONTRACT_ITEM uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/E102COD_S_CONTRACT_ITEM/E103COD_S_CONTRACT_ITEM/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/E102COD_S_CONTRACT_ITEM/E103COD_S_CONTRACT_ITEM/MATERIAL_LONG uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/E102COD_S_CONTRACT_ITEM/E103COD_S_CONTRACT_ITEM/PR_REF_MAT_LONG uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/E102COD_S_CONTRACT_ITEM/E103COD_S_CONTRACT_ITEM/IS_C4C_TECH_OBJ_SCOPED uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/E101COD_S_TECHNICAL_OBJECT/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/E101COD_S_TECHNICAL_OBJECT/EQUNR uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_CONTRACT_ITEM/E101COD_S_TECHNICAL_OBJECT/TPLNR uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/ITM_NUMBER uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/UPDATEFLAG uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/MATERIAL uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/REASON_REJ uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/BILL_DATE uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/TARGET_QTY uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/TARGET_QU uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/T_UNIT_ISO uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/ITEM_CATEG uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/SHORT_TEXT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/INCOTERMS1 uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/INCOTERMS2 uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/PMNTTRMS uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/PRICE_DATE uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPISDITMX/DLV_PRIO uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT/DOC_NUMBER uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT/TEXT_ID uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT/LANGU_ISO uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT/E101COD_S_TLINE uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT/E101COD_S_TLINE/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT/E101COD_S_TLINE/TEXT_LINE uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT[1] uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT[1]/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT[1]/DOC_NUMBER uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT[1]/ITM_NUMBER uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT[1]/TEXT_ID uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT[1]/LANGU_ISO uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT[1]/E101COD_S_TLINE uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT[1]/E101COD_S_TLINE/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_SDTEXT[1]/E101COD_S_TLINE/TEXT_LINE uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPI_SENDER/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101BAPI_SENDER/LOG_SYSTEM uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN/VBELN uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN/POSNR uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN/AUTTE uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN/BEDAT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN/ENDAT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN[1] uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN[1]/@SEGMENT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN[1]/POSNR uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN[1]/AUTTE uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN[1]/BEDAT uses a non-trivial mapping function, not a direct field copy",
+        "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN[1]/ENDAT uses a non-trivial mapping function, not a direct field copy"
+      ]
+    }
+  },
   "resources": {
     "scripts": [],
     "mappings": [

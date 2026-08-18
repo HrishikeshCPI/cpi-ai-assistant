@@ -92,6 +92,83 @@
       "name": "Integration Process"
     }
   ],
+  "wsdl_details": {
+    "COD_SALESORDER_SIMULATE.wsdl": {
+      "messages": [
+        {
+          "name": "COD_SALESORDER_SIMULATEResponse",
+          "parts": [
+            {
+              "name": "parameter",
+              "type": "rfc:COD_SALESORDER_SIMULATEResponse"
+            }
+          ]
+        },
+        {
+          "name": "COD_SALESORDER_SIMULATE",
+          "parts": [
+            {
+              "name": "parameters",
+              "type": "rfc:COD_SALESORDER_SIMULATE"
+            }
+          ]
+        }
+      ],
+      "operations": [],
+      "soap_address": null,
+      "target_namespace": "urn:sap-com:document:sap:rfc:functions",
+      "parse_warnings": []
+    },
+    "ServiceRequestRequestExternalSalesDocumentDataOut.wsdl": {
+      "messages": [
+        {
+          "name": "ExternalSalesDocumentDataQueryFromServiceRequest_sync",
+          "parts": [
+            {
+              "name": "ExternalSalesDocumentDataQueryFromServiceRequest_sync",
+              "type": "n2:ExternalSalesDocumentDataQueryFromServiceRequest_sync"
+            }
+          ]
+        },
+        {
+          "name": "StandardMessageFault",
+          "parts": [
+            {
+              "name": "StandardMessageFault",
+              "type": "n2:StandardMessageFault"
+            }
+          ]
+        },
+        {
+          "name": "ExternalSalesDocumentDataResponse_sync",
+          "parts": [
+            {
+              "name": "ExternalSalesDocumentDataResponse_sync",
+              "type": "n2:ExternalSalesDocumentDataResponse_sync"
+            }
+          ]
+        }
+      ],
+      "operations": [],
+      "soap_address": null,
+      "target_namespace": "http://sap.com/xi/AP/CRM/Global",
+      "parse_warnings": []
+    }
+  },
+  "mapping_details": {
+    "C4C_S4_ServiceRequestExternalSalesDocumentDataQuerySync_req.mmap": {
+      "field_mappings": [],
+      "parse_warnings": [
+        "Transformation block not found in the mmap XML; expected a top-level transformation element with Dst/Src brick mappings."
+      ]
+    },
+    "C4C_S4_ServiceRequestExternalSalesDocumentDataQuerySync_resp.mmap": {
+      "field_mappings": [],
+      "parse_warnings": [
+        "Transformation block not found in the mmap XML; expected a top-level transformation element with Dst/Src brick mappings."
+      ]
+    }
+  },
   "resources": {
     "scripts": [],
     "mappings": [

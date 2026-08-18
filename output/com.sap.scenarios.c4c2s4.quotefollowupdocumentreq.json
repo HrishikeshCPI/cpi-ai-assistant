@@ -229,6 +229,50 @@
       "name": "Local Integration Process_Post_Processing"
     }
   ],
+  "wsdl_details": {
+    "CustomerQuote_Processing_SalesOrder_Request_Out.wsdl": {
+      "messages": [
+        {
+          "name": "SalesOrderRequestMassRequest",
+          "parts": [
+            {
+              "name": "SalesOrderRequestMassRequest",
+              "type": "n2:SalesOrderRequestMassRequest"
+            }
+          ]
+        }
+      ],
+      "operations": [],
+      "soap_address": null,
+      "target_namespace": "http://sap.com/xi/AP/CRM/Global",
+      "parse_warnings": []
+    },
+    "SALESORDER_CREATEFROMDAT204.wsdl": {
+      "messages": [
+        {
+          "name": "SALESORDER_CREATEFROMDAT204",
+          "parts": [
+            {
+              "name": "SALESORDER_CREATEFROMDAT204",
+              "type": "SALESORDER_CREATEFROMDAT204"
+            }
+          ]
+        }
+      ],
+      "operations": [],
+      "soap_address": null,
+      "target_namespace": null,
+      "parse_warnings": []
+    }
+  },
+  "mapping_details": {
+    "C4C_S4_CustomerQuoteFollowupBusinessTransactionDocumentReq.mmap": {
+      "field_mappings": [],
+      "parse_warnings": [
+        "Transformation block not found in the mmap XML; expected a top-level transformation element with Dst/Src brick mappings."
+      ]
+    }
+  },
   "resources": {
     "scripts": [],
     "mappings": [

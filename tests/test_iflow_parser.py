@@ -2,6 +2,7 @@ from pathlib import Path
 
 from src.models.schema import IFlowArtifact
 from src.parser.iflow_parser import parse_package
+from src.parser.wsdl_resolver import resolve_wsdl
 
 
 def test_parse_package_extracts_nodes_edges_and_resources(tmp_path):
@@ -135,6 +136,56 @@ def test_parse_package_extracts_conditions_message_flows_and_systems(tmp_path):
     assert artifact.message_flows[0]["component_type"] == "SOAP"
     assert artifact.message_flows[0]["address"] == "https://example.test"
     assert artifact.systems == [{"id": "Participant_1", "name": "S4"}, {"id": "Participant_2", "name": "C4C"}]
+
+
+def test_resolve_wsdl_and_attach_wsdl_details(tmp_path):
+    wsdl_path = tmp_path / "sample.wsdl"
+    wsdl_path.write_text(
+        '''
+        <wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                          xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                          targetNamespace="http://example.com/ns">
+          <wsdl:message name="GetDataRequest"/>
+          <wsdl:message name="GetDataResponse"/>
+          <wsdl:portType name="ServicePortType">
+            <wsdl:operation name="GetData">
+              <wsdl:input message="tns:GetDataRequest"/>
+              <wsdl:output message="tns:GetDataResponse"/>
+            </wsdl:operation>
+          </wsdl:portType>
+          <wsdl:service name="ExampleService">
+            <wsdl:port name="ExamplePort" binding="tns:ExampleBinding">
+              <soap:address location="http://example.com/service"/>
+            </wsdl:port>
+          </wsdl:service>
+        </wsdl:definitions>
+        ''',
+        encoding="utf-8",
+    )
+
+    details = resolve_wsdl(str(wsdl_path))
+    assert details["operations"] == [{"name": "GetData", "input_message": "GetDataRequest", "output_message": "GetDataResponse"}]
+    assert details["soap_address"] == "http://example.com/service"
+    assert details["target_namespace"] == "http://example.com/ns"
+    assert details["parse_warnings"] == []
+
+    pkg = tmp_path / "wsdl-package"
+    (pkg / "META-INF").mkdir(parents=True)
+    (pkg / "src/main/resources/wsdl").mkdir(parents=True)
+    (pkg / "META-INF" / "MANIFEST.MF").write_text(
+        "Bundle-SymbolicName: wsdl-package\nBundle-Version: 1.0\n",
+        encoding="utf-8",
+    )
+    wsdl_path2 = pkg / "src/main/resources/wsdl" / "sample.wsdl"
+    wsdl_path2.write_text(wsdl_path.read_text(encoding="utf-8"), encoding="utf-8")
+    (pkg / "src/main/resources/scenarioflows/integrationflow").mkdir(parents=True)
+    (pkg / "src/main/resources/scenarioflows/integrationflow" / "sample.iflw").write_text(
+        "<bpmn2:definitions xmlns:bpmn2=\"http://www.omg.org/spec/BPMN/20100524/MODEL\"><bpmn2:process id=\"p1\"/></bpmn2:definitions>",
+        encoding="utf-8",
+    )
+
+    artifact = parse_package(str(pkg))
+    assert artifact.wsdl_details["sample.wsdl"]["operations"][0]["name"] == "GetData"
 
 
 def test_parse_package_handles_missing_iflw(tmp_path):

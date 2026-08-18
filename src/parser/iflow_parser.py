@@ -8,6 +8,8 @@ from typing import Any
 from lxml import etree
 
 from src.models.schema import IFlowArtifact
+from src.parser.mapping_resolver import resolve_mapping
+from src.parser.wsdl_resolver import resolve_wsdl
 
 BPMN_NS = {
     "bpmn2": "http://www.omg.org/spec/BPMN/20100524/MODEL",
@@ -228,6 +230,20 @@ def parse_package(package_path: str) -> IFlowArtifact:
         for iflw_path in iflw_paths:
             _parse_iflw_file(iflw_path, nodes, edges, message_flows, systems, warnings)
 
+    wsdl_details: dict[str, dict[str, Any]] = {}
+    for wsdl_name in schemas:
+        if not wsdl_name.lower().endswith(".wsdl"):
+            continue
+        wsdl_path = wsdl_dir / wsdl_name
+        wsdl_details[wsdl_name] = resolve_wsdl(str(wsdl_path))
+
+    mapping_details: dict[str, dict[str, Any]] = {}
+    for mapping_name in mappings:
+        if not mapping_name.lower().endswith(".mmap"):
+            continue
+        mapping_path = mapping_dir / mapping_name
+        mapping_details[mapping_name] = resolve_mapping(str(mapping_path))
+
     artifact = IFlowArtifact(
         artifact_id=artifact_id,
         version=version,
@@ -235,6 +251,8 @@ def parse_package(package_path: str) -> IFlowArtifact:
         edges=edges,
         message_flows=message_flows,
         systems=systems,
+        wsdl_details=wsdl_details,
+        mapping_details=mapping_details,
         resources={
             "scripts": scripts,
             "mappings": mappings,

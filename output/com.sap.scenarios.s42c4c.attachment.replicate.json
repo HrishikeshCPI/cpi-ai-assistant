@@ -125,6 +125,32 @@
       "name": "Integration Process"
     }
   ],
+  "wsdl_details": {
+    "AttachmentFolderReplicationRequest_Out.wsdl": {
+      "messages": [
+        {
+          "name": "AttachmentFolderBulkReplicateRequest",
+          "parts": [
+            {
+              "name": "AttachmentFolderBulkReplicateRequest",
+              "type": "p2:AttachmentFolderBulkReplicateRequest"
+            }
+          ]
+        }
+      ],
+      "operations": [
+        {
+          "name": "AttachmentFolderReplicationRequest_Out",
+          "input_message": "p1:AttachmentFolderBulkReplicateRequest",
+          "output_message": null
+        }
+      ],
+      "soap_address": "https://pwdf6833.wdf.sap.corp:52301/XISOAPAdapter/MessageServlet?senderParty=&senderService=QW9_910&receiverParty=&receiverService=&interface=AttachmentFolderReplicationRequest_Out&interfaceNamespace=http%3A%2F%2Fsap.com%2Fxi%2FCODERINT",
+      "target_namespace": "http://sap.com/xi/CODERINT",
+      "parse_warnings": []
+    }
+  },
+  "mapping_details": {},
   "resources": {
     "scripts": [],
     "mappings": [],

@@ -180,6 +180,50 @@
       "name": "Local Integration Process_Post_Processing"
     }
   ],
+  "wsdl_details": {
+    "COD_SERVICE_CONFIRMATION.wsdl": {
+      "messages": [
+        {
+          "name": "COD_SERVICE_CONFIRMATION02",
+          "parts": [
+            {
+              "name": "COD_SERVICE_CONFIRMATION02",
+              "type": "COD_SERVICE_CONFIRMATION02"
+            }
+          ]
+        }
+      ],
+      "operations": [],
+      "soap_address": null,
+      "target_namespace": null,
+      "parse_warnings": []
+    },
+    "ServiceRequestReplicationRequest.wsdl": {
+      "messages": [
+        {
+          "name": "ServiceRequestFollowUpDocumentReplicationRequest",
+          "parts": [
+            {
+              "name": "ServiceRequestFollowUpDocumentReplicationRequest",
+              "type": "xi1:ServiceRequestFollowUpDocumentReplicationRequest"
+            }
+          ]
+        }
+      ],
+      "operations": [],
+      "soap_address": null,
+      "target_namespace": "http://sap.com/xi/AP/CRM/Global",
+      "parse_warnings": []
+    }
+  },
+  "mapping_details": {
+    "C4C_S4_ServiceRequestConfirmationProcessingRequest.mmap": {
+      "field_mappings": [],
+      "parse_warnings": [
+        "Transformation block not found in the mmap XML; expected a top-level transformation element with Dst/Src brick mappings."
+      ]
+    }
+  },
   "resources": {
     "scripts": [],
     "mappings": [

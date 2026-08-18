@@ -113,6 +113,64 @@
       "name": "Integration Process"
     }
   ],
+  "wsdl_details": {},
+  "mapping_details": {
+    "MM_ConvertNorthWindStructuer.mmap": {
+      "field_mappings": [
+        {
+          "source": "/root",
+          "target": "/CustomerResponse",
+          "function": null
+        },
+        {
+          "source": "/root/value",
+          "target": "/CustomerResponse/Customer",
+          "function": null
+        },
+        {
+          "source": "/root/value/CustomerID",
+          "target": "/CustomerResponse/Customer/CustomerID",
+          "function": null
+        },
+        {
+          "source": "/root/value/CompanyName",
+          "target": "/CustomerResponse/Customer/CompanyName",
+          "function": null
+        },
+        {
+          "source": "/root/value/ContactName",
+          "target": "/CustomerResponse/Customer/ContactName",
+          "function": null
+        },
+        {
+          "source": "/root/value/ContactTitle",
+          "target": "/CustomerResponse/Customer/ContactTitle",
+          "function": null
+        },
+        {
+          "source": "/root/value/Address",
+          "target": "/CustomerResponse/Customer/Address",
+          "function": null
+        },
+        {
+          "source": "/root/value/City",
+          "target": "/CustomerResponse/Customer/City",
+          "function": null
+        },
+        {
+          "source": "/root/value/Region",
+          "target": "/CustomerResponse/Customer/Region",
+          "function": null
+        },
+        {
+          "source": "/root/value/PostalCode",
+          "target": "/CustomerResponse/Customer/PostalCode",
+          "function": null
+        }
+      ],
+      "parse_warnings": []
+    }
+  },
   "resources": {
     "scripts": [
       "script1.groovy"

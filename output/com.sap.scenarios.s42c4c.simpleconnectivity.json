@@ -66,6 +66,82 @@
       "name": "C4C"
     }
   ],
+  "wsdl_details": {
+    "ConnectivityCheckConsumer.wsdl": {
+      "messages": [
+        {
+          "name": "ConnectivityCheckConsumerQuery_Sync",
+          "parts": [
+            {
+              "name": "ConnectivityCheckConsumerQuery_Sync",
+              "type": "p1:ConnectivityCheckConsumerQuery_Sync"
+            }
+          ]
+        },
+        {
+          "name": "ConnectivityCheckConsumerQueryResponse_Sync",
+          "parts": [
+            {
+              "name": "ConnectivityCheckConsumerQueryResponse_Sync",
+              "type": "p1:ConnectivityCheckConsumerQueryResponse_Sync"
+            }
+          ]
+        },
+        {
+          "name": "StandardMessageFault",
+          "parts": [
+            {
+              "name": "StandardMessageFault",
+              "type": "p2:StandardMessageFault"
+            }
+          ]
+        }
+      ],
+      "operations": [
+        {
+          "name": "ConnectivityCheckConsumer",
+          "input_message": "p1:ConnectivityCheckConsumerQuery_Sync",
+          "output_message": "p1:ConnectivityCheckConsumerQueryResponse_Sync"
+        }
+      ],
+      "soap_address": "http://www.example.org/",
+      "target_namespace": "http://sap.com/xi/CODERINT",
+      "parse_warnings": []
+    },
+    "ConnectivityCheckProvider.wsdl": {
+      "messages": [
+        {
+          "name": "p1.ConnectivityCheckQuery_sync",
+          "parts": [
+            {
+              "name": "ConnectivityCheckQuery_sync",
+              "type": "n2:ConnectivityCheckQuery_sync"
+            }
+          ]
+        },
+        {
+          "name": "p1.ConnectivityChecQueryResponse_sync",
+          "parts": [
+            {
+              "name": "ConnectivityChecQueryResponse_sync",
+              "type": "n2:ConnectivityChecQueryResponse_sync"
+            }
+          ]
+        }
+      ],
+      "operations": [
+        {
+          "name": "ConnectivityCheckProvider",
+          "input_message": "p1:p1.ConnectivityCheckQuery_sync",
+          "output_message": "p1:p1.ConnectivityChecQueryResponse_sync"
+        }
+      ],
+      "soap_address": "http://www.example.org/",
+      "target_namespace": "http://sap.com/xi/CommunicationServicesManagement/Global",
+      "parse_warnings": []
+    }
+  },
+  "mapping_details": {},
   "resources": {
     "scripts": [],
     "mappings": [

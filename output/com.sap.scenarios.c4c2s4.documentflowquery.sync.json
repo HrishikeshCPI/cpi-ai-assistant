@@ -92,6 +92,83 @@
       "name": "Integration Process"
     }
   ],
+  "wsdl_details": {
+    "DocumentFlowRequestingIn.wsdl": {
+      "messages": [
+        {
+          "name": "CodErpGetDocFlowResponse",
+          "parts": [
+            {
+              "name": "parameter",
+              "type": "tns:CodErpGetDocFlowResponse"
+            }
+          ]
+        },
+        {
+          "name": "CodErpGetDocFlow",
+          "parts": [
+            {
+              "name": "parameters",
+              "type": "tns:CodErpGetDocFlow"
+            }
+          ]
+        }
+      ],
+      "operations": [],
+      "soap_address": null,
+      "target_namespace": "urn:sap-com:document:sap:soap:functions:mc-style",
+      "parse_warnings": []
+    },
+    "DocumentFlowRequestingOut.wsdl": {
+      "messages": [
+        {
+          "name": "BusinessDocumentFlowQuery",
+          "parts": [
+            {
+              "name": "BusinessDocumentFlowQuery",
+              "type": "p1:BusinessDocumentFlowQuery"
+            }
+          ]
+        },
+        {
+          "name": "BusinessDocumentFlowResponse",
+          "parts": [
+            {
+              "name": "BusinessDocumentFlowResponse",
+              "type": "p1:BusinessDocumentFlowResponse"
+            }
+          ]
+        },
+        {
+          "name": "StandardMessageFault",
+          "parts": [
+            {
+              "name": "StandardMessageFault",
+              "type": "tns:StandardMessageFault"
+            }
+          ]
+        }
+      ],
+      "operations": [],
+      "soap_address": null,
+      "target_namespace": "http://sap.com/xi/AP/FO/BusinessDocumentFlow/Global",
+      "parse_warnings": []
+    }
+  },
+  "mapping_details": {
+    "C4C_S4_DocumentFlowRequest.mmap": {
+      "field_mappings": [],
+      "parse_warnings": [
+        "Transformation block not found in the mmap XML; expected a top-level transformation element with Dst/Src brick mappings."
+      ]
+    },
+    "C4C_S4_DocumentFlowResponse.mmap": {
+      "field_mappings": [],
+      "parse_warnings": [
+        "Transformation block not found in the mmap XML; expected a top-level transformation element with Dst/Src brick mappings."
+      ]
+    }
+  },
   "resources": {
     "scripts": [],
     "mappings": [

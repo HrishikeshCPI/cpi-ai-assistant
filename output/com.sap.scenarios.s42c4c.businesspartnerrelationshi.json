@@ -193,6 +193,59 @@
       "name": "Local Integration Process_Post_Processing"
     }
   ],
+  "wsdl_details": {
+    "BusinessPartnerRelationshipSUITEBulkReplicateRequest.wsdl": {
+      "messages": [
+        {
+          "name": "BusinessPartnerRelationshipSUITEBulkReplicateRequest",
+          "parts": [
+            {
+              "name": "BusinessPartnerRelationshipSUITEBulkReplicateRequest",
+              "type": "p1:BusinessPartnerRelationshipSUITEBulkReplicateRequest"
+            }
+          ]
+        }
+      ],
+      "operations": [],
+      "soap_address": null,
+      "target_namespace": "http://sap.com/xi/SAP_BS_FND/MDG/Global2",
+      "parse_warnings": []
+    },
+    "Business_Partner_Relationship_Replication_In.wsdl": {
+      "messages": [
+        {
+          "name": "StandardFaultMessage",
+          "parts": [
+            {
+              "name": "StandardFaultMessage",
+              "type": "n3:StandardFaultMessage"
+            }
+          ]
+        },
+        {
+          "name": "BusinessPartnerRelationshipSUITEBulkReplicateRequest",
+          "parts": [
+            {
+              "name": "BusinessPartnerRelationshipSUITEBulkReplicateRequest",
+              "type": "n2:BusinessPartnerRelationshipSUITEBulkReplicateRequest"
+            }
+          ]
+        }
+      ],
+      "operations": [],
+      "soap_address": null,
+      "target_namespace": "http://sap.com/xi/A1S/Global",
+      "parse_warnings": []
+    }
+  },
+  "mapping_details": {
+    "S4_C4C_BusinessPartnerRelationshipReplication.mmap": {
+      "field_mappings": [],
+      "parse_warnings": [
+        "Transformation block not found in the mmap XML; expected a top-level transformation element with Dst/Src brick mappings."
+      ]
+    }
+  },
   "resources": {
     "scripts": [
       "PrePostProcessing.groovy"
