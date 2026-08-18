@@ -1,0 +1,136 @@
+{
+  "artifact_id": "com.sap.scenarios.s42c4c.attachment.replicate",
+  "version": "1.0.4",
+  "nodes": [
+    {
+      "id": "ExclusiveGateway_1",
+      "name": "Router",
+      "bpmn_type": "exclusiveGateway"
+    },
+    {
+      "id": "CallActivity_1",
+      "name": "Content Modifier",
+      "bpmn_type": "callActivity",
+      "type": "Enricher",
+      "resources": []
+    },
+    {
+      "id": "EndEvent_5",
+      "name": "End Event 5",
+      "bpmn_type": "endEvent"
+    },
+    {
+      "id": "EndEvent_4",
+      "name": "End Event 4",
+      "bpmn_type": "endEvent"
+    },
+    {
+      "id": "EndEvent_6",
+      "name": "End Event 6",
+      "bpmn_type": "endEvent"
+    },
+    {
+      "id": "EndEvent_1",
+      "name": "End",
+      "bpmn_type": "endEvent"
+    },
+    {
+      "id": "StartEvent_1",
+      "name": "Start",
+      "bpmn_type": "startEvent"
+    }
+  ],
+  "edges": [
+    {
+      "sourceRef": "ExclusiveGateway_1",
+      "targetRef": "EndEvent_6",
+      "condition": "/p1:AttachmentFolderBulkReplicateRequest/AttachmentFolderReplicateRequestMessage/AttachmentFolder/HostObjectReference/ObjectTypeCode = '1'"
+    },
+    {
+      "sourceRef": "ExclusiveGateway_1",
+      "targetRef": "EndEvent_4"
+    },
+    {
+      "sourceRef": "ExclusiveGateway_1",
+      "targetRef": "EndEvent_5",
+      "condition": "/p1:AttachmentFolderBulkReplicateRequest/AttachmentFolderReplicateRequestMessage/AttachmentFolder/HostObjectReference/ObjectTypeCode = '2014'"
+    },
+    {
+      "sourceRef": "ExclusiveGateway_1",
+      "targetRef": "EndEvent_1",
+      "condition": "/p1:AttachmentFolderBulkReplicateRequest/AttachmentFolderReplicateRequestMessage/AttachmentFolder/HostObjectReference/ObjectTypeCode = '2059'"
+    },
+    {
+      "sourceRef": "CallActivity_1",
+      "targetRef": "ExclusiveGateway_1"
+    },
+    {
+      "sourceRef": "StartEvent_1",
+      "targetRef": "CallActivity_1"
+    }
+  ],
+  "message_flows": [
+    {
+      "id": "MessageFlow_5",
+      "name": "CFC_SOAP_ContractAttachmentReplicationIn_Receive",
+      "sourceRef": "EndEvent_5",
+      "targetRef": "Participant_2",
+      "direction": "Receiver",
+      "component_type": "SOAP",
+      "transport_protocol": "HTTP",
+      "address": "https://{{host}}:{{port}}/sap/bc/srt/scs/sap/replicatecontractattachmentfol"
+    },
+    {
+      "id": "MessageFlow_6",
+      "name": "CFC_SOAP_MaterialAttachmentReplicationIn_Receive",
+      "sourceRef": "EndEvent_6",
+      "targetRef": "Participant_2",
+      "direction": "Receiver",
+      "component_type": "SOAP",
+      "transport_protocol": "HTTP",
+      "address": "https://{{host}}:{{port}}/sap/bc/srt/scs/sap/replicatematerialattachmentfol"
+    },
+    {
+      "id": "MessageFlow_4",
+      "name": "CFC_SOAP_SalesOrderAttachmentReplicationIn_Receive",
+      "sourceRef": "EndEvent_1",
+      "targetRef": "Participant_2",
+      "direction": "Receiver",
+      "component_type": "SOAP",
+      "transport_protocol": "HTTP",
+      "address": "https://{{host}}:{{port}}/sap/bc/srt/scs/sap/replicatecustomerorderattachme"
+    },
+    {
+      "id": "MessageFlow_9",
+      "name": "SOAP",
+      "sourceRef": "Participant_1",
+      "targetRef": "StartEvent_1",
+      "direction": "Sender",
+      "component_type": "SOAP",
+      "transport_protocol": "HTTP",
+      "address": "{{S4_address_35}}"
+    }
+  ],
+  "systems": [
+    {
+      "id": "Participant_1",
+      "name": "S4"
+    },
+    {
+      "id": "Participant_2",
+      "name": "C4C"
+    },
+    {
+      "id": "Participant_Process_1",
+      "name": "Integration Process"
+    }
+  ],
+  "resources": {
+    "scripts": [],
+    "mappings": [],
+    "schemas": [
+      "AttachmentFolderReplicationRequest_Out.wsdl"
+    ]
+  },
+  "parse_warnings": []
+}

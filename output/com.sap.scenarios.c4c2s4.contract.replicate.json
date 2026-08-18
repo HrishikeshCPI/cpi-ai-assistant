@@ -1,0 +1,242 @@
+{
+  "artifact_id": "com.sap.scenarios.c4c2s4.contract.replicate",
+  "version": "2.1.4",
+  "nodes": [
+    {
+      "id": "ExclusiveGateway_5",
+      "name": "Extension?",
+      "bpmn_type": "exclusiveGateway"
+    },
+    {
+      "id": "CallActivity_41",
+      "name": "Store Payload",
+      "bpmn_type": "callActivity",
+      "type": "Enricher",
+      "resources": []
+    },
+    {
+      "id": "CallActivity_2",
+      "name": "Set Monitoring ID",
+      "bpmn_type": "callActivity",
+      "type": "Enricher",
+      "resources": []
+    },
+    {
+      "id": "CallActivity_8",
+      "name": "Post Processing",
+      "bpmn_type": "callActivity",
+      "type": "ProcessCallElement",
+      "resources": []
+    },
+    {
+      "id": "CallActivity_1",
+      "name": "C4C_S4_ContractReplication",
+      "bpmn_type": "callActivity",
+      "type": "Mapping",
+      "resources": [
+        "C4C_S4_ContractReplication.mmap"
+      ]
+    },
+    {
+      "id": "CallActivity_31",
+      "name": "Split Bulk Message",
+      "bpmn_type": "callActivity",
+      "type": "Splitter",
+      "resources": []
+    },
+    {
+      "id": "CallActivity_37",
+      "name": "IDoc Splitter",
+      "bpmn_type": "callActivity",
+      "type": "Splitter",
+      "resources": []
+    },
+    {
+      "id": "CallActivity_34",
+      "name": "Combine Messages",
+      "bpmn_type": "callActivity",
+      "type": "Gather",
+      "resources": []
+    },
+    {
+      "id": "EndEvent_1",
+      "name": "End",
+      "bpmn_type": "endEvent"
+    },
+    {
+      "id": "StartEvent_1",
+      "name": "Start",
+      "bpmn_type": "startEvent"
+    },
+    {
+      "id": "ServiceTask_20",
+      "name": "Call Post Exit",
+      "bpmn_type": "serviceTask",
+      "type": "ExternalCall",
+      "resources": []
+    },
+    {
+      "id": "CallActivity_43",
+      "name": "Remove Multi Mapping XML Elements",
+      "bpmn_type": "callActivity",
+      "type": "Mapping",
+      "resources": [
+        "RemoveMultiMappingHeader.mmap"
+      ]
+    },
+    {
+      "id": "CallActivity_14",
+      "name": "Filter Standard Mapping Output",
+      "bpmn_type": "callActivity",
+      "type": "Filter",
+      "resources": []
+    },
+    {
+      "id": "CallActivity_17",
+      "name": "Bundle Message",
+      "bpmn_type": "callActivity",
+      "type": "Enricher",
+      "resources": []
+    },
+    {
+      "id": "StartEvent_11",
+      "name": "Start 1",
+      "bpmn_type": "startEvent"
+    },
+    {
+      "id": "EndEvent_12",
+      "name": "End 1",
+      "bpmn_type": "endEvent"
+    }
+  ],
+  "edges": [
+    {
+      "sourceRef": "ExclusiveGateway_5",
+      "targetRef": "CallActivity_37"
+    },
+    {
+      "sourceRef": "ExclusiveGateway_5",
+      "targetRef": "CallActivity_41",
+      "condition": "${property.P_Custom_Extension_Enabled} = 'true'"
+    },
+    {
+      "sourceRef": "CallActivity_41",
+      "targetRef": "CallActivity_8"
+    },
+    {
+      "sourceRef": "CallActivity_2",
+      "targetRef": "CallActivity_31"
+    },
+    {
+      "sourceRef": "CallActivity_8",
+      "targetRef": "CallActivity_37"
+    },
+    {
+      "sourceRef": "CallActivity_1",
+      "targetRef": "CallActivity_34"
+    },
+    {
+      "sourceRef": "CallActivity_31",
+      "targetRef": "CallActivity_1"
+    },
+    {
+      "sourceRef": "CallActivity_37",
+      "targetRef": "EndEvent_1"
+    },
+    {
+      "sourceRef": "CallActivity_34",
+      "targetRef": "ExclusiveGateway_5"
+    },
+    {
+      "sourceRef": "StartEvent_1",
+      "targetRef": "CallActivity_2"
+    },
+    {
+      "sourceRef": "ServiceTask_20",
+      "targetRef": "CallActivity_43"
+    },
+    {
+      "sourceRef": "CallActivity_43",
+      "targetRef": "EndEvent_12"
+    },
+    {
+      "sourceRef": "CallActivity_14",
+      "targetRef": "CallActivity_17"
+    },
+    {
+      "sourceRef": "CallActivity_17",
+      "targetRef": "ServiceTask_20"
+    },
+    {
+      "sourceRef": "StartEvent_11",
+      "targetRef": "CallActivity_14"
+    }
+  ],
+  "message_flows": [
+    {
+      "id": "MessageFlow_24",
+      "name": "ProcessDirectPost",
+      "sourceRef": "ServiceTask_20",
+      "targetRef": "Participant_23",
+      "direction": "Receiver",
+      "component_type": "ProcessDirect",
+      "transport_protocol": "Not Applicable",
+      "address": "{{ContractReplicationPostExit}}"
+    },
+    {
+      "id": "MessageFlow_3",
+      "name": "",
+      "sourceRef": "EndEvent_1",
+      "targetRef": "Participant_2",
+      "direction": "Receiver",
+      "component_type": "IDOC",
+      "transport_protocol": "HTTP",
+      "address": "{{Protocol-Host-Port}}/sap/bc/srt/idoc?sap-client={{Client}}"
+    },
+    {
+      "id": "MessageFlow_4",
+      "name": "SOAP",
+      "sourceRef": "Participant_1",
+      "targetRef": "StartEvent_1",
+      "direction": "Sender",
+      "component_type": "SOAP",
+      "transport_protocol": "HTTP",
+      "address": "{{C4C_ContractReplication_S}}"
+    }
+  ],
+  "systems": [
+    {
+      "id": "Participant_1",
+      "name": "C4C"
+    },
+    {
+      "id": "Participant_2",
+      "name": "S4"
+    },
+    {
+      "id": "Participant_23",
+      "name": "ContractReplicationPostExit"
+    },
+    {
+      "id": "Participant_Process_1",
+      "name": "Integration Process"
+    },
+    {
+      "id": "Participant_Process_10",
+      "name": "Local Integration Process_Post_Processing"
+    }
+  ],
+  "resources": {
+    "scripts": [],
+    "mappings": [
+      "C4C_S4_ContractReplication.mmap",
+      "RemoveMultiMappingHeader.xsl",
+      "mappingversion.info"
+    ],
+    "schemas": [
+      "COD_CONTRACT_CREATEFROM_DAT_S4CORE.wsdl",
+      "ContractReplicationOut.wsdl"
+    ]
+  },
+  "parse_warnings": []
+}

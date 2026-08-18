@@ -1,0 +1,267 @@
+{
+  "artifact_id": "com.sap.scenarios.s42c4c.salesorder.replicate",
+  "version": "2.6.12",
+  "nodes": [
+    {
+      "id": "StartEvent_19",
+      "name": "Start 2",
+      "bpmn_type": "startEvent"
+    },
+    {
+      "id": "CallActivity_7376633",
+      "name": "Remove XML Declaration and unwanted Namespaces",
+      "bpmn_type": "callActivity",
+      "type": "Filter",
+      "resources": []
+    },
+    {
+      "id": "CallActivity_27",
+      "name": "Remove XML Declaration",
+      "bpmn_type": "callActivity",
+      "type": "Filter",
+      "resources": []
+    },
+    {
+      "id": "ServiceTask_33",
+      "name": "Call Post Exit",
+      "bpmn_type": "serviceTask",
+      "type": "ExternalCall",
+      "resources": []
+    },
+    {
+      "id": "EndEvent_20",
+      "name": "End 2",
+      "bpmn_type": "endEvent"
+    },
+    {
+      "id": "CallActivity_30",
+      "name": "Bundle Message",
+      "bpmn_type": "callActivity",
+      "type": "Enricher",
+      "resources": []
+    },
+    {
+      "id": "CallActivity_7376653",
+      "name": "Delete Unwanted Properties",
+      "bpmn_type": "callActivity",
+      "type": "Enricher",
+      "resources": []
+    },
+    {
+      "id": "CallActivity_7376635",
+      "name": "Filter IDOC",
+      "bpmn_type": "callActivity",
+      "type": "Filter",
+      "resources": []
+    },
+    {
+      "id": "ServiceTask_7376644",
+      "name": "Call Exit",
+      "bpmn_type": "serviceTask",
+      "type": "ExternalCall",
+      "resources": []
+    },
+    {
+      "id": "StartEvent_1",
+      "name": "Start",
+      "bpmn_type": "startEvent"
+    },
+    {
+      "id": "EndEvent_1",
+      "name": "End",
+      "bpmn_type": "endEvent"
+    },
+    {
+      "id": "CallActivity_40",
+      "name": "Post Processing",
+      "bpmn_type": "callActivity",
+      "type": "ProcessCallElement",
+      "resources": []
+    },
+    {
+      "id": "CallActivity_7376636",
+      "name": "Prepare Mapping Input",
+      "bpmn_type": "callActivity",
+      "type": "Enricher",
+      "resources": []
+    },
+    {
+      "id": "_CallActivity_3",
+      "name": "Set Application ID",
+      "bpmn_type": "callActivity",
+      "type": "Enricher",
+      "resources": []
+    },
+    {
+      "id": "CallActivity_1",
+      "name": "S4_C4C_CustomerOrderReplication",
+      "bpmn_type": "callActivity",
+      "type": "Mapping",
+      "resources": [
+        "S4_C4C_CustomerOrderReplication.mmap"
+      ]
+    },
+    {
+      "id": "ExclusiveGateway_11",
+      "name": "Extension?",
+      "bpmn_type": "exclusiveGateway"
+    },
+    {
+      "id": "ExclusiveGateway_7376641",
+      "name": "Pre Exit?",
+      "bpmn_type": "exclusiveGateway"
+    }
+  ],
+  "edges": [
+    {
+      "sourceRef": "StartEvent_19",
+      "targetRef": "CallActivity_27"
+    },
+    {
+      "sourceRef": "CallActivity_7376633",
+      "targetRef": "EndEvent_20"
+    },
+    {
+      "sourceRef": "CallActivity_27",
+      "targetRef": "CallActivity_30"
+    },
+    {
+      "sourceRef": "ServiceTask_33",
+      "targetRef": "CallActivity_7376633"
+    },
+    {
+      "sourceRef": "CallActivity_30",
+      "targetRef": "CallActivity_7376653"
+    },
+    {
+      "sourceRef": "CallActivity_7376653",
+      "targetRef": "ServiceTask_33"
+    },
+    {
+      "sourceRef": "CallActivity_7376635",
+      "targetRef": "CallActivity_7376636"
+    },
+    {
+      "sourceRef": "ServiceTask_7376644",
+      "targetRef": "CallActivity_7376635"
+    },
+    {
+      "sourceRef": "StartEvent_1",
+      "targetRef": "_CallActivity_3"
+    },
+    {
+      "sourceRef": "CallActivity_40",
+      "targetRef": "EndEvent_1"
+    },
+    {
+      "sourceRef": "CallActivity_7376636",
+      "targetRef": "CallActivity_1"
+    },
+    {
+      "sourceRef": "_CallActivity_3",
+      "targetRef": "ExclusiveGateway_7376641"
+    },
+    {
+      "sourceRef": "CallActivity_1",
+      "targetRef": "ExclusiveGateway_11"
+    },
+    {
+      "sourceRef": "ExclusiveGateway_11",
+      "targetRef": "CallActivity_40",
+      "condition": "${property.P_Custom_Extension_Enabled} = 'true'"
+    },
+    {
+      "sourceRef": "ExclusiveGateway_11",
+      "targetRef": "EndEvent_1"
+    },
+    {
+      "sourceRef": "ExclusiveGateway_7376641",
+      "targetRef": "ServiceTask_7376644",
+      "condition": "${property.P_PreExit} = 'true'"
+    },
+    {
+      "sourceRef": "ExclusiveGateway_7376641",
+      "targetRef": "CallActivity_7376635"
+    }
+  ],
+  "message_flows": [
+    {
+      "id": "MessageFlow_7376648",
+      "name": "ProcessDirect",
+      "sourceRef": "ServiceTask_7376644",
+      "targetRef": "Participant_7376647",
+      "direction": "Receiver",
+      "component_type": "ProcessDirect",
+      "transport_protocol": "Not Applicable",
+      "address": "{{CustomerOrderReplicationPreExit}}"
+    },
+    {
+      "id": "MessageFlow_7",
+      "name": "SOAP",
+      "sourceRef": "EndEvent_1",
+      "targetRef": "Participant_2",
+      "direction": "Receiver",
+      "component_type": "SOAP",
+      "transport_protocol": "HTTP",
+      "address": "https://{{Host}}:{{Port}}/sap/bc/srt/scs/sap/customerorderreplicationin"
+    },
+    {
+      "id": "MessageFlow_38",
+      "name": "ProcessDirectPost",
+      "sourceRef": "ServiceTask_33",
+      "targetRef": "Participant_37",
+      "direction": "Receiver",
+      "component_type": "ProcessDirect",
+      "transport_protocol": "Not Applicable",
+      "address": "{{CustomerOrderReplicationPostExit}}"
+    },
+    {
+      "id": "MessageFlow_7376640",
+      "name": "IDOC",
+      "sourceRef": "Participant_1",
+      "targetRef": "StartEvent_1",
+      "direction": "Sender",
+      "component_type": "IDOC",
+      "transport_protocol": "HTTP",
+      "address": "{{S4_ReplicateSalesOrder_S}}"
+    }
+  ],
+  "systems": [
+    {
+      "id": "Participant_1",
+      "name": "S4"
+    },
+    {
+      "id": "Participant_2",
+      "name": "C4C"
+    },
+    {
+      "id": "Participant_37",
+      "name": "CustomerOrderReplicationPostExit"
+    },
+    {
+      "id": "Participant_7376647",
+      "name": "CustomerOrderReplicationPreExit"
+    },
+    {
+      "id": "Participant_Process_18",
+      "name": "Local Integration Process_Post_Processing"
+    },
+    {
+      "id": "Participant_Process_1",
+      "name": "Integration Process"
+    }
+  ],
+  "resources": {
+    "scripts": [],
+    "mappings": [
+      "S4_C4C_CustomerOrderReplication.mmap",
+      "mappingversion.info"
+    ],
+    "schemas": [
+      "COD_REPLICATE_SALES_ORDER02.wsdl",
+      "DOC_INTF_II_APCRM_CUST_ORDER_REPLIC_IN.wsdl"
+    ]
+  },
+  "parse_warnings": []
+}

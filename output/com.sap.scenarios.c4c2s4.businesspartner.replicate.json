@@ -1,0 +1,195 @@
+{
+  "artifact_id": "com.sap.scenarios.c4c2s4.businesspartner.replicate",
+  "version": "2.5.3",
+  "nodes": [
+    {
+      "id": "CallActivity_30",
+      "name": "Bundle Message",
+      "bpmn_type": "callActivity",
+      "type": "Enricher",
+      "resources": []
+    },
+    {
+      "id": "ServiceTask_33",
+      "name": "Call Post Exit",
+      "bpmn_type": "serviceTask",
+      "type": "ExternalCall",
+      "resources": []
+    },
+    {
+      "id": "CallActivity_41",
+      "name": "Filter Final message",
+      "bpmn_type": "callActivity",
+      "type": "Filter",
+      "resources": []
+    },
+    {
+      "id": "CallActivity_27",
+      "name": "Filter Standard Mapping Output",
+      "bpmn_type": "callActivity",
+      "type": "Filter",
+      "resources": []
+    },
+    {
+      "id": "EndEvent_25",
+      "name": "End 1",
+      "bpmn_type": "endEvent"
+    },
+    {
+      "id": "StartEvent_24",
+      "name": "Start 1",
+      "bpmn_type": "startEvent"
+    },
+    {
+      "id": "CallActivity_1",
+      "name": "Store Message ID",
+      "bpmn_type": "callActivity",
+      "type": "Enricher",
+      "resources": []
+    },
+    {
+      "id": "CallActivity_2",
+      "name": "C4C_S4_BusinessPartnerReplication",
+      "bpmn_type": "callActivity",
+      "type": "Mapping",
+      "resources": [
+        "C4C_S4_BusinessPartnerReplication.mmap"
+      ]
+    },
+    {
+      "id": "ExclusiveGateway_5",
+      "name": "Extension?",
+      "bpmn_type": "exclusiveGateway"
+    },
+    {
+      "id": "StartEvent_1",
+      "name": "Start",
+      "bpmn_type": "startEvent"
+    },
+    {
+      "id": "EndEvent_1",
+      "name": "End",
+      "bpmn_type": "endEvent"
+    },
+    {
+      "id": "CallActivity_21",
+      "name": "Post Processing",
+      "bpmn_type": "callActivity",
+      "type": "ProcessCallElement",
+      "resources": []
+    }
+  ],
+  "edges": [
+    {
+      "sourceRef": "CallActivity_30",
+      "targetRef": "ServiceTask_33"
+    },
+    {
+      "sourceRef": "ServiceTask_33",
+      "targetRef": "CallActivity_41"
+    },
+    {
+      "sourceRef": "CallActivity_41",
+      "targetRef": "EndEvent_25"
+    },
+    {
+      "sourceRef": "CallActivity_27",
+      "targetRef": "CallActivity_30"
+    },
+    {
+      "sourceRef": "StartEvent_24",
+      "targetRef": "CallActivity_27"
+    },
+    {
+      "sourceRef": "CallActivity_1",
+      "targetRef": "CallActivity_2"
+    },
+    {
+      "sourceRef": "CallActivity_2",
+      "targetRef": "ExclusiveGateway_5"
+    },
+    {
+      "sourceRef": "ExclusiveGateway_5",
+      "targetRef": "CallActivity_21",
+      "condition": "${property.P_Custom_Extension_Enabled} = 'true'"
+    },
+    {
+      "sourceRef": "ExclusiveGateway_5",
+      "targetRef": "EndEvent_1"
+    },
+    {
+      "sourceRef": "StartEvent_1",
+      "targetRef": "CallActivity_1"
+    },
+    {
+      "sourceRef": "CallActivity_21",
+      "targetRef": "EndEvent_1"
+    }
+  ],
+  "message_flows": [
+    {
+      "id": "MessageFlow_37",
+      "name": "ProcessDirectPost",
+      "sourceRef": "ServiceTask_33",
+      "targetRef": "Participant_36",
+      "direction": "Receiver",
+      "component_type": "ProcessDirect",
+      "transport_protocol": "Not Applicable",
+      "address": "{{BusinessPartnerReplicationPostExit}}"
+    },
+    {
+      "id": "MessageFlow_3",
+      "name": "",
+      "sourceRef": "EndEvent_1",
+      "targetRef": "Participant_2",
+      "direction": "Receiver",
+      "component_type": "SOAP",
+      "transport_protocol": "HTTP",
+      "address": "{{Protocol-Hostname-Port}}/sap/bc/srt/scs/sap/businesspartnersuitebulkreplic?sap-client={{Client}}"
+    },
+    {
+      "id": "MessageFlow_4",
+      "name": "SOAP",
+      "sourceRef": "Participant_1",
+      "targetRef": "StartEvent_1",
+      "direction": "Sender",
+      "component_type": "SOAP",
+      "transport_protocol": "HTTP",
+      "address": "{{C4C_BusinessPartner_S}}"
+    }
+  ],
+  "systems": [
+    {
+      "id": "Participant_1",
+      "name": "C4C"
+    },
+    {
+      "id": "Participant_2",
+      "name": "S4"
+    },
+    {
+      "id": "Participant_36",
+      "name": "BusinessPartnerReplicationPostExit"
+    },
+    {
+      "id": "Participant_Process_23",
+      "name": "Local Integration Process_Post_Processing"
+    },
+    {
+      "id": "Participant_Process_1",
+      "name": "Integration Process"
+    }
+  ],
+  "resources": {
+    "scripts": [],
+    "mappings": [
+      "C4C_S4_BusinessPartnerReplication.mmap",
+      "mappingversion.info"
+    ],
+    "schemas": [
+      "BusinessPartnerSUITEBulkReplicateRequest.wsdl",
+      "Business_Partner_Replication_Out.wsdl"
+    ]
+  },
+  "parse_warnings": []
+}

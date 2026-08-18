@@ -1,0 +1,130 @@
+{
+  "artifact_id": "NorthWind_Customer_OData_Git",
+  "version": "1.0.2",
+  "nodes": [
+    {
+      "id": "CallActivity_8",
+      "name": "Log Response",
+      "bpmn_type": "callActivity",
+      "type": "Script",
+      "resources": [
+        "script1.groovy"
+      ]
+    },
+    {
+      "id": "ServiceTask_11",
+      "name": "Get Customers",
+      "bpmn_type": "serviceTask",
+      "type": "ExternalCall",
+      "resources": []
+    },
+    {
+      "id": "EndEvent_2",
+      "name": "End",
+      "bpmn_type": "endEvent"
+    },
+    {
+      "id": "CallActivity_5",
+      "name": "Set Headers & Properties",
+      "bpmn_type": "callActivity",
+      "type": "Enricher",
+      "resources": []
+    },
+    {
+      "id": "StartEvent_2",
+      "name": "Start",
+      "bpmn_type": "startEvent"
+    },
+    {
+      "id": "CallActivity_15",
+      "name": "JSON to XML Converter 1",
+      "bpmn_type": "callActivity",
+      "type": "JsonToXmlConverter",
+      "resources": []
+    },
+    {
+      "id": "CallActivity_18",
+      "name": "Convert XML structure",
+      "bpmn_type": "callActivity",
+      "type": "Mapping",
+      "resources": [
+        "MM_ConvertNorthWindStructuer.mmap"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "sourceRef": "CallActivity_8",
+      "targetRef": "EndEvent_2"
+    },
+    {
+      "sourceRef": "ServiceTask_11",
+      "targetRef": "CallActivity_15"
+    },
+    {
+      "sourceRef": "CallActivity_5",
+      "targetRef": "ServiceTask_11"
+    },
+    {
+      "sourceRef": "StartEvent_2",
+      "targetRef": "CallActivity_5"
+    },
+    {
+      "sourceRef": "CallActivity_15",
+      "targetRef": "CallActivity_18"
+    },
+    {
+      "sourceRef": "CallActivity_18",
+      "targetRef": "CallActivity_8"
+    }
+  ],
+  "message_flows": [
+    {
+      "id": "MessageFlow_14",
+      "name": "OData",
+      "sourceRef": "ServiceTask_11",
+      "targetRef": "Participant_2",
+      "direction": "Receiver",
+      "component_type": "HCIOData",
+      "transport_protocol": "HTTP",
+      "address": "https://services.odata.org/Northwind/Northwind.svc"
+    },
+    {
+      "id": "MessageFlow_4",
+      "name": "HTTPS",
+      "sourceRef": "Participant_1",
+      "targetRef": "StartEvent_2",
+      "direction": "Sender",
+      "component_type": "HTTPS",
+      "transport_protocol": "HTTPS"
+    }
+  ],
+  "systems": [
+    {
+      "id": "Participant_1",
+      "name": "Postman"
+    },
+    {
+      "id": "Participant_2",
+      "name": "Receiver"
+    },
+    {
+      "id": "Participant_Process_1",
+      "name": "Integration Process"
+    }
+  ],
+  "resources": {
+    "scripts": [
+      "script1.groovy"
+    ],
+    "mappings": [
+      "MM_ConvertNorthWindStructuer.mmap"
+    ],
+    "schemas": [
+      "CustomerTargetNorthwindResponset.xsd",
+      "SourceNorthwindRequest.xsd",
+      "CustomersEntityGET.xsd"
+    ]
+  },
+  "parse_warnings": []
+}

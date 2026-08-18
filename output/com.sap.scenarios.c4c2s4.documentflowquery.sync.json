@@ -1,0 +1,107 @@
+{
+  "artifact_id": "com.sap.scenarios.c4c2s4.documentflowquery.sync",
+  "version": "1.1.4",
+  "nodes": [
+    {
+      "id": "_CallActivity_2",
+      "name": "C4C_S4_DocumentFlowRequest",
+      "bpmn_type": "callActivity",
+      "type": "Mapping",
+      "resources": [
+        "C4C_S4_DocumentFlowRequest.mmap"
+      ]
+    },
+    {
+      "id": "_CallActivity_3",
+      "name": "C4C_S4_DocumentFlowResponse",
+      "bpmn_type": "callActivity",
+      "type": "Mapping",
+      "resources": [
+        "C4C_S4_DocumentFlowResponse.mmap"
+      ]
+    },
+    {
+      "id": "StartEvent_1",
+      "name": "Start",
+      "bpmn_type": "startEvent"
+    },
+    {
+      "id": "EndEvent_0",
+      "name": "End 1",
+      "bpmn_type": "endEvent"
+    },
+    {
+      "id": "ServiceTask_1",
+      "name": "Request-Reply",
+      "bpmn_type": "serviceTask",
+      "type": "ExternalCall",
+      "resources": []
+    }
+  ],
+  "edges": [
+    {
+      "sourceRef": "_CallActivity_2",
+      "targetRef": "ServiceTask_1"
+    },
+    {
+      "sourceRef": "_CallActivity_3",
+      "targetRef": "EndEvent_0"
+    },
+    {
+      "sourceRef": "StartEvent_1",
+      "targetRef": "_CallActivity_2"
+    },
+    {
+      "sourceRef": "ServiceTask_1",
+      "targetRef": "_CallActivity_3"
+    }
+  ],
+  "message_flows": [
+    {
+      "id": "MessageFlow_2",
+      "name": "",
+      "sourceRef": "ServiceTask_1",
+      "targetRef": "Participant_2",
+      "direction": "Receiver",
+      "component_type": "SOAP",
+      "transport_protocol": "HTTP",
+      "address": "{{Protocol-Hostname-Port}}/sap/bc/srt/scs/sap/cod_erp_get_doc_flow?sap-client={{Client}}"
+    },
+    {
+      "id": "MessageFlow_8",
+      "name": "SOAP",
+      "sourceRef": "Participant_1",
+      "targetRef": "StartEvent_1",
+      "direction": "Sender",
+      "component_type": "SOAP",
+      "transport_protocol": "HTTP",
+      "address": "{{C4C_address_17}}"
+    }
+  ],
+  "systems": [
+    {
+      "id": "Participant_1",
+      "name": "C4C"
+    },
+    {
+      "id": "Participant_2",
+      "name": "S4"
+    },
+    {
+      "id": "Participant_Process_1",
+      "name": "Integration Process"
+    }
+  ],
+  "resources": {
+    "scripts": [],
+    "mappings": [
+      "C4C_S4_DocumentFlowRequest.mmap",
+      "C4C_S4_DocumentFlowResponse.mmap"
+    ],
+    "schemas": [
+      "DocumentFlowRequestingIn.wsdl",
+      "DocumentFlowRequestingOut.wsdl"
+    ]
+  },
+  "parse_warnings": []
+}

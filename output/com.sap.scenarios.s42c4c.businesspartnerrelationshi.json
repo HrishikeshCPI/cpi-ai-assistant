@@ -1,0 +1,210 @@
+{
+  "artifact_id": "com.sap.scenarios.s42c4c.businesspartnerrelationshi",
+  "version": "2.1.1",
+  "nodes": [
+    {
+      "id": "CallActivity_34",
+      "name": "Filter Delete Action for Same Business Partner Relationship",
+      "bpmn_type": "callActivity",
+      "type": "Script",
+      "resources": [
+        "PrePostProcessing.groovy"
+      ]
+    },
+    {
+      "id": "StartEvent_1",
+      "name": "Start",
+      "bpmn_type": "startEvent"
+    },
+    {
+      "id": "EndEvent_1",
+      "name": "End",
+      "bpmn_type": "endEvent"
+    },
+    {
+      "id": "CallActivity_9",
+      "name": "Post Processing",
+      "bpmn_type": "callActivity",
+      "type": "ProcessCallElement",
+      "resources": []
+    },
+    {
+      "id": "_CallActivity_3",
+      "name": "Set Application ID",
+      "bpmn_type": "callActivity",
+      "type": "Enricher",
+      "resources": []
+    },
+    {
+      "id": "CallActivity_1",
+      "name": "S4_C4C_BusinessPartnerRelationshipReplication",
+      "bpmn_type": "callActivity",
+      "type": "Mapping",
+      "resources": [
+        "S4_C4C_BusinessPartnerRelationshipReplication.mmap"
+      ]
+    },
+    {
+      "id": "ExclusiveGateway_6",
+      "name": "Extension?",
+      "bpmn_type": "exclusiveGateway"
+    },
+    {
+      "id": "StartEvent_13",
+      "name": "Start 1",
+      "bpmn_type": "startEvent"
+    },
+    {
+      "id": "CallActivity_16",
+      "name": "Filter Standard Mapping Output",
+      "bpmn_type": "callActivity",
+      "type": "Filter",
+      "resources": []
+    },
+    {
+      "id": "CallActivity_25",
+      "name": "Filter Target Message",
+      "bpmn_type": "callActivity",
+      "type": "Filter",
+      "resources": []
+    },
+    {
+      "id": "ServiceTask_22",
+      "name": "Call Extension",
+      "bpmn_type": "serviceTask",
+      "type": "ExternalCall",
+      "resources": []
+    },
+    {
+      "id": "EndEvent_14",
+      "name": "End 1",
+      "bpmn_type": "endEvent"
+    },
+    {
+      "id": "CallActivity_19",
+      "name": "Bundle Message",
+      "bpmn_type": "callActivity",
+      "type": "Enricher",
+      "resources": []
+    }
+  ],
+  "edges": [
+    {
+      "sourceRef": "CallActivity_34",
+      "targetRef": "ExclusiveGateway_6"
+    },
+    {
+      "sourceRef": "StartEvent_1",
+      "targetRef": "_CallActivity_3"
+    },
+    {
+      "sourceRef": "CallActivity_9",
+      "targetRef": "EndEvent_1"
+    },
+    {
+      "sourceRef": "_CallActivity_3",
+      "targetRef": "CallActivity_1"
+    },
+    {
+      "sourceRef": "CallActivity_1",
+      "targetRef": "CallActivity_34"
+    },
+    {
+      "sourceRef": "ExclusiveGateway_6",
+      "targetRef": "EndEvent_1"
+    },
+    {
+      "sourceRef": "ExclusiveGateway_6",
+      "targetRef": "CallActivity_9",
+      "condition": "${property.P_ExtensionEnabled} = 'true'"
+    },
+    {
+      "sourceRef": "StartEvent_13",
+      "targetRef": "CallActivity_16"
+    },
+    {
+      "sourceRef": "CallActivity_16",
+      "targetRef": "CallActivity_19"
+    },
+    {
+      "sourceRef": "CallActivity_25",
+      "targetRef": "EndEvent_14"
+    },
+    {
+      "sourceRef": "ServiceTask_22",
+      "targetRef": "CallActivity_25"
+    },
+    {
+      "sourceRef": "CallActivity_19",
+      "targetRef": "ServiceTask_22"
+    }
+  ],
+  "message_flows": [
+    {
+      "id": "MessageFlow_5",
+      "name": "SOAP",
+      "sourceRef": "Participant_1",
+      "targetRef": "StartEvent_1",
+      "direction": "Sender",
+      "component_type": "SOAP",
+      "transport_protocol": "HTTP",
+      "address": "{{S4_Send_BPRelationShip}}"
+    },
+    {
+      "id": "MessageFlow_29",
+      "name": "ProcessDirect",
+      "sourceRef": "ServiceTask_22",
+      "targetRef": "Participant_28",
+      "direction": "Receiver",
+      "component_type": "ProcessDirect",
+      "transport_protocol": "Not Applicable",
+      "address": "{{S4-C4C-BusinessPartnerRelationshipReplicationPostExit}}"
+    },
+    {
+      "id": "MessageFlow_4",
+      "name": "SOAP",
+      "sourceRef": "EndEvent_1",
+      "targetRef": "Participant_2",
+      "direction": "Receiver",
+      "component_type": "SOAP",
+      "transport_protocol": "HTTP",
+      "address": "https://{{C4C-Host}}/sap/bc/srt/scs/sap/businesspartnerrelationshiprep"
+    }
+  ],
+  "systems": [
+    {
+      "id": "Participant_1",
+      "name": "S4"
+    },
+    {
+      "id": "Participant_2",
+      "name": "C4C"
+    },
+    {
+      "id": "Participant_28",
+      "name": "BusinessPartnerRelationshipReplicationPostExit"
+    },
+    {
+      "id": "Participant_Process_1",
+      "name": "Integration Process"
+    },
+    {
+      "id": "Participant_Process_12",
+      "name": "Local Integration Process_Post_Processing"
+    }
+  ],
+  "resources": {
+    "scripts": [
+      "PrePostProcessing.groovy"
+    ],
+    "mappings": [
+      "S4_C4C_BusinessPartnerRelationshipReplication.mmap",
+      "mappingversion.info"
+    ],
+    "schemas": [
+      "BusinessPartnerRelationshipSUITEBulkReplicateRequest.wsdl",
+      "Business_Partner_Relationship_Replication_In.wsdl"
+    ]
+  },
+  "parse_warnings": []
+}

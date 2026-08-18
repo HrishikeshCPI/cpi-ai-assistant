@@ -1,0 +1,108 @@
+{
+  "artifact_id": "com.sap.scenarios.c4c2s4.serviceticketquery.sync",
+  "version": "1.5.5",
+  "nodes": [
+    {
+      "id": "ServiceTask_1",
+      "name": "Request-Reply",
+      "bpmn_type": "serviceTask",
+      "type": "ExternalCall",
+      "resources": []
+    },
+    {
+      "id": "_CallActivity_2",
+      "name": "C4C_S4_ServiceRequestExternalSalesDocumentDataQuerySync_req",
+      "bpmn_type": "callActivity",
+      "type": "Mapping",
+      "resources": [
+        "C4C_S4_ServiceRequestExternalSalesDocumentDataQuerySync_req.mmap"
+      ]
+    },
+    {
+      "id": "_CallActivity_3",
+      "name": "C4C_S4_ServiceRequestExternalSalesDocumentDataQuerySync_resp",
+      "bpmn_type": "callActivity",
+      "type": "Mapping",
+      "resources": [
+        "C4C_S4_ServiceRequestExternalSalesDocumentDataQuerySync_resp.mmap"
+      ]
+    },
+    {
+      "id": "EndEvent_8",
+      "name": "End 1",
+      "bpmn_type": "endEvent"
+    },
+    {
+      "id": "StartEvent_1",
+      "name": "Start",
+      "bpmn_type": "startEvent"
+    }
+  ],
+  "edges": [
+    {
+      "sourceRef": "ServiceTask_1",
+      "targetRef": "_CallActivity_3"
+    },
+    {
+      "sourceRef": "_CallActivity_2",
+      "targetRef": "ServiceTask_1"
+    },
+    {
+      "sourceRef": "_CallActivity_3",
+      "targetRef": "EndEvent_8"
+    },
+    {
+      "sourceRef": "StartEvent_1",
+      "targetRef": "_CallActivity_2"
+    }
+  ],
+  "message_flows": [
+    {
+      "id": "MessageFlow_7",
+      "name": "SOAP",
+      "sourceRef": "Participant_1",
+      "targetRef": "StartEvent_1",
+      "direction": "Sender",
+      "component_type": "SOAP",
+      "transport_protocol": "HTTP",
+      "address": "{{C4C_RequestTicketData_S}}"
+    },
+    {
+      "id": "MessageFlow_2",
+      "name": "",
+      "sourceRef": "ServiceTask_1",
+      "targetRef": "Participant_2",
+      "direction": "Receiver",
+      "component_type": "SOAP",
+      "transport_protocol": "HTTP",
+      "address": "{{Protocol-Host-Port}}/sap/bc/srt/scs/sap/cod_salesorder_simulate?sap-client={{Client}}"
+    }
+  ],
+  "systems": [
+    {
+      "id": "Participant_1",
+      "name": "C4C"
+    },
+    {
+      "id": "Participant_2",
+      "name": "S4"
+    },
+    {
+      "id": "Participant_Process_1",
+      "name": "Integration Process"
+    }
+  ],
+  "resources": {
+    "scripts": [],
+    "mappings": [
+      "C4C_S4_ServiceRequestExternalSalesDocumentDataQuerySync_req.mmap",
+      "C4C_S4_ServiceRequestExternalSalesDocumentDataQuerySync_resp.mmap",
+      "mappingversion.info"
+    ],
+    "schemas": [
+      "COD_SALESORDER_SIMULATE.wsdl",
+      "ServiceRequestRequestExternalSalesDocumentDataOut.wsdl"
+    ]
+  },
+  "parse_warnings": []
+}

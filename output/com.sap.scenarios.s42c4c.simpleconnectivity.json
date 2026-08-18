@@ -1,0 +1,82 @@
+{
+  "artifact_id": "com.sap.scenarios.s42c4c.simpleconnectivity",
+  "version": "1.0.2",
+  "nodes": [
+    {
+      "id": "StartEvent_1",
+      "name": "Start",
+      "bpmn_type": "startEvent"
+    },
+    {
+      "id": "EndEvent_1",
+      "name": "End",
+      "bpmn_type": "endEvent"
+    },
+    {
+      "id": "CallActivity_1",
+      "name": "Mapping",
+      "bpmn_type": "callActivity",
+      "type": "Mapping",
+      "resources": [
+        "S4_C4C_ConnectivityCheck.mmap"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "sourceRef": "StartEvent_1",
+      "targetRef": "CallActivity_1"
+    },
+    {
+      "sourceRef": "CallActivity_1",
+      "targetRef": "EndEvent_1"
+    }
+  ],
+  "message_flows": [
+    {
+      "id": "MessageFlow_3",
+      "name": "",
+      "sourceRef": "Participant_1",
+      "targetRef": "StartEvent_1",
+      "component_type": "SOAP",
+      "transport_protocol": "HTTP",
+      "address": "{{S4_address_27}}"
+    },
+    {
+      "id": "MessageFlow_4",
+      "name": "",
+      "sourceRef": "EndEvent_1",
+      "targetRef": "Participant_2",
+      "component_type": "SOAP",
+      "transport_protocol": "HTTP",
+      "address": "https://{{Host}}:{{Port}}/sap/bc/srt/scs/sap/connectivitycheckrequestin"
+    }
+  ],
+  "systems": [
+    {
+      "id": "Participant_1",
+      "name": "S4"
+    },
+    {
+      "id": "Participant_3",
+      "name": "Integration Process"
+    },
+    {
+      "id": "Participant_2",
+      "name": "C4C"
+    }
+  ],
+  "resources": {
+    "scripts": [],
+    "mappings": [
+      "S4_C4C_CheckConnectivity_Request.jar",
+      "S4_C4C_CheckConnectivity_Response.jar",
+      "S4_C4C_ConnectivityCheck.opmap"
+    ],
+    "schemas": [
+      "ConnectivityCheckConsumer.wsdl",
+      "ConnectivityCheckProvider.wsdl"
+    ]
+  },
+  "parse_warnings": []
+}

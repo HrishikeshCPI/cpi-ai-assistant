@@ -1,0 +1,195 @@
+{
+  "artifact_id": "com.sap.scenarios.c4c2s4.servicerequestfollowupdocu",
+  "version": "2.2.3",
+  "nodes": [
+    {
+      "id": "StartEvent_1",
+      "name": "Start",
+      "bpmn_type": "startEvent"
+    },
+    {
+      "id": "EndEvent_1",
+      "name": "End",
+      "bpmn_type": "endEvent"
+    },
+    {
+      "id": "CallActivity_10",
+      "name": "Post Processing",
+      "bpmn_type": "callActivity",
+      "type": "ProcessCallElement",
+      "resources": []
+    },
+    {
+      "id": "_CallActivity_3",
+      "name": "Store Message ID",
+      "bpmn_type": "callActivity",
+      "type": "Enricher",
+      "resources": []
+    },
+    {
+      "id": "CallActivity_1",
+      "name": "C4C_S4_ServiceRequestConfirmationProcessingRequest",
+      "bpmn_type": "callActivity",
+      "type": "Mapping",
+      "resources": [
+        "C4C_S4_ServiceRequestConfirmationProcessingRequest.mmap"
+      ]
+    },
+    {
+      "id": "ExclusiveGateway_7",
+      "name": "Extension?",
+      "bpmn_type": "exclusiveGateway"
+    },
+    {
+      "id": "StartEvent_13",
+      "name": "Start 1",
+      "bpmn_type": "startEvent"
+    },
+    {
+      "id": "CallActivity_50",
+      "name": "Filter Final message",
+      "bpmn_type": "callActivity",
+      "type": "Filter",
+      "resources": []
+    },
+    {
+      "id": "CallActivity_16",
+      "name": "Filter Standard Mapping Output",
+      "bpmn_type": "callActivity",
+      "type": "Filter",
+      "resources": []
+    },
+    {
+      "id": "ServiceTask_22",
+      "name": "Call Post Exit",
+      "bpmn_type": "serviceTask",
+      "type": "ExternalCall",
+      "resources": []
+    },
+    {
+      "id": "EndEvent_14",
+      "name": "End 1",
+      "bpmn_type": "endEvent"
+    },
+    {
+      "id": "CallActivity_19",
+      "name": "Bundle Message",
+      "bpmn_type": "callActivity",
+      "type": "Enricher",
+      "resources": []
+    }
+  ],
+  "edges": [
+    {
+      "sourceRef": "StartEvent_1",
+      "targetRef": "_CallActivity_3"
+    },
+    {
+      "sourceRef": "CallActivity_10",
+      "targetRef": "EndEvent_1"
+    },
+    {
+      "sourceRef": "_CallActivity_3",
+      "targetRef": "CallActivity_1"
+    },
+    {
+      "sourceRef": "CallActivity_1",
+      "targetRef": "ExclusiveGateway_7"
+    },
+    {
+      "sourceRef": "ExclusiveGateway_7",
+      "targetRef": "CallActivity_10",
+      "condition": "${property.P_Custom_Extension_Enabled} = 'true'"
+    },
+    {
+      "sourceRef": "ExclusiveGateway_7",
+      "targetRef": "EndEvent_1"
+    },
+    {
+      "sourceRef": "StartEvent_13",
+      "targetRef": "CallActivity_16"
+    },
+    {
+      "sourceRef": "CallActivity_50",
+      "targetRef": "EndEvent_14"
+    },
+    {
+      "sourceRef": "CallActivity_16",
+      "targetRef": "CallActivity_19"
+    },
+    {
+      "sourceRef": "ServiceTask_22",
+      "targetRef": "CallActivity_50"
+    },
+    {
+      "sourceRef": "CallActivity_19",
+      "targetRef": "ServiceTask_22"
+    }
+  ],
+  "message_flows": [
+    {
+      "id": "MessageFlow_6",
+      "name": "SOAP",
+      "sourceRef": "Participant_1",
+      "targetRef": "StartEvent_1",
+      "direction": "Sender",
+      "component_type": "SOAP",
+      "transport_protocol": "HTTP",
+      "address": "{{C4C_TicketFollowUpRequest_S}}"
+    },
+    {
+      "id": "MessageFlow_26",
+      "name": "ProcessDirectPost",
+      "sourceRef": "ServiceTask_22",
+      "targetRef": "Participant_25",
+      "direction": "Receiver",
+      "component_type": "ProcessDirect",
+      "transport_protocol": "Not Applicable",
+      "address": "{{TicketFollowUpPostExit}}"
+    },
+    {
+      "id": "MessageFlow_3",
+      "name": "",
+      "sourceRef": "EndEvent_1",
+      "targetRef": "Participant_2",
+      "direction": "Receiver",
+      "component_type": "IDOC",
+      "transport_protocol": "HTTP",
+      "address": "{{Protocol-Host-Port}}/sap/bc/srt/idoc?sap-client={{Client}}"
+    }
+  ],
+  "systems": [
+    {
+      "id": "Participant_1",
+      "name": "C4C"
+    },
+    {
+      "id": "Participant_2",
+      "name": "S4"
+    },
+    {
+      "id": "Participant_25",
+      "name": "TicketFollowUpPostExit"
+    },
+    {
+      "id": "Participant_Process_1",
+      "name": "Integration Process"
+    },
+    {
+      "id": "Participant_Process_12",
+      "name": "Local Integration Process_Post_Processing"
+    }
+  ],
+  "resources": {
+    "scripts": [],
+    "mappings": [
+      "C4C_S4_ServiceRequestConfirmationProcessingRequest.mmap",
+      "mappingversion.info"
+    ],
+    "schemas": [
+      "COD_SERVICE_CONFIRMATION.wsdl",
+      "ServiceRequestReplicationRequest.wsdl"
+    ]
+  },
+  "parse_warnings": []
+}

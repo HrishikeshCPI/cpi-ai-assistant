@@ -1,0 +1,245 @@
+{
+  "artifact_id": "com.sap.scenarios.c4c2s4.quotefollowupdocumentreq",
+  "version": "2.4.11",
+  "nodes": [
+    {
+      "id": "CallActivity_9780796",
+      "name": "Remove XML Declaration",
+      "bpmn_type": "callActivity",
+      "type": "Filter",
+      "resources": []
+    },
+    {
+      "id": "StartEvent_1",
+      "name": "Start",
+      "bpmn_type": "startEvent"
+    },
+    {
+      "id": "EndEvent_1",
+      "name": "End",
+      "bpmn_type": "endEvent"
+    },
+    {
+      "id": "CallActivity_12",
+      "name": "Post Processing",
+      "bpmn_type": "callActivity",
+      "type": "ProcessCallElement",
+      "resources": []
+    },
+    {
+      "id": "CallActivity_9780790",
+      "name": "Store Source Message",
+      "bpmn_type": "callActivity",
+      "type": "Enricher",
+      "resources": []
+    },
+    {
+      "id": "_CallActivity_3",
+      "name": "Set Monitoring ID",
+      "bpmn_type": "callActivity",
+      "type": "Enricher",
+      "resources": []
+    },
+    {
+      "id": "CallActivity_9780794",
+      "name": "General Splitter",
+      "bpmn_type": "callActivity",
+      "type": "Splitter",
+      "resources": []
+    },
+    {
+      "id": "_CallActivity_4",
+      "name": "C4C_S4_CustomerQuoteFollowupBusinessTransactionDocumentReq",
+      "bpmn_type": "callActivity",
+      "type": "Mapping",
+      "resources": [
+        "C4C_S4_CustomerQuoteFollowupBusinessTransactionDocumentReq.mmap"
+      ]
+    },
+    {
+      "id": "ExclusiveGateway_9780787",
+      "name": "Extension?",
+      "bpmn_type": "exclusiveGateway"
+    },
+    {
+      "id": "ExclusiveGateway_9",
+      "name": "Extension?",
+      "bpmn_type": "exclusiveGateway"
+    },
+    {
+      "id": "StartEvent_9780765",
+      "name": "Start 1",
+      "bpmn_type": "startEvent"
+    },
+    {
+      "id": "CallActivity_9780784",
+      "name": "Remove Multi-Map Wrapper",
+      "bpmn_type": "callActivity",
+      "type": "Mapping",
+      "resources": [
+        "RemoveMultiMappingHeader.mmap"
+      ]
+    },
+    {
+      "id": "CallActivity_9780768",
+      "name": "Filter Standard Mapping Output",
+      "bpmn_type": "callActivity",
+      "type": "Filter",
+      "resources": []
+    },
+    {
+      "id": "ServiceTask_9780774",
+      "name": "Call Post Exit",
+      "bpmn_type": "serviceTask",
+      "type": "ExternalCall",
+      "resources": []
+    },
+    {
+      "id": "EndEvent_9780766",
+      "name": "End 1",
+      "bpmn_type": "endEvent"
+    },
+    {
+      "id": "CallActivity_9780771",
+      "name": "Bundle Message",
+      "bpmn_type": "callActivity",
+      "type": "Enricher",
+      "resources": []
+    }
+  ],
+  "edges": [
+    {
+      "sourceRef": "CallActivity_9780796",
+      "targetRef": "ExclusiveGateway_9780787"
+    },
+    {
+      "sourceRef": "StartEvent_1",
+      "targetRef": "_CallActivity_3"
+    },
+    {
+      "sourceRef": "CallActivity_12",
+      "targetRef": "EndEvent_1"
+    },
+    {
+      "sourceRef": "CallActivity_9780790",
+      "targetRef": "_CallActivity_4"
+    },
+    {
+      "sourceRef": "_CallActivity_3",
+      "targetRef": "CallActivity_9780794"
+    },
+    {
+      "sourceRef": "CallActivity_9780794",
+      "targetRef": "CallActivity_9780796"
+    },
+    {
+      "sourceRef": "_CallActivity_4",
+      "targetRef": "ExclusiveGateway_9"
+    },
+    {
+      "sourceRef": "ExclusiveGateway_9780787",
+      "targetRef": "_CallActivity_4"
+    },
+    {
+      "sourceRef": "ExclusiveGateway_9780787",
+      "targetRef": "CallActivity_9780790",
+      "condition": "${property.P_Custom_Extension_Enabled} = 'true'"
+    },
+    {
+      "sourceRef": "ExclusiveGateway_9",
+      "targetRef": "CallActivity_12",
+      "condition": "${property.P_Custom_Extension_Enabled} = 'true'"
+    },
+    {
+      "sourceRef": "ExclusiveGateway_9",
+      "targetRef": "EndEvent_1"
+    },
+    {
+      "sourceRef": "StartEvent_9780765",
+      "targetRef": "CallActivity_9780768"
+    },
+    {
+      "sourceRef": "CallActivity_9780784",
+      "targetRef": "EndEvent_9780766"
+    },
+    {
+      "sourceRef": "CallActivity_9780768",
+      "targetRef": "CallActivity_9780771"
+    },
+    {
+      "sourceRef": "ServiceTask_9780774",
+      "targetRef": "CallActivity_9780784"
+    },
+    {
+      "sourceRef": "CallActivity_9780771",
+      "targetRef": "ServiceTask_9780774"
+    }
+  ],
+  "message_flows": [
+    {
+      "id": "MessageFlow_8",
+      "name": "SOAP",
+      "sourceRef": "Participant_1",
+      "targetRef": "StartEvent_1",
+      "direction": "Sender",
+      "component_type": "SOAP",
+      "transport_protocol": "HTTP",
+      "address": "{{C4C_Quote2Order_S}}"
+    },
+    {
+      "id": "MessageFlow_9780778",
+      "name": "ProcessDirectPost",
+      "sourceRef": "ServiceTask_9780774",
+      "targetRef": "Participant_9780777",
+      "direction": "Receiver",
+      "component_type": "ProcessDirect",
+      "transport_protocol": "Not Applicable",
+      "address": "{{QuoteFollowupPostExit}}"
+    },
+    {
+      "id": "MessageFlow_3",
+      "name": "",
+      "sourceRef": "EndEvent_1",
+      "targetRef": "Participant_2",
+      "direction": "Receiver",
+      "component_type": "IDOC",
+      "transport_protocol": "HTTP",
+      "address": "{{Protocol-Host-Port}}/sap/bc/srt/idoc?sap-client={{Client}}"
+    }
+  ],
+  "systems": [
+    {
+      "id": "Participant_1",
+      "name": "C4C"
+    },
+    {
+      "id": "Participant_2",
+      "name": "S4"
+    },
+    {
+      "id": "Participant_9780777",
+      "name": "QuoteFollowupPostExit"
+    },
+    {
+      "id": "Participant_Process_1",
+      "name": "Integration Process"
+    },
+    {
+      "id": "Participant_Process_9780764",
+      "name": "Local Integration Process_Post_Processing"
+    }
+  ],
+  "resources": {
+    "scripts": [],
+    "mappings": [
+      "C4C_S4_CustomerQuoteFollowupBusinessTransactionDocumentReq.mmap",
+      "RemoveMultiMappingHeader.xsl",
+      "mappingversion.info"
+    ],
+    "schemas": [
+      "CustomerQuote_Processing_SalesOrder_Request_Out.wsdl",
+      "SALESORDER_CREATEFROMDAT204.wsdl"
+    ]
+  },
+  "parse_warnings": []
+}
