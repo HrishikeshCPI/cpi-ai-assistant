@@ -226,43 +226,7 @@
       "name": "Local Integration Process_Post_Processing"
     }
   ],
-  "wsdl_details": {
-    "COD_CONTRACT_CREATEFROM_DAT_S4CORE.wsdl": {
-      "messages": [
-        {
-          "name": "COD_CONTRACT_CREATEFROM_DAT01",
-          "parts": [
-            {
-              "name": "COD_CONTRACT_CREATEFROM_DAT01",
-              "type": "COD_CONTRACT_CREATEFROM_DAT01"
-            }
-          ]
-        }
-      ],
-      "operations": [],
-      "soap_address": null,
-      "target_namespace": null,
-      "parse_warnings": []
-    },
-    "ContractReplicationOut.wsdl": {
-      "messages": [
-        {
-          "name": "ContractReplicationRequestToExternal",
-          "parts": [
-            {
-              "name": "ContractReplicationRequestToExternal",
-              "type": "n2:ContractReplicationRequestToExternal"
-            }
-          ]
-        }
-      ],
-      "operations": [],
-      "soap_address": null,
-      "target_namespace": "http://sap.com/xi/AP/CRM/Global",
-      "parse_warnings": []
-    }
-  },
-  "mapping_details": {
+  "resolved_resources": {
     "C4C_S4_ContractReplication.mmap": {
       "field_mappings": [
         {
@@ -1790,7 +1754,44 @@
         "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN[1]/AUTTE uses a non-trivial mapping function, not a direct field copy",
         "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN[1]/BEDAT uses a non-trivial mapping function, not a direct field copy",
         "target /COD_CONTRACT_CREATEFROM_DAT01/IDOC/E101COD_S_REP_CONTRACT_DATA/E101COD_S_BILLING_PLAN[1]/ENDAT uses a non-trivial mapping function, not a direct field copy"
-      ]
+      ],
+      "resolved": true
+    },
+    "COD_CONTRACT_CREATEFROM_DAT_S4CORE.wsdl": {
+      "messages": [
+        {
+          "name": "COD_CONTRACT_CREATEFROM_DAT01",
+          "parts": [
+            {
+              "name": "COD_CONTRACT_CREATEFROM_DAT01",
+              "type": "COD_CONTRACT_CREATEFROM_DAT01"
+            }
+          ]
+        }
+      ],
+      "operations": [],
+      "soap_address": null,
+      "target_namespace": null,
+      "parse_warnings": [],
+      "resolved": true
+    },
+    "ContractReplicationOut.wsdl": {
+      "messages": [
+        {
+          "name": "ContractReplicationRequestToExternal",
+          "parts": [
+            {
+              "name": "ContractReplicationRequestToExternal",
+              "type": "n2:ContractReplicationRequestToExternal"
+            }
+          ]
+        }
+      ],
+      "operations": [],
+      "soap_address": null,
+      "target_namespace": "http://sap.com/xi/AP/CRM/Global",
+      "parse_warnings": [],
+      "resolved": true
     }
   },
   "resources": {

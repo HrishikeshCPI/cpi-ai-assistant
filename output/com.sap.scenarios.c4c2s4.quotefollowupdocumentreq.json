@@ -229,7 +229,14 @@
       "name": "Local Integration Process_Post_Processing"
     }
   ],
-  "wsdl_details": {
+  "resolved_resources": {
+    "C4C_S4_CustomerQuoteFollowupBusinessTransactionDocumentReq.mmap": {
+      "field_mappings": [],
+      "parse_warnings": [
+        "Transformation block not found in the mmap XML; expected a top-level transformation element with Dst/Src brick mappings."
+      ],
+      "resolved": true
+    },
     "CustomerQuote_Processing_SalesOrder_Request_Out.wsdl": {
       "messages": [
         {
@@ -245,7 +252,8 @@
       "operations": [],
       "soap_address": null,
       "target_namespace": "http://sap.com/xi/AP/CRM/Global",
-      "parse_warnings": []
+      "parse_warnings": [],
+      "resolved": true
     },
     "SALESORDER_CREATEFROMDAT204.wsdl": {
       "messages": [
@@ -262,15 +270,8 @@
       "operations": [],
       "soap_address": null,
       "target_namespace": null,
-      "parse_warnings": []
-    }
-  },
-  "mapping_details": {
-    "C4C_S4_CustomerQuoteFollowupBusinessTransactionDocumentReq.mmap": {
-      "field_mappings": [],
-      "parse_warnings": [
-        "Transformation block not found in the mmap XML; expected a top-level transformation element with Dst/Src brick mappings."
-      ]
+      "parse_warnings": [],
+      "resolved": true
     }
   },
   "resources": {

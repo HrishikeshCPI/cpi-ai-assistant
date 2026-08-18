@@ -193,7 +193,19 @@
       "name": "Local Integration Process_Post_Processing"
     }
   ],
-  "wsdl_details": {
+  "resolved_resources": {
+    "PrePostProcessing.groovy": {
+      "resolved": false,
+      "note": "no resolver registered for this file type",
+      "filename": "PrePostProcessing.groovy"
+    },
+    "S4_C4C_BusinessPartnerRelationshipReplication.mmap": {
+      "field_mappings": [],
+      "parse_warnings": [
+        "Transformation block not found in the mmap XML; expected a top-level transformation element with Dst/Src brick mappings."
+      ],
+      "resolved": true
+    },
     "BusinessPartnerRelationshipSUITEBulkReplicateRequest.wsdl": {
       "messages": [
         {
@@ -209,7 +221,8 @@
       "operations": [],
       "soap_address": null,
       "target_namespace": "http://sap.com/xi/SAP_BS_FND/MDG/Global2",
-      "parse_warnings": []
+      "parse_warnings": [],
+      "resolved": true
     },
     "Business_Partner_Relationship_Replication_In.wsdl": {
       "messages": [
@@ -235,15 +248,8 @@
       "operations": [],
       "soap_address": null,
       "target_namespace": "http://sap.com/xi/A1S/Global",
-      "parse_warnings": []
-    }
-  },
-  "mapping_details": {
-    "S4_C4C_BusinessPartnerRelationshipReplication.mmap": {
-      "field_mappings": [],
-      "parse_warnings": [
-        "Transformation block not found in the mmap XML; expected a top-level transformation element with Dst/Src brick mappings."
-      ]
+      "parse_warnings": [],
+      "resolved": true
     }
   },
   "resources": {

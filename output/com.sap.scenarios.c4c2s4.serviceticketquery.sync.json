@@ -92,7 +92,21 @@
       "name": "Integration Process"
     }
   ],
-  "wsdl_details": {
+  "resolved_resources": {
+    "C4C_S4_ServiceRequestExternalSalesDocumentDataQuerySync_req.mmap": {
+      "field_mappings": [],
+      "parse_warnings": [
+        "Transformation block not found in the mmap XML; expected a top-level transformation element with Dst/Src brick mappings."
+      ],
+      "resolved": true
+    },
+    "C4C_S4_ServiceRequestExternalSalesDocumentDataQuerySync_resp.mmap": {
+      "field_mappings": [],
+      "parse_warnings": [
+        "Transformation block not found in the mmap XML; expected a top-level transformation element with Dst/Src brick mappings."
+      ],
+      "resolved": true
+    },
     "COD_SALESORDER_SIMULATE.wsdl": {
       "messages": [
         {
@@ -117,7 +131,8 @@
       "operations": [],
       "soap_address": null,
       "target_namespace": "urn:sap-com:document:sap:rfc:functions",
-      "parse_warnings": []
+      "parse_warnings": [],
+      "resolved": true
     },
     "ServiceRequestRequestExternalSalesDocumentDataOut.wsdl": {
       "messages": [
@@ -152,21 +167,8 @@
       "operations": [],
       "soap_address": null,
       "target_namespace": "http://sap.com/xi/AP/CRM/Global",
-      "parse_warnings": []
-    }
-  },
-  "mapping_details": {
-    "C4C_S4_ServiceRequestExternalSalesDocumentDataQuerySync_req.mmap": {
-      "field_mappings": [],
-      "parse_warnings": [
-        "Transformation block not found in the mmap XML; expected a top-level transformation element with Dst/Src brick mappings."
-      ]
-    },
-    "C4C_S4_ServiceRequestExternalSalesDocumentDataQuerySync_resp.mmap": {
-      "field_mappings": [],
-      "parse_warnings": [
-        "Transformation block not found in the mmap XML; expected a top-level transformation element with Dst/Src brick mappings."
-      ]
+      "parse_warnings": [],
+      "resolved": true
     }
   },
   "resources": {

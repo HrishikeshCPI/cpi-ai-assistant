@@ -66,7 +66,7 @@
       "name": "C4C"
     }
   ],
-  "wsdl_details": {
+  "resolved_resources": {
     "ConnectivityCheckConsumer.wsdl": {
       "messages": [
         {
@@ -106,7 +106,8 @@
       ],
       "soap_address": "http://www.example.org/",
       "target_namespace": "http://sap.com/xi/CODERINT",
-      "parse_warnings": []
+      "parse_warnings": [],
+      "resolved": true
     },
     "ConnectivityCheckProvider.wsdl": {
       "messages": [
@@ -138,10 +139,10 @@
       ],
       "soap_address": "http://www.example.org/",
       "target_namespace": "http://sap.com/xi/CommunicationServicesManagement/Global",
-      "parse_warnings": []
+      "parse_warnings": [],
+      "resolved": true
     }
   },
-  "mapping_details": {},
   "resources": {
     "scripts": [],
     "mappings": [

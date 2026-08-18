@@ -77,6 +77,10 @@ def test_parse_package_extracts_nodes_edges_and_resources(tmp_path):
     assert artifact.resources["scripts"] == ["script1.groovy"]
     assert artifact.resources["mappings"] == ["map1.mmap"]
     assert artifact.resources["schemas"] == ["schema1.xsd", "service.wsdl"]
+    assert artifact.resolved_resources["script1.groovy"]["resolved"] is False
+    assert artifact.resolved_resources["script1.groovy"]["filename"] == "script1.groovy"
+    assert artifact.resolved_resources["map1.mmap"]["resolved"] is True
+    assert artifact.resolved_resources["service.wsdl"]["resolved"] is True
     assert artifact.parse_warnings == []
 
 
@@ -185,7 +189,7 @@ def test_resolve_wsdl_and_attach_wsdl_details(tmp_path):
     )
 
     artifact = parse_package(str(pkg))
-    assert artifact.wsdl_details["sample.wsdl"]["operations"][0]["name"] == "GetData"
+    assert artifact.resolved_resources["sample.wsdl"]["operations"][0]["name"] == "GetData"
 
 
 def test_parse_package_handles_missing_iflw(tmp_path):

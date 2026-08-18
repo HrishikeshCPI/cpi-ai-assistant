@@ -113,8 +113,12 @@
       "name": "Integration Process"
     }
   ],
-  "wsdl_details": {},
-  "mapping_details": {
+  "resolved_resources": {
+    "script1.groovy": {
+      "resolved": false,
+      "note": "no resolver registered for this file type",
+      "filename": "script1.groovy"
+    },
     "MM_ConvertNorthWindStructuer.mmap": {
       "field_mappings": [
         {
@@ -168,7 +172,23 @@
           "function": null
         }
       ],
-      "parse_warnings": []
+      "parse_warnings": [],
+      "resolved": true
+    },
+    "CustomerTargetNorthwindResponset.xsd": {
+      "resolved": false,
+      "note": "no resolver registered for this file type",
+      "filename": "CustomerTargetNorthwindResponset.xsd"
+    },
+    "SourceNorthwindRequest.xsd": {
+      "resolved": false,
+      "note": "no resolver registered for this file type",
+      "filename": "SourceNorthwindRequest.xsd"
+    },
+    "CustomersEntityGET.xsd": {
+      "resolved": false,
+      "note": "no resolver registered for this file type",
+      "filename": "CustomersEntityGET.xsd"
     }
   },
   "resources": {

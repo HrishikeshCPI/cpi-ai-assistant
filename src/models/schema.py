@@ -12,8 +12,7 @@ class IFlowArtifact(BaseModel):
     edges: list[dict[str, Any]] = Field(default_factory=list)
     message_flows: list[dict[str, Any]] = Field(default_factory=list)
     systems: list[dict[str, Any]] = Field(default_factory=list)
-    wsdl_details: dict[str, dict[str, Any]] = Field(default_factory=dict)
-    mapping_details: dict[str, dict[str, Any]] = Field(default_factory=dict)
+    resolved_resources: dict[str, dict[str, Any]] = Field(default_factory=dict)
     resources: dict[str, list[str]] = Field(
         default_factory=lambda: {"scripts": [], "mappings": [], "schemas": []}
     )
