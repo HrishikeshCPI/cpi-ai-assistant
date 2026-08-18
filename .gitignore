@@ -1,0 +1,7 @@
+venv/
+__pycache__/
+*.pyc
+output/
+.env
+data/raw_artifacts/
+.DS_Store
