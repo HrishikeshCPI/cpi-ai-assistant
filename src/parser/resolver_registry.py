@@ -27,5 +27,5 @@ def resolve_resource(filepath: str) -> dict[str, Any]:
         }
 
     result = resolver(str(path))
-    result["resolved"] = True
+    result.setdefault("resolved", True)
     return result

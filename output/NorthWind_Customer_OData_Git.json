@@ -115,9 +115,21 @@
   ],
   "resolved_resources": {
     "script1.groovy": {
-      "resolved": false,
-      "note": "no resolver registered for this file type",
-      "filename": "script1.groovy"
+      "purpose": "Conditionally attach the response message body to the integration message log as a text/plain attachment when the CPI property EnablePayloadLogging is set to true, enabling troubleshooting and payload inspection.",
+      "reads": [
+        "message property: EnablePayloadLogging",
+        "message body"
+      ],
+      "writes": [
+        "message log attachment (Response Payload)"
+      ],
+      "side_effects": [
+        "writes attachment to integration message log if EnablePayloadLogging is true"
+      ],
+      "complexity": "trivial",
+      "business_note": null,
+      "resolved": true,
+      "source": "cache"
     },
     "MM_ConvertNorthWindStructuer.mmap": {
       "field_mappings": [

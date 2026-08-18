@@ -195,9 +195,23 @@
   ],
   "resolved_resources": {
     "PrePostProcessing.groovy": {
-      "resolved": false,
-      "note": "no resolver registered for this file type",
-      "filename": "PrePostProcessing.groovy"
+      "purpose": "Remove duplicate BusinessPartnerRelationship delete messages (actionCode=05) when a corresponding update message (actionCode=04) exists with the same partner and relationship identifiers.",
+      "reads": [
+        "message body (XML)",
+        "BusinessPartnerRelationshipSUITEReplicateRequestMessage elements",
+        "actionCode attribute",
+        "BusinessPartnerInternalID, ReceiverBusinessPartnerInternalID, RelationshipBusinessPartnerInternalID, ReceiverRelationshipBusinessPartnerInternalID, RoleCode fields"
+      ],
+      "writes": [
+        "message body (modified XML)"
+      ],
+      "side_effects": [
+        "none"
+      ],
+      "complexity": "business-logic",
+      "business_note": "This deduplication rule removes actionCode='05' (delete) records when a matching actionCode='04' (update) record exists. This prevents duplicate delete operations when both appear in the same incoming batch. All identifier fields must match for deduplication to occur.",
+      "resolved": true,
+      "source": "cache"
     },
     "S4_C4C_BusinessPartnerRelationshipReplication.mmap": {
       "field_mappings": [],
