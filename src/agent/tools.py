@@ -88,6 +88,13 @@ def describe_iflow(artifact_id: str) -> dict:
         return {}
 
 
+def get_iflow_diagram(artifact_id: str) -> str:
+    """Return a Mermaid flowchart diagram string for the given iFlow."""
+    from src.graph.visualizer import generate_mermaid
+
+    return generate_mermaid(artifact_id)
+
+
 def get_iflow_systems(artifact_id: str) -> list[dict]:
     """
     Get a list of external systems that an iFlow connects to.

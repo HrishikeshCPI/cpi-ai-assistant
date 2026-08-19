@@ -89,6 +89,20 @@ TOOLS = [
                 ),
             ),
             genai.types.FunctionDeclaration(
+                name="get_iflow_diagram",
+                description="Return a Mermaid flowchart diagram for an iFlow, showing steps, resources, and system connections",
+                parameters=genai.types.Schema(
+                    type="object",
+                    properties={
+                        "artifact_id": genai.types.Schema(
+                            type="string",
+                            description="The artifact ID of the iFlow (e.g., NorthWind_Customer_OData_Git)",
+                        )
+                    },
+                    required=["artifact_id"],
+                ),
+            ),
+            genai.types.FunctionDeclaration(
                 name="get_iflow_systems",
                 description="Get a list of external systems that an iFlow connects to",
                 parameters=genai.types.Schema(
@@ -180,6 +194,7 @@ TOOL_FUNCTIONS = {
     "find_iflows_using_resource": tools.find_iflows_using_resource,
     "get_resource_detail": tools.get_resource_detail,
     "describe_iflow": tools.describe_iflow,
+    "get_iflow_diagram": tools.get_iflow_diagram,
     "get_iflow_systems": tools.get_iflow_systems,
     "list_all_iflows": tools.list_all_iflows,
     "find_iflows_by_protocol": tools.find_iflows_by_protocol,
@@ -241,8 +256,8 @@ def chat_turn(chat, user_message: str) -> str:
                         # Call the Python function with the provided arguments
                         func = TOOL_FUNCTIONS[func_name]
                         result = func(**func_args)
-                        # Wrap result in dict if it's a list (tools return list or dict)
-                        if isinstance(result, list):
+                        # Gemini function responses must use a dictionary payload.
+                        if not isinstance(result, dict):
                             result = {"result": result}
                     except Exception as exc:
                         result = {"error": str(exc)}

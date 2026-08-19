@@ -5,9 +5,25 @@ Generate Mermaid flowcharts from iFlow data stored in Neo4j.
 from __future__ import annotations
 
 import argparse
+import re
 from pathlib import Path
 
 from src.graph.neo4j_client import run_query
+
+
+def _format_condition(condition: str, max_length: int = 35) -> str:
+    """Show the distinguishing comparison at the end of an XPath condition."""
+    comparison = re.search(
+        r"(?:/|^)([A-Za-z_][\w:.-]*)\s*(=|!=|<=|>=|<|>)\s*(.+?)\s*$",
+        condition,
+    )
+    if comparison:
+        label = " ".join(comparison.groups())
+        if len(label) <= max_length:
+            return label
+        return label[-max_length:]
+
+    return condition[-max_length:]
 
 
 def generate_mermaid(artifact_id: str) -> str:
@@ -121,9 +137,8 @@ def generate_mermaid(artifact_id: str) -> str:
         condition = edge["condition"]
         
         if condition:
-            # Truncate condition to 40 chars
-            truncated = condition[:40] + ("..." if len(condition) > 40 else "")
-            lines.append(f'    {source_id} -->|"{truncated}"| {target_id}')
+            condition_label = _format_condition(condition)
+            lines.append(f'    {source_id} -->|"{condition_label}"| {target_id}')
         else:
             lines.append(f'    {source_id} --> {target_id}')
     
@@ -155,27 +170,36 @@ def generate_mermaid(artifact_id: str) -> str:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Generate Mermaid flowchart for an iFlow")
-    parser.add_argument(
+    artifact_group = parser.add_mutually_exclusive_group(required=True)
+    artifact_group.add_argument(
         "--artifact-id",
-        required=True,
         help="Artifact ID of the iFlow (e.g., NorthWind_Customer_OData_Git)"
+    )
+    artifact_group.add_argument(
+        "--all",
+        action="store_true",
+        help="Generate diagrams for every iFlow in Neo4j"
     )
     
     args = parser.parse_args()
-    artifact_id = args.artifact_id
-    
-    # Generate Mermaid
-    mermaid_output = generate_mermaid(artifact_id)
-    
-    # Print to stdout
-    print(mermaid_output)
-    
-    # Write to file
     diagrams_dir = Path("output/diagrams")
     diagrams_dir.mkdir(parents=True, exist_ok=True)
-    
-    output_file = diagrams_dir / f"{artifact_id}.mmd"
-    with open(output_file, "w", encoding="utf-8") as f:
-        f.write(mermaid_output)
-    
-    print(f"\n\n[OK] Diagram written to: {output_file}", file=__import__("sys").stderr)
+
+    if args.all:
+        iflow_rows = run_query("MATCH (i:IFlow) RETURN i.id AS artifact_id ORDER BY i.id")
+        for row in iflow_rows:
+            artifact_id = row["artifact_id"]
+            output_file = diagrams_dir / f"{artifact_id}.mmd"
+            mermaid_output = generate_mermaid(artifact_id)
+            with open(output_file, "w", encoding="utf-8") as f:
+                f.write(mermaid_output)
+            print(f"[OK] Diagram written to: {output_file}")
+    else:
+        artifact_id = args.artifact_id
+        mermaid_output = generate_mermaid(artifact_id)
+        print(mermaid_output)
+
+        output_file = diagrams_dir / f"{artifact_id}.mmd"
+        with open(output_file, "w", encoding="utf-8") as f:
+            f.write(mermaid_output)
+        print(f"\n\n[OK] Diagram written to: {output_file}", file=__import__("sys").stderr)
