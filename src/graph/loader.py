@@ -77,9 +77,11 @@ def load_artifact(json_path: str) -> dict[str, int]:
         if not node_id:
             continue
 
+        step_key = f"{artifact_id}::{node_id}"
         create_step = """
         MATCH (i:IFlow {id: $artifact_id})
-        CREATE (s:Step {id: $node_id, name: $node_name, bpmn_type: $bpmn_type, activity_type: $activity_type})
+        MERGE (s:Step {step_key: $step_key})
+        SET s.id = $node_id, s.name = $node_name, s.bpmn_type = $bpmn_type, s.activity_type = $activity_type
         CREATE (s)-[:BELONGS_TO]->(i)
         RETURN s
         """
@@ -87,6 +89,7 @@ def load_artifact(json_path: str) -> dict[str, int]:
             create_step,
             {
                 "artifact_id": artifact_id,
+                "step_key": step_key,
                 "node_id": node_id,
                 "node_name": node_name,
                 "bpmn_type": bpmn_type,
@@ -112,7 +115,7 @@ def load_artifact(json_path: str) -> dict[str, int]:
             details_json = json.dumps(resolved_data) if resolved_data else None
 
             link_resource = """
-            MATCH (s:Step {id: $node_id})
+            MATCH (s:Step {step_key: $step_key})
             MERGE (r:Resource {filename: $filename, kind: $kind})
             ON CREATE SET r.resolved = $resolved, r.details_json = $details_json, r.purpose = $purpose, r.complexity = $complexity
             ON MATCH SET r.resolved = $resolved, r.details_json = $details_json, r.purpose = $purpose, r.complexity = $complexity
@@ -122,7 +125,7 @@ def load_artifact(json_path: str) -> dict[str, int]:
             run_query(
                 link_resource,
                 {
-                    "node_id": node_id,
+                    "step_key": step_key,
                     "filename": resource_filename,
                     "kind": kind,
                     "resolved": resolved,
@@ -143,12 +146,19 @@ def load_artifact(json_path: str) -> dict[str, int]:
             continue
 
         link_steps = """
-        MATCH (s1:Step {id: $source_ref})
-        MATCH (s2:Step {id: $target_ref})
+        MATCH (s1:Step {step_key: $source_key})
+        MATCH (s2:Step {step_key: $target_key})
         CREATE (s1)-[:NEXT {condition: $condition}]->(s2)
         RETURN s1, s2
         """
-        run_query(link_steps, {"source_ref": source_ref, "target_ref": target_ref, "condition": condition})
+        run_query(
+            link_steps,
+            {
+                "source_key": f"{artifact_id}::{source_ref}",
+                "target_key": f"{artifact_id}::{target_ref}",
+                "condition": condition,
+            },
+        )
 
     # Step 7: Create System nodes and link Steps to Systems via message flows
     for msg_flow in message_flows:
@@ -182,7 +192,7 @@ def load_artifact(json_path: str) -> dict[str, int]:
 
         if step_id and system_id and system_name:
             link_to_system = """
-            MATCH (s:Step {id: $step_id})
+            MATCH (s:Step {step_key: $step_key})
             MERGE (sys:System {name: $system_name})
             CREATE (s)-[:CALLS {direction: $direction, component_type: $component_type, address: $address}]->(sys)
             RETURN s, sys
@@ -190,7 +200,7 @@ def load_artifact(json_path: str) -> dict[str, int]:
             run_query(
                 link_to_system,
                 {
-                    "step_id": step_id,
+                    "step_key": f"{artifact_id}::{step_id}",
                     "system_name": system_name,
                     "direction": direction,
                     "component_type": component_type,
@@ -198,6 +208,29 @@ def load_artifact(json_path: str) -> dict[str, int]:
                 },
             )
             system_count += 1
+
+    # Step 8: Create package-level schema Resource nodes (without USES relationships)
+    schemas = resources_list.get("schemas", [])
+    for schema_filename in schemas:
+        resolved_data = resolved_resources.get(schema_filename, {})
+        resolved = resolved_data.get("resolved", False)
+        details_json = json.dumps(resolved_data) if resolved_data else None
+
+        create_schema_resource = """
+        MERGE (r:Resource {filename: $filename, kind: "schema"})
+        ON CREATE SET r.resolved = $resolved, r.details_json = $details_json
+        ON MATCH SET r.resolved = $resolved, r.details_json = $details_json
+        RETURN r
+        """
+        run_query(
+            create_schema_resource,
+            {
+                "filename": schema_filename,
+                "resolved": resolved,
+                "details_json": details_json,
+            },
+        )
+        resource_count += 1
 
     return {
         "steps": step_count,
@@ -216,6 +249,8 @@ def infer_resource_kind(filename: str) -> str:
         return "mapping"
     elif lower_name.endswith(".wsdl"):
         return "wsdl"
+    elif lower_name.endswith(".xsd"):
+        return "schema"
     else:
         return "unknown"
 

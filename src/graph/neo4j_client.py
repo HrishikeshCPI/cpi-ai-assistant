@@ -23,12 +23,18 @@ def get_driver():
     """
     Get or initialize the Neo4j GraphDatabase driver.
     Verifies connection on first use and raises clear errors if connectivity fails.
+    For neo4j+s:// URIs, encryption is implicit in the scheme - do not pass encrypted parameter.
     """
     global _driver, _connection_verified
 
     if _driver is None:
         try:
-            _driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASSWORD))
+            # neo4j+s:// already includes encryption in the scheme
+            # Don't pass encrypted parameter - it's only for bolt:// and neo4j:// schemes
+            _driver = GraphDatabase.driver(
+                NEO4J_URI, 
+                auth=(NEO4J_USER, NEO4J_PASSWORD),
+            )
         except Exception as exc:
             raise RuntimeError(
                 f"Failed to create Neo4j driver with URI={NEO4J_URI}, user={NEO4J_USER}: {exc}"
@@ -40,6 +46,7 @@ def get_driver():
             with _driver.session() as session:
                 session.run("RETURN 1")
             _connection_verified = True
+            print("[OK] Neo4j Aura connection verified!")
         except Exception as exc:
             raise RuntimeError(
                 f"Cannot connect to Neo4j at {NEO4J_URI} with user={NEO4J_USER}. "
