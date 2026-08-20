@@ -117,6 +117,20 @@ TOOLS = [
                 ),
             ),
             genai.types.FunctionDeclaration(
+                name="get_iflow_parameters",
+                description="List externalized parameters configured for a specific iFlow, including their configured values",
+                parameters=genai.types.Schema(
+                    type="object",
+                    properties={
+                        "artifact_id": genai.types.Schema(
+                            type="string",
+                            description="The artifact ID of the iFlow (e.g., NorthWind_Customer_OData_Git)",
+                        )
+                    },
+                    required=["artifact_id"],
+                ),
+            ),
+            genai.types.FunctionDeclaration(
                 name="list_all_iflows",
                 description="List all iFlows in the graph with their IDs and versions",
                 parameters=genai.types.Schema(
@@ -196,6 +210,7 @@ TOOL_FUNCTIONS = {
     "describe_iflow": tools.describe_iflow,
     "get_iflow_diagram": tools.get_iflow_diagram,
     "get_iflow_systems": tools.get_iflow_systems,
+    "get_iflow_parameters": tools.get_iflow_parameters,
     "list_all_iflows": tools.list_all_iflows,
     "find_iflows_by_protocol": tools.find_iflows_by_protocol,
     "find_resources_by_complexity": tools.find_resources_by_complexity,

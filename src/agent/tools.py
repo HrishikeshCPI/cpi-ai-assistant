@@ -119,11 +119,27 @@ def get_iflow_resources(artifact_id: str) -> list:
     """
     query = """
     MATCH (i:IFlow {id: $artifact_id})<-[:BELONGS_TO]-(:Step)-[:USES]->(r:Resource)
-    RETURN DISTINCT r.filename AS filename, r.kind AS kind, r.purpose AS purpose
+    RETURN DISTINCT r.filename AS filename, r.kind AS kind, r.purpose AS purpose,
+           r.complexity AS complexity, r.details_json AS details_json
     """
     try:
         results = run_query(query, {"artifact_id": artifact_id})
         return [dict(r) for r in results]
+    except Exception as exc:
+        return [{"error": f"Query failed: {exc}"}]
+
+
+def get_iflow_parameters(artifact_id: str) -> list:
+    """List externalized parameters configured for a specific iFlow, including their configured values."""
+    query = """
+    MATCH (i:IFlow {id: $artifact_id})-[:HAS_PARAMETER]->(p:Parameter)
+    RETURN p.name AS name, p.attribute_label AS label,
+           p.attribute_category AS category, p.configured_value AS value,
+           p.is_required AS is_required
+    ORDER BY p.attribute_category, p.name
+    """
+    try:
+        return run_query(query, {"artifact_id": artifact_id})
     except Exception as exc:
         return [{"error": f"Query failed: {exc}"}]
 
