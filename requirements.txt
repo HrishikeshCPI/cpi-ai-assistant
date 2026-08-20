@@ -4,3 +4,4 @@ python-dotenv
 neo4j
 pytest
 google-genai
+streamlit
