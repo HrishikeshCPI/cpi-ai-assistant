@@ -81,7 +81,8 @@ def test_parse_package_extracts_nodes_edges_and_resources(tmp_path):
     assert artifact.resolved_resources["script1.groovy"]["filename"] == "script1.groovy"
     assert artifact.resolved_resources["map1.mmap"]["resolved"] is True
     assert artifact.resolved_resources["service.wsdl"]["resolved"] is True
-    assert artifact.parse_warnings == []
+    assert len(artifact.parse_warnings) == 1
+    assert artifact.parse_warnings[0].startswith("Missing parameter file(s):")
 
 
 def test_parse_package_extracts_conditions_message_flows_and_systems(tmp_path):

@@ -143,6 +143,104 @@
       "resolved": true
     }
   },
+  "externalized_parameters": [
+    {
+      "name": "ERP_enableBasicAuthentication_8",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4.Sender.Auth",
+      "attribute_label": "Authentication Mode",
+      "configured_value": "true"
+    },
+    {
+      "name": "C4C-Comm-User",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C.Receiver.Auth",
+      "attribute_label": "Credential Name",
+      "configured_value": ""
+    },
+    {
+      "name": "Host",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C.Receiver.System",
+      "attribute_label": "Host",
+      "configured_value": "*.crm.ondemand.com"
+    },
+    {
+      "name": "S4_senderAuthType_31",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4",
+      "attribute_label": "S4_senderAuthType_31",
+      "configured_value": "RoleBased"
+    },
+    {
+      "name": "S4_userRole_30",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4",
+      "attribute_label": "S4_userRole_30",
+      "configured_value": "ESBMessaging.send"
+    },
+    {
+      "name": "P-Key-Alias",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C.Receiver.Auth",
+      "attribute_label": "Private Key Alias",
+      "configured_value": ""
+    },
+    {
+      "name": "Port",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C.Receiver.System",
+      "attribute_label": "Port",
+      "configured_value": "443"
+    },
+    {
+      "name": "issuer",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4.Sender.Auth",
+      "attribute_label": "Issuer DN",
+      "configured_value": "cn=issuer"
+    },
+    {
+      "name": "S4_address_27",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4",
+      "attribute_label": "S4_address_27",
+      "configured_value": "/S4/COD/SimpleConnect"
+    },
+    {
+      "name": "C4C_authentication_35",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C.Connection Details",
+      "attribute_label": "Authentication",
+      "configured_value": "Client Certificate"
+    },
+    {
+      "name": "subject",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4.Sender.Auth",
+      "attribute_label": "Subject DN",
+      "configured_value": "cn=subject"
+    },
+    {
+      "name": "C4C_proxyType_34",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C.Connection Details",
+      "attribute_label": "Proxy Type",
+      "configured_value": "default"
+    }
+  ],
   "resources": {
     "scripts": [],
     "mappings": [

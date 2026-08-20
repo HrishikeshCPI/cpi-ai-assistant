@@ -1794,6 +1794,152 @@
       "resolved": true
     }
   },
+  "externalized_parameters": [
+    {
+      "name": "C4C_ContractReplication_S",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C.Receiver.System",
+      "attribute_label": "Address",
+      "configured_value": "/C4C/S4/ContractReplicationExternalOut"
+    },
+    {
+      "name": "S4_authentication_41",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4",
+      "attribute_label": "Authentication",
+      "configured_value": "Client Certificate"
+    },
+    {
+      "name": "TimeOut",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4",
+      "attribute_label": "Timeout (in ms)",
+      "configured_value": "60000"
+    },
+    {
+      "name": "subject",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C.Sender.Auth",
+      "attribute_label": "Subject DN",
+      "configured_value": ""
+    },
+    {
+      "name": "Sender_Auth",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C",
+      "attribute_label": "Sender_Auth",
+      "configured_value": "RoleBased"
+    },
+    {
+      "name": "artifactname",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4.Receiver.Auth",
+      "attribute_label": "Credential Name",
+      "configured_value": ""
+    },
+    {
+      "name": "p-key-alias",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4.Receiver.Auth",
+      "attribute_label": "Private Key Alias",
+      "configured_value": ""
+    },
+    {
+      "name": "S4_proxyType_40",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4",
+      "attribute_label": "Proxy Type",
+      "configured_value": "default"
+    },
+    {
+      "name": "isExtensionEnabled",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "",
+      "attribute_label": "isExtensionEnabled",
+      "configured_value": "false"
+    },
+    {
+      "name": "issuer",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C.Sender.Auth",
+      "attribute_label": "Issuer DN",
+      "configured_value": ""
+    },
+    {
+      "name": "C4C_address_47",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "",
+      "attribute_label": "C4C_address_47",
+      "configured_value": "/C4C/S4/ContractReplicationExternalOut"
+    },
+    {
+      "name": "Location_ID",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4",
+      "attribute_label": "Location ID",
+      "configured_value": ""
+    },
+    {
+      "name": "ContractReplicationPostExit",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "ContractReplicationPostExit",
+      "attribute_label": "Address",
+      "configured_value": "/C4C/S4/ContractReplicationExternalOut_PostExit"
+    },
+    {
+      "name": "C4C_wsdlURL_48",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "",
+      "attribute_label": "C4C_wsdlURL_48",
+      "configured_value": "/wsdl/CO_CONTRACT_REPLIC_EXT_OUT.wsdl"
+    },
+    {
+      "name": "UserRole",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C",
+      "attribute_label": "UserRole",
+      "configured_value": "ESBMessaging.send"
+    },
+    {
+      "name": "C4C_enableBasicAuthentication_46",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C.Sender.Auth",
+      "attribute_label": "Authentication Mode",
+      "configured_value": "true"
+    },
+    {
+      "name": "Protocol-Host-Port",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4.Receiver.System",
+      "attribute_label": "Protocol-Host-Port",
+      "configured_value": "https://*.s4hana.ondemand.com:443"
+    },
+    {
+      "name": "Client",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4.Receiver.System",
+      "attribute_label": "Client",
+      "configured_value": "100"
+    }
+  ],
   "resources": {
     "scripts": [],
     "mappings": [

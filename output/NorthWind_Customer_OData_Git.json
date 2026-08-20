@@ -203,6 +203,24 @@
       "filename": "CustomersEntityGET.xsd"
     }
   },
+  "externalized_parameters": [
+    {
+      "name": "HTTPSAddress",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "Postman",
+      "attribute_label": "HTTPSAddress",
+      "configured_value": "/NorthWind/Customer"
+    },
+    {
+      "name": "EnableLogging",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "",
+      "attribute_label": "EnableLogging",
+      "configured_value": "false"
+    }
+  ],
   "resources": {
     "scripts": [
       "script1.groovy"

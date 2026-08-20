@@ -171,6 +171,136 @@
       "resolved": true
     }
   },
+  "externalized_parameters": [
+    {
+      "name": "C4C_RequestTicketData_S",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C.Receiver.System",
+      "attribute_label": "Address",
+      "configured_value": "/C4C/S4/ServiceTicketDataQuery"
+    },
+    {
+      "name": "S4_authentication_97",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4",
+      "attribute_label": "Authentication",
+      "configured_value": "Client Certificate"
+    },
+    {
+      "name": "Issuer",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C",
+      "attribute_label": "Issuer",
+      "configured_value": ""
+    },
+    {
+      "name": "TimeOut",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4",
+      "attribute_label": "Timeout (in ms)",
+      "configured_value": "60000"
+    },
+    {
+      "name": "Sender_Auth",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C",
+      "attribute_label": "Sender_Auth",
+      "configured_value": "RoleBased"
+    },
+    {
+      "name": "subject",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C.Sender.Auth",
+      "attribute_label": "Subject DN",
+      "configured_value": "cn=subject"
+    },
+    {
+      "name": "artifactname",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4.Receiver.Auth",
+      "attribute_label": "Credential Name",
+      "configured_value": ""
+    },
+    {
+      "name": "p-key-alias",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4.Receiver.Auth",
+      "attribute_label": "Private Key Alias",
+      "configured_value": ""
+    },
+    {
+      "name": "S4_proxyType_96",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4",
+      "attribute_label": "Proxy Type",
+      "configured_value": "default"
+    },
+    {
+      "name": "Subject",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C",
+      "attribute_label": "Subject",
+      "configured_value": ""
+    },
+    {
+      "name": "issuer",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C.Sender.Auth",
+      "attribute_label": "Issuer DN",
+      "configured_value": "cn=issuer"
+    },
+    {
+      "name": "Location_ID",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4",
+      "attribute_label": "Location ID",
+      "configured_value": ""
+    },
+    {
+      "name": "C4C_enableBasicAuthentication_16",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C.Sender.Auth",
+      "attribute_label": "Authentication Mode",
+      "configured_value": "true"
+    },
+    {
+      "name": "UserRole",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C",
+      "attribute_label": "UserRole",
+      "configured_value": "ESBMessaging.send"
+    },
+    {
+      "name": "Protocol-Host-Port",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4.Receiver.System",
+      "attribute_label": "Protocol-Host-Port",
+      "configured_value": "https://*.s4hana.ondemand.com:443"
+    },
+    {
+      "name": "Client",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4.Receiver.System",
+      "attribute_label": "Client",
+      "configured_value": "001"
+    }
+  ],
   "resources": {
     "scripts": [],
     "mappings": [

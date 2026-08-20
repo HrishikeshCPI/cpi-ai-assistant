@@ -151,6 +151,200 @@
       "resolved": true
     }
   },
+  "externalized_parameters": [
+    {
+      "name": "C4C_allowChunking_28",
+      "type": "xsd:boolean",
+      "is_required": "false",
+      "attribute_category": "C4C",
+      "attribute_label": "Allow Chunking",
+      "configured_value": "1"
+    },
+    {
+      "name": "C4C_allowChunking_38",
+      "type": "xsd:boolean",
+      "is_required": "false",
+      "attribute_category": "C4C",
+      "attribute_label": "Allow Chunking",
+      "configured_value": "1"
+    },
+    {
+      "name": "TimeOut",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C",
+      "attribute_label": "Timeout (in ms)",
+      "configured_value": "60000"
+    },
+    {
+      "name": "subject",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4.Sender.Auth",
+      "attribute_label": "Subject DN",
+      "configured_value": "cn=subject"
+    },
+    {
+      "name": "Sender_Auth",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4",
+      "attribute_label": "Sender_Auth",
+      "configured_value": "RoleBased"
+    },
+    {
+      "name": "artifactname",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C.Receiver.Auth",
+      "attribute_label": "Credential Name",
+      "configured_value": ""
+    },
+    {
+      "name": "issuer",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4.Sender.Auth",
+      "attribute_label": "Issuer DN",
+      "configured_value": "cn=issuer"
+    },
+    {
+      "name": "C4C_cleanupHeaders_31",
+      "type": "xsd:boolean",
+      "is_required": "false",
+      "attribute_category": "C4C",
+      "attribute_label": "Clean-up Request Headers",
+      "configured_value": "1"
+    },
+    {
+      "name": "S4_wsdlURL_36",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4",
+      "attribute_label": "S4_wsdlURL_36",
+      "configured_value": "/wsdl/AttachmentFolderReplicationRequest_Out.wsdl"
+    },
+    {
+      "name": "C4C_cleanupHeaders_27",
+      "type": "xsd:boolean",
+      "is_required": "false",
+      "attribute_category": "C4C",
+      "attribute_label": "Clean-up Request Headers",
+      "configured_value": "1"
+    },
+    {
+      "name": "C4C_authentication_34",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C",
+      "attribute_label": "Authentication",
+      "configured_value": "Client Certificate"
+    },
+    {
+      "name": "port",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C.Receiver.System",
+      "attribute_label": "port",
+      "configured_value": "443"
+    },
+    {
+      "name": "C4C_cleanupHeaders_37",
+      "type": "xsd:boolean",
+      "is_required": "false",
+      "attribute_category": "C4C",
+      "attribute_label": "Clean-up Request Headers",
+      "configured_value": "1"
+    },
+    {
+      "name": "S4_address_35",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4.Receiver.System",
+      "attribute_label": "Address",
+      "configured_value": "/S4/C4C/AttachmentFolderReplicationRequest_Out"
+    },
+    {
+      "name": "UserRole",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4",
+      "attribute_label": "UserRole",
+      "configured_value": "ESBMessaging.send"
+    },
+    {
+      "name": "C4C_proxyType_33",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C",
+      "attribute_label": "Proxy Type",
+      "configured_value": "default"
+    },
+    {
+      "name": "C4C_proxyType_29",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C",
+      "attribute_label": "Proxy Type",
+      "configured_value": "default"
+    },
+    {
+      "name": "C4C_authentication_30",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C",
+      "attribute_label": "Authentication",
+      "configured_value": "Client Certificate"
+    },
+    {
+      "name": "host",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C.Receiver.System",
+      "attribute_label": "host",
+      "configured_value": "*.crm.ondemand.com"
+    },
+    {
+      "name": "pv-key-alias",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C.Receiver.Auth",
+      "attribute_label": "Private Key Alias",
+      "configured_value": ""
+    },
+    {
+      "name": "S4_enableBasicAuthentication_41",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4.Sender.Auth",
+      "attribute_label": "Authentication Mode",
+      "configured_value": "true"
+    },
+    {
+      "name": "C4C_proxyType_39",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C",
+      "attribute_label": "Proxy Type",
+      "configured_value": "default"
+    },
+    {
+      "name": "C4C_authentication_40",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C",
+      "attribute_label": "Authentication",
+      "configured_value": "Client Certificate"
+    },
+    {
+      "name": "C4C_allowChunking_32",
+      "type": "xsd:boolean",
+      "is_required": "false",
+      "attribute_category": "C4C",
+      "attribute_label": "Allow Chunking",
+      "configured_value": "1"
+    }
+  ],
   "resources": {
     "scripts": [],
     "mappings": [],

@@ -8,6 +8,7 @@ from typing import Any
 from lxml import etree
 
 from src.models.schema import IFlowArtifact
+from src.parser.parameters_resolver import resolve_parameters
 from src.parser.resolver_registry import resolve_resource
 
 BPMN_NS = {
@@ -237,6 +238,9 @@ def parse_package(package_path: str) -> IFlowArtifact:
         resource_path = base / resource_name
         resolved_resources[resource_name] = resolve_resource(str(resource_path))
 
+    parameter_result = resolve_parameters(str(package_dir))
+    warnings.extend(parameter_result["parse_warnings"])
+
     artifact = IFlowArtifact(
         artifact_id=artifact_id,
         version=version,
@@ -245,6 +249,7 @@ def parse_package(package_path: str) -> IFlowArtifact:
         message_flows=message_flows,
         systems=systems,
         resolved_resources=resolved_resources,
+        externalized_parameters=parameter_result["parameters"],
         resources={
             "scripts": scripts,
             "mappings": mappings,

@@ -266,6 +266,128 @@
       "resolved": true
     }
   },
+  "externalized_parameters": [
+    {
+      "name": "TimeOut",
+      "type": "xsd:integer",
+      "is_required": "false",
+      "attribute_category": "C4C",
+      "attribute_label": "Timeout (in ms)",
+      "configured_value": "60000"
+    },
+    {
+      "name": "Sender_Auth",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4",
+      "attribute_label": "Sender_Auth",
+      "configured_value": "RoleBased"
+    },
+    {
+      "name": "subject",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4.Sender.Auth",
+      "attribute_label": "Subject DN",
+      "configured_value": ""
+    },
+    {
+      "name": "C4C-Host",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C.Receiver.System",
+      "attribute_label": "Address",
+      "configured_value": "*.crm.ondemand.com"
+    },
+    {
+      "name": "AllowChunking",
+      "type": "xsd:boolean",
+      "is_required": "false",
+      "attribute_category": "C4C",
+      "attribute_label": "Allow Chunking",
+      "configured_value": "1"
+    },
+    {
+      "name": "Extension Implemented",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "",
+      "attribute_label": "Extension Implemented",
+      "configured_value": ""
+    },
+    {
+      "name": "S4_enableBasicAuthentication_17",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4.Sender.Auth",
+      "attribute_label": "Authentication Mode",
+      "configured_value": "true"
+    },
+    {
+      "name": "issuer",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4.Sender.Auth",
+      "attribute_label": "Issuer DN",
+      "configured_value": ""
+    },
+    {
+      "name": "S4-C4C-BusinessPartnerRelationshipReplicationPostExit",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "BusinessPartnerRelationshipReplicationPostExit",
+      "attribute_label": "Address",
+      "configured_value": "/S4/C4C/ReplicateBusinessPartnerRelationship_PostExit"
+    },
+    {
+      "name": "S4_Send_BPRelationShip",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4.Receiver.System",
+      "attribute_label": "Address",
+      "configured_value": "/S4/C4C/ReplicateBusinessPartnerRelationship"
+    },
+    {
+      "name": "c4c-communication-user",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C.Receiver.Auth",
+      "attribute_label": "Credential Name",
+      "configured_value": ""
+    },
+    {
+      "name": "Receiver_Auth",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C",
+      "attribute_label": "Authentication",
+      "configured_value": "Client Certificate"
+    },
+    {
+      "name": "UserRole",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4",
+      "attribute_label": "UserRole",
+      "configured_value": "ESBMessaging.send"
+    },
+    {
+      "name": "pv-key-alias",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C.Receiver.Auth",
+      "attribute_label": "Private Key Alias",
+      "configured_value": ""
+    },
+    {
+      "name": "CleanRequestHeaders",
+      "type": "xsd:boolean",
+      "is_required": "false",
+      "attribute_category": "C4C",
+      "attribute_label": "Clean-up Request Headers",
+      "configured_value": "1"
+    }
+  ],
   "resources": {
     "scripts": [
       "PrePostProcessing.groovy"

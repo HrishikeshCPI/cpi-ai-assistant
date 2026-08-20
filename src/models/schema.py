@@ -13,6 +13,7 @@ class IFlowArtifact(BaseModel):
     message_flows: list[dict[str, Any]] = Field(default_factory=list)
     systems: list[dict[str, Any]] = Field(default_factory=list)
     resolved_resources: dict[str, dict[str, Any]] = Field(default_factory=dict)
+    externalized_parameters: list[dict] = Field(default_factory=list)
     resources: dict[str, list[str]] = Field(
         default_factory=lambda: {"scripts": [], "mappings": [], "schemas": []}
     )

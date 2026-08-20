@@ -225,6 +225,160 @@
       "resolved": true
     }
   },
+  "externalized_parameters": [
+    {
+      "name": "subject",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C.Sender.Auth",
+      "attribute_label": "Subject DN",
+      "configured_value": ""
+    },
+    {
+      "name": "TimeOut",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4",
+      "attribute_label": "Timeout (in ms)",
+      "configured_value": "60000"
+    },
+    {
+      "name": "Sender_Auth",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C",
+      "attribute_label": "Sender_Auth",
+      "configured_value": "RoleBased"
+    },
+    {
+      "name": "S4_authentication_93",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4",
+      "attribute_label": "Authentication",
+      "configured_value": "Client Certificate"
+    },
+    {
+      "name": "artifactname",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4.Receiver.Auth",
+      "attribute_label": "Credential Name",
+      "configured_value": ""
+    },
+    {
+      "name": "p-key-alias",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4.Receiver.Auth",
+      "attribute_label": "Private Key Alias",
+      "configured_value": ""
+    },
+    {
+      "name": "isExtensionEnabled",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "",
+      "attribute_label": "isExtensionEnabled",
+      "configured_value": "false"
+    },
+    {
+      "name": "issuer",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C.Sender.Auth",
+      "attribute_label": "Issuer DN",
+      "configured_value": ""
+    },
+    {
+      "name": "Location_ID",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4",
+      "attribute_label": "Location ID",
+      "configured_value": ""
+    },
+    {
+      "name": "C4C_wsdlURL_22",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "",
+      "attribute_label": "C4C_wsdlURL_22",
+      "configured_value": "/wsdl/DOC_CLAS_CO_APCRM_SRQ_SUCC_CREATION_OUT.wsdl"
+    },
+    {
+      "name": "IDOC_Content_Type",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4",
+      "attribute_label": "IDoc Content Type",
+      "configured_value": "text/xml"
+    },
+    {
+      "name": "C4C_enableBasicAuthentication_21",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C.Sender.Auth",
+      "attribute_label": "Authentication Mode",
+      "configured_value": "true"
+    },
+    {
+      "name": "UserRole",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C",
+      "attribute_label": "UserRole",
+      "configured_value": "ESBMessaging.send"
+    },
+    {
+      "name": "S4_proxyType_92",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4",
+      "attribute_label": "Proxy Type",
+      "configured_value": "default"
+    },
+    {
+      "name": "C4C_TicketFollowUpRequest_S",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C.Receiver.System",
+      "attribute_label": "Address",
+      "configured_value": "/C4C/S4/ServiceRequestConfirmation"
+    },
+    {
+      "name": "Protocol-Host-Port",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4.Receiver.System",
+      "attribute_label": "Protocol-Host-Port",
+      "configured_value": "https://*.s4hana.ondemand.com:443"
+    },
+    {
+      "name": "C4C_address_8",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "",
+      "attribute_label": "C4C_address_8",
+      "configured_value": "/C4C/S4/ServiceRequestConfirmation"
+    },
+    {
+      "name": "TicketFollowUpPostExit",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "TicketFollowUpPostExit",
+      "attribute_label": "Address",
+      "configured_value": "/C4C/S4/ServiceRequestConfirmation_PostExit"
+    },
+    {
+      "name": "Client",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4.Receiver.System",
+      "attribute_label": "Client",
+      "configured_value": "001"
+    }
+  ],
   "resources": {
     "scripts": [],
     "mappings": [

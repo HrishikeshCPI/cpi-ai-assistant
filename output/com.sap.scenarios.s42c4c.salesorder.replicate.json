@@ -4495,6 +4495,168 @@
       "resolved": true
     }
   },
+  "externalized_parameters": [
+    {
+      "name": "CustomerOrderReplicationPreExit",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "CustomerOrderReplicationPreExit",
+      "attribute_label": "Address",
+      "configured_value": "/S4/C4C/COD_REPLICATE_SALES_ORDER02_PreExit"
+    },
+    {
+      "name": "TimeOut",
+      "type": "xsd:integer",
+      "is_required": "false",
+      "attribute_category": "C4C",
+      "attribute_label": "Timeout (in ms)",
+      "configured_value": "60000"
+    },
+    {
+      "name": "Sender_Auth",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4",
+      "attribute_label": "Sender_Auth",
+      "configured_value": "RoleBased"
+    },
+    {
+      "name": "subject",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4.Sender.Auth",
+      "attribute_label": "Subject DN",
+      "configured_value": ""
+    },
+    {
+      "name": "Port",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C.Receiver.System",
+      "attribute_label": "Port",
+      "configured_value": "443"
+    },
+    {
+      "name": "Extension Implemented",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "",
+      "attribute_label": "Extension Implemented",
+      "configured_value": ""
+    },
+    {
+      "name": "Host",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C.Receiver.System",
+      "attribute_label": "Host",
+      "configured_value": "*.crm.ondemand.com"
+    },
+    {
+      "name": "throwException",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4",
+      "attribute_label": "throwException",
+      "configured_value": "throwException"
+    },
+    {
+      "name": "issuer",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4.Sender.Auth",
+      "attribute_label": "Issuer DN",
+      "configured_value": ""
+    },
+    {
+      "name": "CustomerOrderReplicationPostExit",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "CustomerOrderReplicationPostExit",
+      "attribute_label": "Address",
+      "configured_value": "/S4/C4C/COD_REPLICATE_SALES_ORDER02_PostExit"
+    },
+    {
+      "name": "c4c-communication-user",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C.Receiver.Auth",
+      "attribute_label": "Credential Name",
+      "configured_value": ""
+    },
+    {
+      "name": "S4_enableBasicAuthentication_7",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4.Sender.Auth",
+      "attribute_label": "Authentication Mode",
+      "configured_value": "true"
+    },
+    {
+      "name": "S4_ReplicateSalesOrder_S",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4.Receiver.System",
+      "attribute_label": "Address",
+      "configured_value": "/S4/C4C/COD_REPLICATE_SALES_ORDER_COD_REPLICATE_SALES_ORDER02"
+    },
+    {
+      "name": "Receiver_Auth",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C",
+      "attribute_label": "Authentication",
+      "configured_value": "Client Certificate"
+    },
+    {
+      "name": "UserRole",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "S4",
+      "attribute_label": "UserRole",
+      "configured_value": "ESBMessaging.send"
+    },
+    {
+      "name": "location-ID",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C",
+      "attribute_label": "Location ID",
+      "configured_value": ""
+    },
+    {
+      "name": "pv-key-alias",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C.Receiver.Auth",
+      "attribute_label": "Private Key Alias",
+      "configured_value": ""
+    },
+    {
+      "name": "Pre Exit",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "",
+      "attribute_label": "Pre Exit",
+      "configured_value": ""
+    },
+    {
+      "name": "ProxyType",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "C4C",
+      "attribute_label": "Proxy Type",
+      "configured_value": "default"
+    },
+    {
+      "name": "Body Size (in MB)",
+      "type": "xsd:integer",
+      "is_required": "false",
+      "attribute_category": "S4",
+      "attribute_label": "Body Size (in MB)",
+      "configured_value": ""
+    }
+  ],
   "resources": {
     "scripts": [],
     "mappings": [
