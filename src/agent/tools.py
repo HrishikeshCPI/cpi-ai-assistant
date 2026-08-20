@@ -39,27 +39,17 @@ def find_iflows_using_resource(filename: str) -> list:
 
 
 def get_resource_detail(filename: str) -> dict:
-    """
-    Get detailed information about a specific resource file.
-
-    Args:
-        filename: The name of the resource file (e.g., "script1.groovy", "MM_Convert.mmap")
-
-    Returns:
-        Dictionary with keys: filename, kind, resolved, purpose, complexity, details_json.
-        Empty dict if genuinely not found. {"error": ...} on query failure.
-    """
+    """Get detailed information about a specific resource, including which iFlows use it."""
     query = """
     MATCH (r:Resource {filename: $filename})
+    OPTIONAL MATCH (i:IFlow)<-[:BELONGS_TO]-(:Step)-[:USES]->(r)
     RETURN r.filename AS filename, r.kind AS kind, r.resolved AS resolved,
            r.purpose AS purpose, r.complexity AS complexity,
-           r.details_json AS details_json
+           collect(DISTINCT i.id) AS used_in_iflows
     """
     try:
         results = run_query(query, {"filename": filename})
-        if results:
-            return results[0]
-        return {}
+        return results[0] if results else {}
     except Exception as exc:
         return {"error": f"Query failed: {exc}"}
 

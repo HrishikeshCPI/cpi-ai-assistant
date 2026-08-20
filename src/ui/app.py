@@ -4,6 +4,7 @@ Wraps the existing Gemini chat agent (src/agent/chat.py) and tools
 (src/agent/tools.py) in a web chat interface, with Mermaid diagram rendering.
 """
 import sys
+import re
 from pathlib import Path
 
 # Add project root to sys.path so "src.*" imports resolve when run via `streamlit run`
@@ -34,11 +35,23 @@ with st.sidebar:
         st.rerun()
 
 
+def extract_mermaid(text: str) -> str:
+    """Pull out just the Mermaid diagram content, stripping any code fences 
+    or commentary the model added around it."""
+    match = re.search(r"```(?:mermaid)?\s*\n(.*?)```", text, re.DOTALL)
+    if match:
+        return match.group(1).strip()
+    idx = text.find("flowchart")
+    if idx == -1:
+        idx = text.find("graph TD")
+    return text[idx:].strip() if idx != -1 else text.strip()
+
+
 def render_mermaid(diagram_text: str, key: str):
     """Render Mermaid syntax as an actual diagram using Mermaid.js via CDN."""
     html = f"""
     <div class="mermaid">
-    {diagram_text}
+    {extract_mermaid(diagram_text)}
     </div>
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
     <script>
