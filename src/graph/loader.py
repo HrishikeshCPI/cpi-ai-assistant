@@ -16,7 +16,8 @@ def load_artifact(json_path: str) -> dict[str, int]:
         json_path: Path to output/*.json artifact file
     
     Returns:
-        Dict with counts: {"steps": int, "resources": int, "systems": int, "message_flows": int}
+        Dict with counts: {"steps": int, "resources": int, "systems": int,
+        "message_flows": int, "parameters": int}
     """
     path = Path(json_path)
     if not path.exists():
@@ -33,11 +34,19 @@ def load_artifact(json_path: str) -> dict[str, int]:
     systems = artifact.get("systems", [])
     resolved_resources = artifact.get("resolved_resources", {})
     resources_list = artifact.get("resources", {})
+    externalized_parameters = artifact.get("externalized_parameters", [])
 
     if not artifact_id:
         raise ValueError(f"No artifact_id found in {json_path}")
 
-    # Step 1: Clean up existing IFlow and its Steps (but keep Package, System, Resource for sharing)
+    # Step 1: Clean up existing IFlow, Steps, and package-scoped Parameters.
+    # Package, System, and Resource nodes remain shared across IFlows.
+    cleanup_parameters_query = """
+    MATCH (i:IFlow {id: $artifact_id})-[:HAS_PARAMETER]->(p:Parameter)
+    DETACH DELETE p
+    """
+    run_query(cleanup_parameters_query, {"artifact_id": artifact_id})
+
     cleanup_query = """
     MATCH (i:IFlow {id: $artifact_id})
     OPTIONAL MATCH (i)<-[:BELONGS_TO]-(s:Step)
@@ -66,6 +75,7 @@ def load_artifact(json_path: str) -> dict[str, int]:
     step_count = 0
     resource_count = 0
     system_count = 0
+    parameter_count = 0
 
     # Step 4: Create Step nodes and link to IFlow
     for node in nodes:
@@ -232,11 +242,45 @@ def load_artifact(json_path: str) -> dict[str, int]:
         )
         resource_count += 1
 
+    # Step 9: Create package-scoped externalized Parameter nodes.
+    for parameter in externalized_parameters:
+        parameter_name = parameter.get("name", "")
+        if not parameter_name:
+            continue
+
+        create_parameter = """
+        MATCH (i:IFlow {id: $artifact_id})
+        MERGE (p:Parameter {param_key: $param_key})
+        SET p.name = $name,
+            p.type = $type,
+            p.is_required = $is_required,
+            p.attribute_category = $attribute_category,
+            p.attribute_label = $attribute_label,
+            p.configured_value = $configured_value
+        MERGE (i)-[:HAS_PARAMETER]->(p)
+        RETURN p
+        """
+        run_query(
+            create_parameter,
+            {
+                "artifact_id": artifact_id,
+                "param_key": f"{artifact_id}::{parameter_name}",
+                "name": parameter_name,
+                "type": parameter.get("type", ""),
+                "is_required": parameter.get("is_required", ""),
+                "attribute_category": parameter.get("attribute_category", ""),
+                "attribute_label": parameter.get("attribute_label", parameter_name),
+                "configured_value": parameter.get("configured_value", ""),
+            },
+        )
+        parameter_count += 1
+
     return {
         "steps": step_count,
         "resources": resource_count,
         "systems": system_count,
         "message_flows": len(message_flows),
+        "parameters": parameter_count,
     }
 
 
@@ -276,6 +320,7 @@ if __name__ == "__main__":
     total_resources = 0
     total_systems = 0
     total_message_flows = 0
+    total_parameters = 0
 
     for json_file in json_files:
         try:
@@ -284,11 +329,13 @@ if __name__ == "__main__":
             total_resources += counts["resources"]
             total_systems += counts["systems"]
             total_message_flows += counts["message_flows"]
+            total_parameters += counts["parameters"]
 
             print(f"[OK] {json_file.name}")
             print(
                 f"  Steps: {counts['steps']}, Resources: {counts['resources']}, "
                 f"Systems: {counts['systems']}, Message flows: {counts['message_flows']}"
+                f", Parameters: {counts['parameters']}"
             )
         except Exception as exc:
             print(f"[FAILED] {json_file.name}: {exc}")
@@ -300,3 +347,4 @@ if __name__ == "__main__":
     print(f"  Resources: {total_resources}")
     print(f"  Systems: {total_systems}")
     print(f"  Message Flows: {total_message_flows}")
+    print(f"  Parameters: {total_parameters}")
