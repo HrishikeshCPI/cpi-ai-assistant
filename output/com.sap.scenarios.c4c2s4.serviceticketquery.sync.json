@@ -1,6 +1,7 @@
 {
   "artifact_id": "com.sap.scenarios.c4c2s4.serviceticketquery.sync",
   "version": "1.5.5",
+  "developer_description": "Pricing in Service Ticket Follow Up Scenario in SAP Business Suite",
   "nodes": [
     {
       "id": "ServiceTask_1",
@@ -56,12 +57,235 @@
       "targetRef": "_CallActivity_2"
     }
   ],
+  "processes": [
+    {
+      "id": "Process_1",
+      "classification": "main",
+      "nodes": [
+        {
+          "id": "ServiceTask_1",
+          "name": "Request-Reply",
+          "bpmn_type": "serviceTask",
+          "type": "ExternalCall",
+          "resources": []
+        },
+        {
+          "id": "_CallActivity_2",
+          "name": "C4C_S4_ServiceRequestExternalSalesDocumentDataQuerySync_req",
+          "bpmn_type": "callActivity",
+          "type": "Mapping",
+          "resources": [
+            "C4C_S4_ServiceRequestExternalSalesDocumentDataQuerySync_req.mmap"
+          ]
+        },
+        {
+          "id": "_CallActivity_3",
+          "name": "C4C_S4_ServiceRequestExternalSalesDocumentDataQuerySync_resp",
+          "bpmn_type": "callActivity",
+          "type": "Mapping",
+          "resources": [
+            "C4C_S4_ServiceRequestExternalSalesDocumentDataQuerySync_resp.mmap"
+          ]
+        },
+        {
+          "id": "EndEvent_8",
+          "name": "End 1",
+          "bpmn_type": "endEvent"
+        },
+        {
+          "id": "StartEvent_1",
+          "name": "Start",
+          "bpmn_type": "startEvent"
+        }
+      ],
+      "edges": [
+        {
+          "sourceRef": "ServiceTask_1",
+          "targetRef": "_CallActivity_3"
+        },
+        {
+          "sourceRef": "_CallActivity_2",
+          "targetRef": "ServiceTask_1"
+        },
+        {
+          "sourceRef": "_CallActivity_3",
+          "targetRef": "EndEvent_8"
+        },
+        {
+          "sourceRef": "StartEvent_1",
+          "targetRef": "_CallActivity_2"
+        }
+      ]
+    }
+  ],
   "message_flows": [
     {
       "id": "MessageFlow_7",
       "name": "SOAP",
       "sourceRef": "Participant_1",
       "targetRef": "StartEvent_1",
+      "properties": {
+        "Description": {
+          "value": "",
+          "is_externalized": false
+        },
+        "WSSecurityType": {
+          "value": "VerifyMessage",
+          "is_externalized": false
+        },
+        "PublicKeyAliasResponseEncryption": {
+          "value": "",
+          "is_externalized": false
+        },
+        "ComponentNS": {
+          "value": "sap",
+          "is_externalized": false
+        },
+        "maximumAttachmentSize": {
+          "value": "100",
+          "is_externalized": false
+        },
+        "Name": {
+          "value": "SOAP",
+          "is_externalized": false
+        },
+        "TransportProtocolVersion": {
+          "value": "1.7.1",
+          "is_externalized": false
+        },
+        "ComponentSWCVName": {
+          "value": "external",
+          "is_externalized": false
+        },
+        "useWSAddressing": {
+          "value": "0",
+          "is_externalized": false
+        },
+        "soapWsdlURL": {
+          "value": "",
+          "is_externalized": false
+        },
+        "soapOptions": {
+          "value": "cxfRobust",
+          "is_externalized": false
+        },
+        "CheckTimeStamp": {
+          "value": "0",
+          "is_externalized": false
+        },
+        "soapServiceName": {
+          "value": "",
+          "is_externalized": false
+        },
+        "WSSecurity_SignatureAlgorithm_Inbound": {
+          "value": "SHA1",
+          "is_externalized": false
+        },
+        "SigningOrder": {
+          "value": "SignBeforeEncryption",
+          "is_externalized": false
+        },
+        "MessageProtocol": {
+          "value": "SOAP 1.x",
+          "is_externalized": false
+        },
+        "ComponentSWCVId": {
+          "value": "1.7.1",
+          "is_externalized": false
+        },
+        "direction": {
+          "value": "Sender",
+          "is_externalized": false
+        },
+        "clientCertificates": {
+          "value": "<row><cell id='clientCertificate.subjectDN'>{{Subject}}</cell><cell id='clientCertificate.issuerDN'>{{Issuer}}</cell></row>",
+          "is_externalized": false
+        },
+        "X509TokenAssertion": {
+          "value": "WssX509V3Token10",
+          "is_externalized": false
+        },
+        "ComponentType": {
+          "value": "SOAP",
+          "is_externalized": false
+        },
+        "address": {
+          "value": "{{C4C_RequestTicketData_S}}",
+          "is_externalized": true
+        },
+        "maximumBodySize": {
+          "value": "40",
+          "is_externalized": false
+        },
+        "soapWsdlPortName": {
+          "value": "",
+          "is_externalized": false
+        },
+        "componentVersion": {
+          "value": "1.7",
+          "is_externalized": false
+        },
+        "messageExchangePattern": {
+          "value": "RequestReply",
+          "is_externalized": false
+        },
+        "WSSecurity": {
+          "value": "None",
+          "is_externalized": false
+        },
+        "PrivateKeyAliasResponseSigning": {
+          "value": "",
+          "is_externalized": false
+        },
+        "system": {
+          "value": "C4C",
+          "is_externalized": false
+        },
+        "SaveIncomingSignedMessage": {
+          "value": "0",
+          "is_externalized": false
+        },
+        "SenderBasicSecurityProfileCompliant": {
+          "value": "1",
+          "is_externalized": false
+        },
+        "RecipientTokenIncludeStrategy": {
+          "value": "Never",
+          "is_externalized": false
+        },
+        "AlgorithmSuiteAssertion": {
+          "value": "Basic128Rsa15",
+          "is_externalized": false
+        },
+        "serviceDefinition": {
+          "value": "Manual",
+          "is_externalized": false
+        },
+        "TransportProtocol": {
+          "value": "HTTP",
+          "is_externalized": false
+        },
+        "cmdVariantUri": {
+          "value": "ctype::AdapterVariant/cname::sap:SOAP/tp::HTTP/mp::SOAP 1.x/direction::Sender/version::1.7.1",
+          "is_externalized": false
+        },
+        "userRole": {
+          "value": "{{UserRole}}",
+          "is_externalized": true
+        },
+        "InitiatorTokenIncludeStrategy": {
+          "value": "AlwaysToRecipient",
+          "is_externalized": false
+        },
+        "senderAuthType": {
+          "value": "{{Sender_Auth}}",
+          "is_externalized": true
+        },
+        "MessageProtocolVersion": {
+          "value": "1.7.1",
+          "is_externalized": false
+        }
+      },
       "direction": "Sender",
       "component_type": "SOAP",
       "transport_protocol": "HTTP",
@@ -72,6 +296,200 @@
       "name": "",
       "sourceRef": "ServiceTask_1",
       "targetRef": "Participant_2",
+      "properties": {
+        "cleanupHeaders": {
+          "value": "1",
+          "is_externalized": false
+        },
+        "WsdlUserNameTokenCredentialName": {
+          "value": "",
+          "is_externalized": false
+        },
+        "Description": {
+          "value": "",
+          "is_externalized": false
+        },
+        "WSSecurityType_outbound": {
+          "value": "SignMessage",
+          "is_externalized": false
+        },
+        "InitiatorTokenIncludeStrategy_outbound": {
+          "value": "AlwaysToRecipient",
+          "is_externalized": false
+        },
+        "SetTimeStamp": {
+          "value": "0",
+          "is_externalized": false
+        },
+        "ComponentNS": {
+          "value": "sap",
+          "is_externalized": false
+        },
+        "privateKeyAlias": {
+          "value": "{{p-key-alias}}",
+          "is_externalized": true
+        },
+        "location_id": {
+          "value": "{{Location_ID}}",
+          "is_externalized": true
+        },
+        "Name": {
+          "value": "",
+          "is_externalized": false
+        },
+        "TransportProtocolVersion": {
+          "value": "1.1.5",
+          "is_externalized": false
+        },
+        "UserNameTokenOption": {
+          "value": "None",
+          "is_externalized": false
+        },
+        "proxyPort": {
+          "value": "",
+          "is_externalized": false
+        },
+        "ComponentSWCVName": {
+          "value": "1.2",
+          "is_externalized": false
+        },
+        "recipientX509TokenAssertion": {
+          "value": "WssX509V3Token10",
+          "is_externalized": false
+        },
+        "PublicKeyAliasEncryption_wsdl": {
+          "value": "",
+          "is_externalized": false
+        },
+        "soapWsdlURL": {
+          "value": "",
+          "is_externalized": false
+        },
+        "CompressMessage": {
+          "value": "0",
+          "is_externalized": false
+        },
+        "soapServiceName": {
+          "value": "",
+          "is_externalized": false
+        },
+        "ComponentSWCVId": {
+          "value": "1.2",
+          "is_externalized": false
+        },
+        "MessageProtocol": {
+          "value": "SOAP 1.x",
+          "is_externalized": false
+        },
+        "requestTimeout": {
+          "value": "{{TimeOut}}",
+          "is_externalized": true
+        },
+        "direction": {
+          "value": "Receiver",
+          "is_externalized": false
+        },
+        "authentication": {
+          "value": "{{S4_authentication_97}}",
+          "is_externalized": true
+        },
+        "X509TokenAssertion": {
+          "value": "WssX509V3Token10",
+          "is_externalized": false
+        },
+        "PrivateKeyAliasSigning": {
+          "value": "",
+          "is_externalized": false
+        },
+        "ComponentType": {
+          "value": "SOAP",
+          "is_externalized": false
+        },
+        "address": {
+          "value": "{{Protocol-Host-Port}}/sap/bc/srt/scs/sap/cod_salesorder_simulate?sap-client={{Client}}",
+          "is_externalized": true
+        },
+        "SenderBasicSecurityProfileCompliant_wsdl": {
+          "value": "1",
+          "is_externalized": false
+        },
+        "allowChunking": {
+          "value": "1",
+          "is_externalized": false
+        },
+        "proxyType": {
+          "value": "{{S4_proxyType_96}}",
+          "is_externalized": true
+        },
+        "soapWsdlPortName": {
+          "value": "",
+          "is_externalized": false
+        },
+        "operationName": {
+          "value": "",
+          "is_externalized": false
+        },
+        "componentVersion": {
+          "value": "1.2",
+          "is_externalized": false
+        },
+        "PrivateKeyAliasSigning_wsdl": {
+          "value": "",
+          "is_externalized": false
+        },
+        "proxyHost": {
+          "value": "",
+          "is_externalized": false
+        },
+        "PublicKeyAliasEncryption": {
+          "value": "",
+          "is_externalized": false
+        },
+        "WSSecurity_outbound": {
+          "value": "None",
+          "is_externalized": false
+        },
+        "SenderBasicSecurityProfileCompliant": {
+          "value": "1",
+          "is_externalized": false
+        },
+        "system": {
+          "value": "S4",
+          "is_externalized": false
+        },
+        "RecipientTokenIncludeStrategy": {
+          "value": "Never",
+          "is_externalized": false
+        },
+        "UserNameTokenCredentialName": {
+          "value": "",
+          "is_externalized": false
+        },
+        "AlgorithmSuiteAssertion": {
+          "value": "Basic128Rsa15",
+          "is_externalized": false
+        },
+        "TransportProtocol": {
+          "value": "HTTP",
+          "is_externalized": false
+        },
+        "cmdVariantUri": {
+          "value": "ctype::AdapterVariant/cname::sap:SOAP/tp::HTTP/mp::SOAP 1.x/direction::Receiver/version::1.2",
+          "is_externalized": false
+        },
+        "credentialName": {
+          "value": "{{artifactname}}",
+          "is_externalized": true
+        },
+        "MessageProtocolVersion": {
+          "value": "1.2.2",
+          "is_externalized": false
+        },
+        "Layout_outbound": {
+          "value": "Strict",
+          "is_externalized": false
+        }
+      },
       "direction": "Receiver",
       "component_type": "SOAP",
       "transport_protocol": "HTTP",
@@ -94,17 +512,2118 @@
   ],
   "resolved_resources": {
     "C4C_S4_ServiceRequestExternalSalesDocumentDataQuerySync_req.mmap": {
-      "field_mappings": [],
-      "parse_warnings": [
-        "Transformation block not found in the mmap XML; expected a top-level transformation element with Dst/Src brick mappings."
+      "field_mappings": [
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync",
+          "target": "ns2:COD_SALESORDER_SIMULATE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest",
+          "target": "IS_ORDER_HEADER",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/@ATPOnly",
+          "target": "DOC_TYPE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/SalesBusinessArea/DistributionChannelCode",
+          "target": "DISTR_CHAN",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/SalesBusinessArea/DivisionCode",
+          "target": "DIVISION",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/SalesBusinessArea/RecipientSalesGroupID",
+          "target": "SALES_GRP",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/SalesBusinessArea/RecipientSalesOfficeID",
+          "target": "SALES_OFF",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/PeriodTerms/RequestedDate",
+          "target": "REQ_DATE_H",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/DeliveryTerms/Incoterms/ClassificationCode",
+          "target": "INCOTERMS1",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/DeliveryTerms/Incoterms/TransferLocationName",
+          "target": "INCOTERMS2",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/CashDiscountTerms/Code",
+          "target": "PMNTTRMS",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/PricingTerms/PriceDate",
+          "target": "PRICE_DATE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/BuyerID",
+          "target": "PURCH_NO_C",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/PricingTerms/CurrencyCode",
+          "target": "CURRENCY",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/PricingTerms/WarrantyGoodwillCode",
+          "target": "CALC_MOTIVE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/SimulationUserAccountID",
+          "target": "IS_ORDER_SYS_DATA",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/LanguageCode",
+          "target": "LANGU",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/SimulationUserAccountID",
+          "target": "UNAME",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/@ATPOnly",
+          "target": "IS_SIMULATION_PROPERTIES",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/@ATPOnly",
+          "target": "SEL_BY_ATP_ONLY",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/Item/PriceAndTaxCalculation/PriceComponent",
+          "target": "item",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/Item/PriceAndTaxCalculation/PriceComponent/MajorLevelNumber",
+          "target": "COND_ST_NO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/Item/PriceAndTaxCalculation/PriceComponent/PriceSpecificationElementTypeCode",
+          "target": "COND_TYPE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/Item/PriceAndTaxCalculation/PriceComponent/Rate/DecimalValue",
+          "target": "COND_VALUE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/Item/PriceAndTaxCalculation/PriceComponent/Rate/CurrencyCode",
+          "target": "CURR_ISO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/Item/PriceAndTaxCalculation/PriceComponent/Rate/BaseMeasureUnitCode",
+          "target": "CD_UNT_ISO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/Item/PriceAndTaxCalculation/PriceComponent/MinorLevelNumber",
+          "target": "COND_COUNT_LONG",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/PriceAndTaxCalculation/PriceComponent",
+          "target": "item",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/PriceAndTaxCalculation/PriceComponent/MajorLevelNumber",
+          "target": "COND_ST_NO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/PriceAndTaxCalculation/PriceComponent/PriceSpecificationElementTypeCode",
+          "target": "COND_TYPE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/PriceAndTaxCalculation/PriceComponent/Rate/DecimalValue",
+          "target": "COND_VALUE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/PriceAndTaxCalculation/PriceComponent/Rate/CurrencyCode",
+          "target": "CURR_ISO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/PriceAndTaxCalculation/PriceComponent/Rate/BaseMeasureUnitCode",
+          "target": "CD_UNT_ISO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/PriceAndTaxCalculation/PriceComponent/MinorLevelNumber",
+          "target": "COND_COUNT_LONG",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/Item/PriceAndTaxCalculation/PriceComponent/Rate/CurrencyCode",
+          "target": "CURRENCY",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/Item/PriceAndTaxCalculation/PriceComponent/Rate/BaseMeasureUnitCode",
+          "target": "COND_UNIT",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/Item/PriceAndTaxCalculation/PriceComponent/Rate/BaseDecimalValue",
+          "target": "COND_P_UNT",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/PriceAndTaxCalculation/PriceComponent/Rate/CurrencyCode",
+          "target": "CURRENCY",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/PriceAndTaxCalculation/PriceComponent/Rate/BaseMeasureUnitCode",
+          "target": "COND_UNIT",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/PriceAndTaxCalculation/PriceComponent/Rate/BaseDecimalValue",
+          "target": "COND_P_UNT",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/Item",
+          "target": "IT_ORDER_ITEMS",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/Item",
+          "target": "item",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/Item/ID",
+          "target": "ITM_NUMBER",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/Item/ParentItemID",
+          "target": "HG_LV_ITEM",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/Item/BuyerID",
+          "target": "PO_ITM_NO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/Item/SalesTerms/CancellationReasonCode",
+          "target": "REASON_REJ",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/Item/ScheduleLine/Quantity",
+          "target": "TARGET_QTY",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/Item/ScheduleLine/Quantity/@unitCode",
+          "target": "T_UNIT_ISO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/Item/Description",
+          "target": "SHORT_TEXT",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/Item/ScheduleLine/Quantity/@unitCode",
+          "target": "S_UNIT_ISO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/Item/PricingTerms/WarrantyGoodwillCode",
+          "target": "CALC_MOTIVE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/Item/Product/RecipientID",
+          "target": "MATERIAL_LONG",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/Item/Product/RecipientEnteredProductInternalID",
+          "target": "MAT_ENTRD_LONG",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/BuyerParty",
+          "target": "item",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/BuyerParty/RecipientERPPartyID",
+          "target": "PARTN_NUMB",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/Item/ShipToParty",
+          "target": "item",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/Item/ShipToParty/RecipientERPPartyID",
+          "target": "PARTN_NUMB",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/Item/ID",
+          "target": "ITM_NUMBER",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/Item",
+          "target": "IT_ORDER_SCHEDULE_LINES",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/Item/ScheduleLine",
+          "target": "item",
+          "function": null
+        },
+        {
+          "source": "/ns0:ExternalSalesDocumentDataQueryFromServiceRequest_sync/ExternalDocumentRequest/Item/ScheduleLine/Quantity",
+          "target": "REQ_QTY",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "IS_LOGIC_SWITCH",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COND_HANDL",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SALES_ORG",
+          "function": "constant",
+          "value": {
+            "value": "4",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME",
+          "function": "constant",
+          "value": {
+            "value": "36",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "IT_ORDER_CONDITIONS",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ITM_NUMBER",
+          "function": "constant",
+          "value": {
+            "value": "000000",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "UPDATEFLAG",
+          "function": "constant",
+          "value": {
+            "value": "U",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COND_VALUE",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "CURRENCY",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COND_UNIT",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COND_P_UNT",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "UPDATEFLAG",
+          "function": "constant",
+          "value": {
+            "value": "U",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COND_VALUE",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "CURRENCY",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COND_UNIT",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COND_P_UNT",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "DLV_PRIO",
+          "function": "constant",
+          "value": {
+            "value": "XXDEFAULT",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "MAX_PL_DLV",
+          "function": "constant",
+          "value": {
+            "value": "0",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "REF_DOC",
+          "function": "constant",
+          "value": {
+            "value": "35",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "REF_DOC_IT",
+          "function": "constant",
+          "value": {
+            "value": "10",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "REF_DOC_CA",
+          "function": "constant",
+          "value": {
+            "value": "G",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ITM_TYPE_USAGE",
+          "function": "constant",
+          "value": {
+            "value": "TEXT",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "IT_ORDER_PARTNERS",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "PARTN_ROLE",
+          "function": "constant",
+          "value": {
+            "value": "2",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ITM_NUMBER",
+          "function": "constant",
+          "value": {
+            "value": "000000",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COUNTRY",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "POSTL_CODE",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "CITY",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "DISTRICT",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "REGION",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "PARTN_ROLE",
+          "function": "constant",
+          "value": {
+            "value": "2",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COUNTRY",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "POSTL_CODE",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "CITY",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "DISTRICT",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "REGION",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "item",
+          "function": "constant",
+          "value": {
+            "value": "WE",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "PARTN_ROLE",
+          "function": "constant",
+          "value": {
+            "value": "WE",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "PARTN_NUMB",
+          "function": "constant",
+          "value": {
+            "value": "WE",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ITM_NUMBER",
+          "function": "constant",
+          "value": {
+            "value": "000000",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "REQ_DATE",
+          "function": "constant",
+          "value": {
+            "value": "00:00:00",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "DATE_TYPE",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "REQ_TIME",
+          "function": "constant",
+          "value": {
+            "value": "00:00:00",
+            "is_externalized": false
+          },
+          "is_static": true
+        }
       ],
+      "parse_warnings": [],
+      "schemas": {
+        "TARGET_IFR_MESS": {
+          "schema": "COD_SALESORDER_SIMULATE",
+          "root_element": "COD_SALESORDER_SIMULATE"
+        },
+        "SOURCE_IFR_MESS": {
+          "schema": "ServiceRequestRequestExternalSalesDocumentDataOut",
+          "root_element": "ExternalSalesDocumentDataQueryFromServiceRequest_sync"
+        }
+      },
+      "multiplicity": "1:1",
+      "source_parameters": [
+        {
+          "name": "",
+          "occurrence": ""
+        }
+      ],
+      "target_parameters": [
+        {
+          "name": "",
+          "occurrence": ""
+        }
+      ],
+      "format": "java_operation_mapping",
       "resolved": true
     },
     "C4C_S4_ServiceRequestExternalSalesDocumentDataQuerySync_resp.mmap": {
-      "field_mappings": [],
-      "parse_warnings": [
-        "Transformation block not found in the mmap XML; expected a top-level transformation element with Dst/Src brick mappings."
+      "field_mappings": [
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse",
+          "target": "ns1:ExternalSalesDocumentDataResponse_sync",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA",
+          "target": "ExternalDocumentData",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA",
+          "target": "PriceAndTaxCalculation",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/SD_PRIC_PR",
+          "target": "PricingProcedureCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/CURREN_ISO",
+          "target": "CurrencyCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRC_CONDITIONS/item",
+          "target": "OperationalPriceComponent",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRC_CONDITIONS/item/COND_TYPE",
+          "target": "TypeCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRC_CONDITIONS/item/CONDCLASS",
+          "target": "CategoryCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRC_CONDITIONS/item/COND_ST_NO",
+          "target": "MajorLevelOrdinalNumberValue",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRC_CONDITIONS/item/CONDCOINHD_LONG",
+          "target": "MinorLevelOrdinalNumberValue",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRC_CONDITIONS/item/COND_VALUE",
+          "target": "DecimalValue",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRC_CONDITIONS/item/CURR_ISO",
+          "target": "CurrencyCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRC_CONDITIONS/item/COND_P_UNT",
+          "target": "BaseDecimalValue",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRC_CONDITIONS/item/CD_UNT_ISO",
+          "target": "BaseMeasureUnitCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRC_CONDITIONS/item/CURR_ISO_2",
+          "target": "BaseCurrencyCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRC_CONDITIONS/item/CALCTYPCON",
+          "target": "CalculationBasis",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRC_CONDITIONS/item/CALCTYPCON",
+          "target": "BaseCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRC_CONDITIONS/item/CONBASEVAL",
+          "target": "Quantity",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRC_CONDITIONS/item/CURR_ISO_2",
+          "target": "currencyCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRC_CONDITIONS/item/CONDVALUE",
+          "target": "CalculatedAmount",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRC_CONDITIONS/item/CURR_ISO_2",
+          "target": "currencyCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRC_CONDITIONS/item/CONDISACTI",
+          "target": "InactivityReasonCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRC_CONDITIONS/item/CONDCHAMAN",
+          "target": "ManuallyChangedIndicator",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRC_CONDITIONS/item/GROUPCOND",
+          "target": "GroupedIndicator",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRC_CONDITIONS/item/CONDORIGIN",
+          "target": "OriginCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRC_CONDITIONS/item/CONPRICDAT",
+          "target": "PriceSpecificationDeterminationTimePoint",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRC_CONDITIONS/item/CONPRICDAT",
+          "target": "Date",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRC_CONDITIONS/item/KBETR_EDITABLE",
+          "target": "RateNumeratorUpdateEnabledIndicator",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRC_CONDITIONS/item/KPEIN_EDITABLE",
+          "target": "RateDenominatorUpdateEnabledIndicator",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRC_CONDITIONS/item/DELETABLE",
+          "target": "DeleteEnabledIndicator",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRINT_PRC_CONDITIONS/item",
+          "target": "ToBePrintedPriceComponent",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRINT_PRC_CONDITIONS/item/COND_ST_NO",
+          "target": "MajorLevelOrdinalNumberValue",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRINT_PRC_CONDITIONS/item/COND_COUNT_LONG",
+          "target": "MinorLevelOrdinalNumberValue",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRINT_PRC_CONDITIONS/item/COND_TYPE",
+          "target": "TypeCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRINT_PRC_CONDITIONS/item/CONDCLASS",
+          "target": "CategoryCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRINT_PRC_CONDITIONS/item/COND_VALUE",
+          "target": "DecimalValue",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRINT_PRC_CONDITIONS/item/CURR_ISO",
+          "target": "CurrencyCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRINT_PRC_CONDITIONS/item/COND_P_UNT",
+          "target": "BaseDecimalValue",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRINT_PRC_CONDITIONS/item/CD_UNT_ISO",
+          "target": "BaseMeasureUnitCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRINT_PRC_CONDITIONS/item/CURR_ISO_2",
+          "target": "BaseCurrencyCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRINT_PRC_CONDITIONS/item/CALCTYPCON",
+          "target": "CalculationBasis",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRINT_PRC_CONDITIONS/item/CALCTYPCON",
+          "target": "BaseCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRINT_PRC_CONDITIONS/item/CONBASEVAL",
+          "target": "Quantity",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRINT_PRC_CONDITIONS/item/CURR_ISO_2",
+          "target": "currencyCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRINT_PRC_CONDITIONS/item/CONDVALUE",
+          "target": "CalculatedAmount",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRINT_PRC_CONDITIONS/item/CURR_ISO_2",
+          "target": "currencyCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRINT_PRC_CONDITIONS/item/CONDISACTI",
+          "target": "InactivityReasonCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRINT_PRC_CONDITIONS/item/CONDORIGIN",
+          "target": "OriginCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/GROSS_VAL_HD",
+          "target": "GrossAmount",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/CURREN_ISO",
+          "target": "currencyCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/NET_VAL_HD",
+          "target": "NetAmount",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/CURREN_ISO",
+          "target": "currencyCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/TAX_AMOUNT_HD",
+          "target": "TaxAmount",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/CURREN_ISO",
+          "target": "currencyCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/STATUS/TOTSTATCCH",
+          "target": "CreditCheckExecutionResultCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/CREDIT_LIMIT",
+          "target": "CreditLimitAmount",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ISOCURRCRE",
+          "target": "currencyCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/CREDIT_EXPOSURE_AMOUNT",
+          "target": "CreditExposureAmount",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ISOCURRCRE",
+          "target": "currencyCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/CREDIT_EXCEEDED_AMOUNT",
+          "target": "CreditExeededAmount",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ISOCURRCRE",
+          "target": "currencyCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item",
+          "target": "Item",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/ITM_NUMBER",
+          "target": "ID",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/HG_LV_ITEM",
+          "target": "ParentItemID",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/ITEM_CATEG",
+          "target": "ProcessingTypeCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/ITUSAGEID",
+          "target": "UsageCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/MATERIAL_LONG",
+          "target": "InternalID",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/MAT_ENTRD_LONG",
+          "target": "EnteredProductInternalID",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/SUBSTREASO",
+          "target": "SubstitutionReasonCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRC_CONDITIONS/item",
+          "target": "OperationalPriceComponent",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRC_CONDITIONS/item/COND_TYPE",
+          "target": "TypeCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRC_CONDITIONS/item/CONDCLASS",
+          "target": "CategoryCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRC_CONDITIONS/item/COND_ST_NO",
+          "target": "MajorLevelOrdinalNumberValue",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRC_CONDITIONS/item/COND_COUNT_LONG",
+          "target": "MinorLevelOrdinalNumberValue",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRC_CONDITIONS/item/COND_VALUE",
+          "target": "DecimalValue",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRC_CONDITIONS/item/CURR_ISO",
+          "target": "CurrencyCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRC_CONDITIONS/item/COND_P_UNT",
+          "target": "BaseDecimalValue",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRC_CONDITIONS/item/CD_UNT_ISO",
+          "target": "BaseMeasureUnitCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRC_CONDITIONS/item/CURR_ISO_2",
+          "target": "BaseCurrencyCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/PRC_CONDITIONS/item/CALCTYPCON",
+          "target": "CalculationBasis",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRC_CONDITIONS/item/CALCTYPCON",
+          "target": "BaseCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRC_CONDITIONS/item/CONBASEVAL",
+          "target": "Quantity",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRC_CONDITIONS/item/CURR_ISO_2",
+          "target": "currencyCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRC_CONDITIONS/item/CONDVALUE",
+          "target": "CalculatedAmount",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRC_CONDITIONS/item/CURR_ISO_2",
+          "target": "currencyCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRC_CONDITIONS/item/CONDISACTI",
+          "target": "InactivityReasonCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRC_CONDITIONS/item/CONDCHAMAN",
+          "target": "ManuallyChangedIndicator",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRC_CONDITIONS/item/GROUPCOND",
+          "target": "GroupedIndicator",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRC_CONDITIONS/item/CONDORIGIN",
+          "target": "OriginCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRC_CONDITIONS/item/CONPRICDAT",
+          "target": "PriceSpecificationDeterminationTimePoint",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRC_CONDITIONS/item/CONPRICDAT",
+          "target": "Date",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRC_CONDITIONS/item/KBETR_EDITABLE",
+          "target": "RateNumeratorUpdateEnabledIndicator",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRC_CONDITIONS/item/KPEIN_EDITABLE",
+          "target": "RateDenominatorUpdateEnabledIndicator",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRC_CONDITIONS/item/DELETABLE",
+          "target": "DeleteEnabledIndicator",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRINT_PRC_CONDITIONS/item",
+          "target": "ToBePrintedPriceComponent",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRINT_PRC_CONDITIONS/item/COND_ST_NO",
+          "target": "MajorLevelOrdinalNumberValue",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRINT_PRC_CONDITIONS/item/COND_COUNT_LONG",
+          "target": "MinorLevelOrdinalNumberValue",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRINT_PRC_CONDITIONS/item/COND_TYPE",
+          "target": "TypeCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRINT_PRC_CONDITIONS/item/CONDCLASS",
+          "target": "CategoryCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRINT_PRC_CONDITIONS/item/COND_VALUE",
+          "target": "DecimalValue",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRINT_PRC_CONDITIONS/item/CURR_ISO",
+          "target": "CurrencyCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRINT_PRC_CONDITIONS/item/COND_P_UNT",
+          "target": "BaseDecimalValue",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRINT_PRC_CONDITIONS/item/CD_UNT_ISO",
+          "target": "BaseMeasureUnitCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRINT_PRC_CONDITIONS/item/CURR_ISO_2",
+          "target": "BaseCurrencyCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRINT_PRC_CONDITIONS/item/CALCTYPCON",
+          "target": "CalculationBasis",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRINT_PRC_CONDITIONS/item/CALCTYPCON",
+          "target": "BaseCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRINT_PRC_CONDITIONS/item/CONBASEVAL",
+          "target": "Quantity",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRINT_PRC_CONDITIONS/item/CURR_ISO_2",
+          "target": "currencyCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRINT_PRC_CONDITIONS/item/CONDVALUE",
+          "target": "CalculatedAmount",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRINT_PRC_CONDITIONS/item/CURR_ISO_2",
+          "target": "currencyCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRINT_PRC_CONDITIONS/item/CONDISACTI",
+          "target": "InactivityReasonCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/PRINT_PRC_CONDITIONS/item/CONDORIGIN",
+          "target": "OriginCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/GROSS_VAL",
+          "target": "GrossAmount",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/CURREN_ISO",
+          "target": "currencyCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/NET_VALUE",
+          "target": "NetAmount",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/CURREN_ISO",
+          "target": "currencyCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/TAX_AMOUNT",
+          "target": "TaxAmount",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/CURREN_ISO",
+          "target": "currencyCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/NET_PRICE",
+          "target": "NetPrice",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/NET_PRICE",
+          "target": "Amount",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/CURREN_ISO",
+          "target": "currencyCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/COND_P_UNT",
+          "target": "BaseQuantity",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/CONISOUNIT",
+          "target": "unitCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/CUM_CF_QTY",
+          "target": "ConfirmedQuantity",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/ITEMS/item/ISOCODUNIT",
+          "target": "unitCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/CREATE_COND_TYPE_HD",
+          "target": "CreateEnabledHeaderPriceSpecificationElement",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/CREATE_COND_TYPE_HD/item",
+          "target": "TypeCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/CREATE_COND_TYPE_IT",
+          "target": "CreateEnabledItemPriceSpecificationElement",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ES_SALES_ORDER_DATA/CREATE_COND_TYPE_IT/item",
+          "target": "TypeCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ET_RETURN/item",
+          "target": "Log",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ET_RETURN/item",
+          "target": "Item",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ET_RETURN/item/NUMBER",
+          "target": "TypeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ET_RETURN/item/TYPE",
+          "target": "SeverityCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:COD_SALESORDER_SIMULATEResponse/ET_RETURN/item/MESSAGE",
+          "target": "Note",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "Rate",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "DecimalValue",
+          "function": "constant",
+          "value": {
+            "value": "E",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "MeasureUnitCode",
+          "function": "constant",
+          "value": {
+            "value": "P1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "CurrencyCode",
+          "function": "constant",
+          "value": {
+            "value": "E",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "BaseDecimalValue",
+          "function": "constant",
+          "value": {
+            "value": "E",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "BaseMeasureUnitCode",
+          "function": "constant",
+          "value": {
+            "value": "E",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "BaseCurrencyCode",
+          "function": "constant",
+          "value": {
+            "value": "E",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "Quantity",
+          "function": "constant",
+          "value": {
+            "value": "C",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "unitCode",
+          "function": "constant",
+          "value": {
+            "value": "C",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "Amount",
+          "function": "constant",
+          "value": {
+            "value": "A",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "currencyCode",
+          "function": "constant",
+          "value": {
+            "value": "A",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "EffectiveIndicator",
+          "function": "constant",
+          "value": {
+            "value": "false",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TypeCode",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "Rate",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "MeasureUnitCode",
+          "function": "constant",
+          "value": {
+            "value": "A",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "Quantity",
+          "function": "constant",
+          "value": {
+            "value": "C",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "unitCode",
+          "function": "constant",
+          "value": {
+            "value": "C",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "Amount",
+          "function": "constant",
+          "value": {
+            "value": "A",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "currencyCode",
+          "function": "constant",
+          "value": {
+            "value": "A",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "EffectiveIndicator",
+          "function": "constant",
+          "value": {
+            "value": "false",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TotalValues",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "Status",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "CreditWorthiness",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "Product",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "IdentifierDefiningSchemeCode",
+          "function": "constant",
+          "value": {
+            "value": "20",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ScheduleLine",
+          "function": "constant",
+          "value": {
+            "value": "0.000",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ID",
+          "function": "constant",
+          "value": {
+            "value": "0.000",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TypeCode",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "Quantity",
+          "function": "constant",
+          "value": {
+            "value": "0.000",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "unitCode",
+          "function": "constant",
+          "value": {
+            "value": "0.000",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "DateTime",
+          "function": "constant",
+          "value": {
+            "value": "0.000",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "timeZoneCode",
+          "function": "constant",
+          "value": {
+            "value": "UTC",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "daylightSavingTimeIndicator",
+          "function": "constant",
+          "value": {
+            "value": "false",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ScheduleLine",
+          "function": "constant",
+          "value": {
+            "value": "0.000",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TypeCode",
+          "function": "constant",
+          "value": {
+            "value": "2",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "Quantity",
+          "function": "constant",
+          "value": {
+            "value": "0.000",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "unitCode",
+          "function": "constant",
+          "value": {
+            "value": "0.000",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "DateTime",
+          "function": "constant",
+          "value": {
+            "value": "0.000",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "timeZoneCode",
+          "function": "constant",
+          "value": {
+            "value": "UTC",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "daylightSavingTimeIndicator",
+          "function": "constant",
+          "value": {
+            "value": "false",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ScheduleLine",
+          "function": "constant",
+          "value": {
+            "value": "0.000",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TypeCode",
+          "function": "constant",
+          "value": {
+            "value": "9",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "Quantity",
+          "function": "constant",
+          "value": {
+            "value": "0.000",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "unitCode",
+          "function": "constant",
+          "value": {
+            "value": "0.000",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "DateTime",
+          "function": "constant",
+          "value": {
+            "value": "0.000",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "timeZoneCode",
+          "function": "constant",
+          "value": {
+            "value": "UTC",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "daylightSavingTimeIndicator",
+          "function": "constant",
+          "value": {
+            "value": "false",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "PriceAndTaxCalculation",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "Rate",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "MeasureUnitCode",
+          "function": "constant",
+          "value": {
+            "value": "A",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "Quantity",
+          "function": "constant",
+          "value": {
+            "value": "C",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "unitCode",
+          "function": "constant",
+          "value": {
+            "value": "C",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "Amount",
+          "function": "constant",
+          "value": {
+            "value": "A",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "currencyCode",
+          "function": "constant",
+          "value": {
+            "value": "A",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "EffectiveIndicator",
+          "function": "constant",
+          "value": {
+            "value": "false",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TypeCode",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "Rate",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "MeasureUnitCode",
+          "function": "constant",
+          "value": {
+            "value": "A",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "Quantity",
+          "function": "constant",
+          "value": {
+            "value": "C",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "unitCode",
+          "function": "constant",
+          "value": {
+            "value": "C",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "Amount",
+          "function": "constant",
+          "value": {
+            "value": "A",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "currencyCode",
+          "function": "constant",
+          "value": {
+            "value": "A",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "EffectiveIndicator",
+          "function": "constant",
+          "value": {
+            "value": "false",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TotalValues",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TypeID",
+          "function": "constant",
+          "value": {
+            "value": ")",
+            "is_externalized": false
+          },
+          "is_static": true
+        }
       ],
+      "parse_warnings": [],
+      "schemas": {
+        "TARGET_IFR_MESS": {
+          "schema": "ServiceRequestRequestExternalSalesDocumentDataOut",
+          "root_element": "ExternalSalesDocumentDataResponse_sync"
+        },
+        "SOURCE_IFR_MESS": {
+          "schema": "COD_SALESORDER_SIMULATE",
+          "root_element": "COD_SALESORDER_SIMULATEResponse"
+        }
+      },
+      "multiplicity": "1:1",
+      "source_parameters": [
+        {
+          "name": "",
+          "occurrence": ""
+        }
+      ],
+      "target_parameters": [
+        {
+          "name": "",
+          "occurrence": ""
+        }
+      ],
+      "format": "java_operation_mapping",
       "resolved": true
     },
     "COD_SALESORDER_SIMULATE.wsdl": {

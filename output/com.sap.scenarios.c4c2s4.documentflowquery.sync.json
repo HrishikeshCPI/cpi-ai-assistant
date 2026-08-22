@@ -1,6 +1,7 @@
 {
   "artifact_id": "com.sap.scenarios.c4c2s4.documentflowquery.sync",
   "version": "1.1.4",
+  "developer_description": "Business Document Flow Query from SAP Business Suite",
   "nodes": [
     {
       "id": "_CallActivity_2",
@@ -56,12 +57,267 @@
       "targetRef": "_CallActivity_3"
     }
   ],
+  "processes": [
+    {
+      "id": "Process_1",
+      "classification": "main",
+      "nodes": [
+        {
+          "id": "_CallActivity_2",
+          "name": "C4C_S4_DocumentFlowRequest",
+          "bpmn_type": "callActivity",
+          "type": "Mapping",
+          "resources": [
+            "C4C_S4_DocumentFlowRequest.mmap"
+          ]
+        },
+        {
+          "id": "_CallActivity_3",
+          "name": "C4C_S4_DocumentFlowResponse",
+          "bpmn_type": "callActivity",
+          "type": "Mapping",
+          "resources": [
+            "C4C_S4_DocumentFlowResponse.mmap"
+          ]
+        },
+        {
+          "id": "StartEvent_1",
+          "name": "Start",
+          "bpmn_type": "startEvent"
+        },
+        {
+          "id": "EndEvent_0",
+          "name": "End 1",
+          "bpmn_type": "endEvent"
+        },
+        {
+          "id": "ServiceTask_1",
+          "name": "Request-Reply",
+          "bpmn_type": "serviceTask",
+          "type": "ExternalCall",
+          "resources": []
+        }
+      ],
+      "edges": [
+        {
+          "sourceRef": "_CallActivity_2",
+          "targetRef": "ServiceTask_1"
+        },
+        {
+          "sourceRef": "_CallActivity_3",
+          "targetRef": "EndEvent_0"
+        },
+        {
+          "sourceRef": "StartEvent_1",
+          "targetRef": "_CallActivity_2"
+        },
+        {
+          "sourceRef": "ServiceTask_1",
+          "targetRef": "_CallActivity_3"
+        }
+      ]
+    }
+  ],
   "message_flows": [
     {
       "id": "MessageFlow_2",
       "name": "",
       "sourceRef": "ServiceTask_1",
       "targetRef": "Participant_2",
+      "properties": {
+        "cleanupHeaders": {
+          "value": "1",
+          "is_externalized": false
+        },
+        "WsdlUserNameTokenCredentialName": {
+          "value": "",
+          "is_externalized": false
+        },
+        "Description": {
+          "value": "",
+          "is_externalized": false
+        },
+        "WSSecurityType_outbound": {
+          "value": "SignMessage",
+          "is_externalized": false
+        },
+        "InitiatorTokenIncludeStrategy_outbound": {
+          "value": "AlwaysToRecipient",
+          "is_externalized": false
+        },
+        "SetTimeStamp": {
+          "value": "0",
+          "is_externalized": false
+        },
+        "ComponentNS": {
+          "value": "sap",
+          "is_externalized": false
+        },
+        "privateKeyAlias": {
+          "value": "{{p-key-alias}}",
+          "is_externalized": true
+        },
+        "location_id": {
+          "value": "{{Location_ID}}",
+          "is_externalized": true
+        },
+        "Name": {
+          "value": "",
+          "is_externalized": false
+        },
+        "TransportProtocolVersion": {
+          "value": "1.1.5",
+          "is_externalized": false
+        },
+        "UserNameTokenOption": {
+          "value": "None",
+          "is_externalized": false
+        },
+        "proxyPort": {
+          "value": "",
+          "is_externalized": false
+        },
+        "ComponentSWCVName": {
+          "value": "1.2",
+          "is_externalized": false
+        },
+        "recipientX509TokenAssertion": {
+          "value": "WssX509V3Token10",
+          "is_externalized": false
+        },
+        "PublicKeyAliasEncryption_wsdl": {
+          "value": "",
+          "is_externalized": false
+        },
+        "soapWsdlURL": {
+          "value": "",
+          "is_externalized": false
+        },
+        "CompressMessage": {
+          "value": "0",
+          "is_externalized": false
+        },
+        "soapServiceName": {
+          "value": "",
+          "is_externalized": false
+        },
+        "ComponentSWCVId": {
+          "value": "1.2",
+          "is_externalized": false
+        },
+        "MessageProtocol": {
+          "value": "SOAP 1.x",
+          "is_externalized": false
+        },
+        "requestTimeout": {
+          "value": "60000",
+          "is_externalized": false
+        },
+        "direction": {
+          "value": "Receiver",
+          "is_externalized": false
+        },
+        "authentication": {
+          "value": "{{S4_authentication_57}}",
+          "is_externalized": true
+        },
+        "X509TokenAssertion": {
+          "value": "WssX509V3Token10",
+          "is_externalized": false
+        },
+        "PrivateKeyAliasSigning": {
+          "value": "",
+          "is_externalized": false
+        },
+        "ComponentType": {
+          "value": "SOAP",
+          "is_externalized": false
+        },
+        "address": {
+          "value": "{{Protocol-Hostname-Port}}/sap/bc/srt/scs/sap/cod_erp_get_doc_flow?sap-client={{Client}}",
+          "is_externalized": true
+        },
+        "SenderBasicSecurityProfileCompliant_wsdl": {
+          "value": "1",
+          "is_externalized": false
+        },
+        "allowChunking": {
+          "value": "1",
+          "is_externalized": false
+        },
+        "proxyType": {
+          "value": "{{S4_proxyType_56}}",
+          "is_externalized": true
+        },
+        "soapWsdlPortName": {
+          "value": "",
+          "is_externalized": false
+        },
+        "operationName": {
+          "value": "",
+          "is_externalized": false
+        },
+        "componentVersion": {
+          "value": "1.2",
+          "is_externalized": false
+        },
+        "PrivateKeyAliasSigning_wsdl": {
+          "value": "",
+          "is_externalized": false
+        },
+        "proxyHost": {
+          "value": "",
+          "is_externalized": false
+        },
+        "PublicKeyAliasEncryption": {
+          "value": "",
+          "is_externalized": false
+        },
+        "WSSecurity_outbound": {
+          "value": "None",
+          "is_externalized": false
+        },
+        "SenderBasicSecurityProfileCompliant": {
+          "value": "1",
+          "is_externalized": false
+        },
+        "system": {
+          "value": "S4",
+          "is_externalized": false
+        },
+        "RecipientTokenIncludeStrategy": {
+          "value": "Never",
+          "is_externalized": false
+        },
+        "UserNameTokenCredentialName": {
+          "value": "",
+          "is_externalized": false
+        },
+        "AlgorithmSuiteAssertion": {
+          "value": "Basic128Rsa15",
+          "is_externalized": false
+        },
+        "TransportProtocol": {
+          "value": "HTTP",
+          "is_externalized": false
+        },
+        "cmdVariantUri": {
+          "value": "ctype::AdapterVariant/cname::sap:SOAP/tp::HTTP/mp::SOAP 1.x/direction::Receiver/version::1.2",
+          "is_externalized": false
+        },
+        "credentialName": {
+          "value": "{{artifactname}}",
+          "is_externalized": true
+        },
+        "MessageProtocolVersion": {
+          "value": "1.2.2",
+          "is_externalized": false
+        },
+        "Layout_outbound": {
+          "value": "Strict",
+          "is_externalized": false
+        }
+      },
       "direction": "Receiver",
       "component_type": "SOAP",
       "transport_protocol": "HTTP",
@@ -72,6 +328,168 @@
       "name": "SOAP",
       "sourceRef": "Participant_1",
       "targetRef": "StartEvent_1",
+      "properties": {
+        "Description": {
+          "value": "",
+          "is_externalized": false
+        },
+        "WSSecurityType": {
+          "value": "VerifyMessage",
+          "is_externalized": false
+        },
+        "PublicKeyAliasResponseEncryption": {
+          "value": "",
+          "is_externalized": false
+        },
+        "ComponentNS": {
+          "value": "sap",
+          "is_externalized": false
+        },
+        "maximumAttachmentSize": {
+          "value": "100",
+          "is_externalized": false
+        },
+        "Name": {
+          "value": "SOAP",
+          "is_externalized": false
+        },
+        "TransportProtocolVersion": {
+          "value": "1.12.2",
+          "is_externalized": false
+        },
+        "ComponentSWCVName": {
+          "value": "external",
+          "is_externalized": false
+        },
+        "useWSAddressing": {
+          "value": "0",
+          "is_externalized": false
+        },
+        "soapWsdlURL": {
+          "value": "",
+          "is_externalized": false
+        },
+        "soapOptions": {
+          "value": "cxfRobust",
+          "is_externalized": false
+        },
+        "CheckTimeStamp": {
+          "value": "0",
+          "is_externalized": false
+        },
+        "soapServiceName": {
+          "value": "",
+          "is_externalized": false
+        },
+        "WSSecurity_SignatureAlgorithm_Inbound": {
+          "value": "SHA1",
+          "is_externalized": false
+        },
+        "SigningOrder": {
+          "value": "SignBeforeEncryption",
+          "is_externalized": false
+        },
+        "MessageProtocol": {
+          "value": "SOAP 1.x",
+          "is_externalized": false
+        },
+        "ComponentSWCVId": {
+          "value": "1.12.2",
+          "is_externalized": false
+        },
+        "direction": {
+          "value": "Sender",
+          "is_externalized": false
+        },
+        "clientCertificates": {
+          "value": "<row><cell id='clientCertificate.subjectDN'>{{subject}}</cell><cell id='clientCertificate.issuerDN'>{{issuer}}</cell></row>",
+          "is_externalized": false
+        },
+        "X509TokenAssertion": {
+          "value": "WssX509V3Token10",
+          "is_externalized": false
+        },
+        "ComponentType": {
+          "value": "SOAP",
+          "is_externalized": false
+        },
+        "address": {
+          "value": "{{C4C_address_17}}",
+          "is_externalized": true
+        },
+        "maximumBodySize": {
+          "value": "40",
+          "is_externalized": false
+        },
+        "soapWsdlPortName": {
+          "value": "",
+          "is_externalized": false
+        },
+        "componentVersion": {
+          "value": "1.8",
+          "is_externalized": false
+        },
+        "messageExchangePattern": {
+          "value": "RequestReply",
+          "is_externalized": false
+        },
+        "WSSecurity": {
+          "value": "None",
+          "is_externalized": false
+        },
+        "PrivateKeyAliasResponseSigning": {
+          "value": "",
+          "is_externalized": false
+        },
+        "system": {
+          "value": "C4C",
+          "is_externalized": false
+        },
+        "SaveIncomingSignedMessage": {
+          "value": "0",
+          "is_externalized": false
+        },
+        "SenderBasicSecurityProfileCompliant": {
+          "value": "1",
+          "is_externalized": false
+        },
+        "RecipientTokenIncludeStrategy": {
+          "value": "Never",
+          "is_externalized": false
+        },
+        "AlgorithmSuiteAssertion": {
+          "value": "Basic128Rsa15",
+          "is_externalized": false
+        },
+        "serviceDefinition": {
+          "value": "Manual",
+          "is_externalized": false
+        },
+        "TransportProtocol": {
+          "value": "HTTP",
+          "is_externalized": false
+        },
+        "cmdVariantUri": {
+          "value": "ctype::AdapterVariant/cname::sap:SOAP/tp::HTTP/mp::SOAP 1.x/direction::Sender/version::1.8.3",
+          "is_externalized": false
+        },
+        "userRole": {
+          "value": "{{UserRole}}",
+          "is_externalized": true
+        },
+        "InitiatorTokenIncludeStrategy": {
+          "value": "AlwaysToRecipient",
+          "is_externalized": false
+        },
+        "senderAuthType": {
+          "value": "{{Sender_Auth}}",
+          "is_externalized": true
+        },
+        "MessageProtocolVersion": {
+          "value": "1.12.2",
+          "is_externalized": false
+        }
+      },
       "direction": "Sender",
       "component_type": "SOAP",
       "transport_protocol": "HTTP",
@@ -94,17 +512,518 @@
   ],
   "resolved_resources": {
     "C4C_S4_DocumentFlowRequest.mmap": {
-      "field_mappings": [],
-      "parse_warnings": [
-        "Transformation block not found in the mmap XML; expected a top-level transformation element with Dst/Src brick mappings."
+      "field_mappings": [
+        {
+          "source": "/ns0:BusinessDocumentFlowQuery/Anchor",
+          "target": "item",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessDocumentFlowQuery/Anchor/ID",
+          "target": "Docnum",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessDocumentFlowQuery/Anchor/ObjectTypeCode",
+          "target": "ObjTypeCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessDocumentFlowQuery/Anchor/ObjectNodeTypeCode",
+          "target": "ObjNodeTypeCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessDocumentFlowQuery/LanguageCode",
+          "target": "IvLang",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "ItDocDetails",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        }
       ],
+      "parse_warnings": [],
+      "schemas": {
+        "TARGET_IFR_MESS": {
+          "schema": "DocumentFlowRequestingIn",
+          "root_element": "CodErpGetDocFlow"
+        },
+        "SOURCE_IFR_MESS": {
+          "schema": "DocumentFlowRequestingOut",
+          "root_element": "BusinessDocumentFlowQuery"
+        }
+      },
+      "multiplicity": "1:1",
+      "source_parameters": [
+        {
+          "name": "",
+          "occurrence": ""
+        }
+      ],
+      "target_parameters": [
+        {
+          "name": "",
+          "occurrence": ""
+        }
+      ],
+      "format": "java_operation_mapping",
       "resolved": true
     },
     "C4C_S4_DocumentFlowResponse.mmap": {
-      "field_mappings": [],
-      "parse_warnings": [
-        "Transformation block not found in the mmap XML; expected a top-level transformation element with Dst/Src brick mappings."
+      "field_mappings": [
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item",
+          "target": "Anchor",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Objectid",
+          "target": "ObjectID",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/FormattedId",
+          "target": "FormattedID",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/ObjTypeCode",
+          "target": "ObjectTypeCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/ObjNodeTypeCode",
+          "target": "ObjectNodeTypeCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Properties/item",
+          "target": "AnchorProperties",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Properties/item/Property",
+          "target": "BusinessDocumentFlowProperty",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Properties/item/Property",
+          "target": "ID",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Properties/item/PropertyValues",
+          "target": "BusinessDocumentFlowPropertyValue",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Properties/item/Property",
+          "target": "TimePoint",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Properties/item/PropertyValues/TimePoint/TypeCode",
+          "target": "TypeCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Properties/item/PropertyValues/TimePoint/Date",
+          "target": "Date",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Properties/item/PropertyValues/Name/Content",
+          "target": "Name",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Properties/item/PropertyValues/Name/LanguageCode",
+          "target": "languageCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Properties/item/Property",
+          "target": "Code",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Properties/item/Property",
+          "target": "Identifier",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item",
+          "target": "Relationship",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/FromDoc",
+          "target": "RelationshipFromBusinessDocument",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/FromDoc",
+          "target": "FromBusinessDocument",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/FromDoc/Objectid",
+          "target": "ObjectNodeReference",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/FromDoc/Objectid",
+          "target": "ObjectID",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/FromDoc/FormattedId",
+          "target": "FormattedID",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/FromDoc/ObjTypeCode",
+          "target": "ObjectTypeCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/FromDoc/ObjNodeTypeCode",
+          "target": "ObjectNodeTypeCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/FromDoc/RelRoleCode",
+          "target": "RelationshipRoleCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/FromDoc/OrdinalNumValue",
+          "target": "RelativeOrdinalNumberValue",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/FromDoc/Properties/item",
+          "target": "RelationshipFromBusinessDocumentPropertyValuation",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/FromDoc/Properties/item/Property",
+          "target": "BusinessDocumentFlowProperty",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/FromDoc/Properties/item/Property",
+          "target": "ID",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/FromDoc/Properties/item/PropertyValues",
+          "target": "BusinessDocumentFlowPropertyValue",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/FromDoc/Properties/item/PropertyValues/TimePoint",
+          "target": "TimePoint",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/FromDoc/Properties/item/PropertyValues/TimePoint/TypeCode",
+          "target": "TypeCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/FromDoc/Properties/item/PropertyValues/TimePoint/Date",
+          "target": "Date",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/FromDoc/Properties/item/PropertyValues/TimePoint/Time",
+          "target": "Time",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/FromDoc/Properties/item/PropertyValues/Name/Content",
+          "target": "Name",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/FromDoc/Properties/item/PropertyValues/Name/LanguageCode",
+          "target": "languageCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/FromDoc/Properties/item/PropertyValues/Indicator",
+          "target": "Indicator",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/FromDoc/Properties/item/PropertyValues/Code",
+          "target": "Code",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/FromDoc/Properties/item/PropertyValues/Identifier",
+          "target": "Identifier",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/ToDoc",
+          "target": "RelationshipToBusinessDocument",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/ToDoc",
+          "target": "ToBusinessDocument",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/ToDoc/Objectid",
+          "target": "ObjectID",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/ToDoc/FormattedId",
+          "target": "FormattedID",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/ToDoc/ObjTypeCode",
+          "target": "ObjectTypeCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/ToDoc/ObjNodeTypeCode",
+          "target": "ObjectNodeTypeCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/ToDoc/RelRoleCode",
+          "target": "RelationshipRoleCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/ToDoc/OrdinalNumValue",
+          "target": "RelativeOrdinalNumberValue",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/ToDoc/Properties/item",
+          "target": "RelationshipToBusinessDocumentPropertyValuation",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/ToDoc/Properties/item/Property",
+          "target": "BusinessDocumentFlowProperty",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/ToDoc/Properties/item/Property",
+          "target": "ID",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/ToDoc/Properties/item/PropertyValues",
+          "target": "BusinessDocumentFlowPropertyValue",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/ToDoc/Properties/item/PropertyValues/TimePoint",
+          "target": "TimePoint",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/ToDoc/Properties/item/PropertyValues/TimePoint/TypeCode",
+          "target": "TypeCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/ToDoc/Properties/item/PropertyValues/TimePoint/Date",
+          "target": "Date",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/ToDoc/Properties/item/PropertyValues/Name/Content",
+          "target": "Name",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/ToDoc/Properties/item/PropertyValues/Name/LanguageCode",
+          "target": "languageCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/ToDoc/Properties/item/PropertyValues/Indicator",
+          "target": "Indicator",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/ToDoc/Properties/item/PropertyValues/Code",
+          "target": "Code",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/ToDoc/Properties/item/PropertyValues/Identifier",
+          "target": "Identifier",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/Relationship/item/RelTypeCode",
+          "target": "RelationshipTypeCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/ErrorMessages",
+          "target": "ErrorLog",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/ErrorMessages/item",
+          "target": "Item",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/ErrorMessages/item/Number",
+          "target": "TypeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:CodErpGetDocFlowResponse/EtDocflowData/item/Data/item/ErrorMessages/item/Message",
+          "target": "Note",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "BusinessDocumentFlowResponse",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TimePoint",
+          "function": "constant",
+          "value": {
+            "value": "CREATION_DATE",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "Name",
+          "function": "constant",
+          "value": {
+            "value": "NAME",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "Indicator",
+          "function": "constant",
+          "value": {
+            "value": "OUTPUT_IND",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "Code",
+          "function": "constant",
+          "value": {
+            "value": "PROC_TYPE",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "Identifier",
+          "function": "constant",
+          "value": {
+            "value": "SALES_ORG",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "Indicator",
+          "function": "constant",
+          "value": {
+            "value": "true",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "Indicator",
+          "function": "constant",
+          "value": {
+            "value": "true",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TypeID",
+          "function": "constant",
+          "value": {
+            "value": ")",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SeverityCode",
+          "function": "constant",
+          "value": {
+            "value": "3",
+            "is_externalized": false
+          },
+          "is_static": true
+        }
       ],
+      "parse_warnings": [],
+      "schemas": {
+        "TARGET_IFR_MESS": {
+          "schema": "DocumentFlowRequestingOut",
+          "root_element": "BusinessDocumentFlowResponse"
+        },
+        "SOURCE_IFR_MESS": {
+          "schema": "DocumentFlowRequestingIn",
+          "root_element": "CodErpGetDocFlowResponse"
+        }
+      },
+      "multiplicity": "1:1",
+      "source_parameters": [
+        {
+          "name": "",
+          "occurrence": ""
+        }
+      ],
+      "target_parameters": [
+        {
+          "name": "",
+          "occurrence": ""
+        }
+      ],
+      "format": "java_operation_mapping",
       "resolved": true
     },
     "DocumentFlowRequestingIn.wsdl": {

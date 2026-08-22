@@ -1,6 +1,7 @@
 {
   "artifact_id": "com.sap.scenarios.c4c2s4.servicerequestfollowupdocu",
   "version": "2.2.3",
+  "developer_description": "Creation of Service Ticket Follow Up Document in SAP Business Suite",
   "nodes": [
     {
       "id": "StartEvent_1",
@@ -17,14 +18,28 @@
       "name": "Post Processing",
       "bpmn_type": "callActivity",
       "type": "ProcessCallElement",
-      "resources": []
+      "resources": [],
+      "details": {
+        "process_id": {
+          "value": "Process_12",
+          "is_externalized": false
+        }
+      }
     },
     {
       "id": "_CallActivity_3",
       "name": "Store Message ID",
       "bpmn_type": "callActivity",
       "type": "Enricher",
-      "resources": []
+      "resources": [],
+      "details": {
+        "property_table": [],
+        "header_table": [],
+        "wrapContent": {
+          "value": "",
+          "is_externalized": false
+        }
+      }
     },
     {
       "id": "CallActivity_1",
@@ -39,44 +54,6 @@
       "id": "ExclusiveGateway_7",
       "name": "Extension?",
       "bpmn_type": "exclusiveGateway"
-    },
-    {
-      "id": "StartEvent_13",
-      "name": "Start 1",
-      "bpmn_type": "startEvent"
-    },
-    {
-      "id": "CallActivity_50",
-      "name": "Filter Final message",
-      "bpmn_type": "callActivity",
-      "type": "Filter",
-      "resources": []
-    },
-    {
-      "id": "CallActivity_16",
-      "name": "Filter Standard Mapping Output",
-      "bpmn_type": "callActivity",
-      "type": "Filter",
-      "resources": []
-    },
-    {
-      "id": "ServiceTask_22",
-      "name": "Call Post Exit",
-      "bpmn_type": "serviceTask",
-      "type": "ExternalCall",
-      "resources": []
-    },
-    {
-      "id": "EndEvent_14",
-      "name": "End 1",
-      "bpmn_type": "endEvent"
-    },
-    {
-      "id": "CallActivity_19",
-      "name": "Bundle Message",
-      "bpmn_type": "callActivity",
-      "type": "Enricher",
-      "resources": []
     }
   ],
   "edges": [
@@ -104,26 +81,173 @@
     {
       "sourceRef": "ExclusiveGateway_7",
       "targetRef": "EndEvent_1"
+    }
+  ],
+  "processes": [
+    {
+      "id": "Process_1",
+      "classification": "main",
+      "nodes": [
+        {
+          "id": "StartEvent_1",
+          "name": "Start",
+          "bpmn_type": "startEvent"
+        },
+        {
+          "id": "EndEvent_1",
+          "name": "End",
+          "bpmn_type": "endEvent"
+        },
+        {
+          "id": "CallActivity_10",
+          "name": "Post Processing",
+          "bpmn_type": "callActivity",
+          "type": "ProcessCallElement",
+          "resources": [],
+          "details": {
+            "process_id": {
+              "value": "Process_12",
+              "is_externalized": false
+            }
+          }
+        },
+        {
+          "id": "_CallActivity_3",
+          "name": "Store Message ID",
+          "bpmn_type": "callActivity",
+          "type": "Enricher",
+          "resources": [],
+          "details": {
+            "property_table": [],
+            "header_table": [],
+            "wrapContent": {
+              "value": "",
+              "is_externalized": false
+            }
+          }
+        },
+        {
+          "id": "CallActivity_1",
+          "name": "C4C_S4_ServiceRequestConfirmationProcessingRequest",
+          "bpmn_type": "callActivity",
+          "type": "Mapping",
+          "resources": [
+            "C4C_S4_ServiceRequestConfirmationProcessingRequest.mmap"
+          ]
+        },
+        {
+          "id": "ExclusiveGateway_7",
+          "name": "Extension?",
+          "bpmn_type": "exclusiveGateway"
+        }
+      ],
+      "edges": [
+        {
+          "sourceRef": "StartEvent_1",
+          "targetRef": "_CallActivity_3"
+        },
+        {
+          "sourceRef": "CallActivity_10",
+          "targetRef": "EndEvent_1"
+        },
+        {
+          "sourceRef": "_CallActivity_3",
+          "targetRef": "CallActivity_1"
+        },
+        {
+          "sourceRef": "CallActivity_1",
+          "targetRef": "ExclusiveGateway_7"
+        },
+        {
+          "sourceRef": "ExclusiveGateway_7",
+          "targetRef": "CallActivity_10",
+          "condition": "${property.P_Custom_Extension_Enabled} = 'true'"
+        },
+        {
+          "sourceRef": "ExclusiveGateway_7",
+          "targetRef": "EndEvent_1"
+        }
+      ]
     },
     {
-      "sourceRef": "StartEvent_13",
-      "targetRef": "CallActivity_16"
-    },
-    {
-      "sourceRef": "CallActivity_50",
-      "targetRef": "EndEvent_14"
-    },
-    {
-      "sourceRef": "CallActivity_16",
-      "targetRef": "CallActivity_19"
-    },
-    {
-      "sourceRef": "ServiceTask_22",
-      "targetRef": "CallActivity_50"
-    },
-    {
-      "sourceRef": "CallActivity_19",
-      "targetRef": "ServiceTask_22"
+      "id": "Process_12",
+      "classification": "local_subprocess",
+      "nodes": [
+        {
+          "id": "StartEvent_13",
+          "name": "Start 1",
+          "bpmn_type": "startEvent"
+        },
+        {
+          "id": "CallActivity_50",
+          "name": "Filter Final message",
+          "bpmn_type": "callActivity",
+          "type": "Filter",
+          "resources": [],
+          "details": {}
+        },
+        {
+          "id": "CallActivity_16",
+          "name": "Filter Standard Mapping Output",
+          "bpmn_type": "callActivity",
+          "type": "Filter",
+          "resources": [],
+          "details": {}
+        },
+        {
+          "id": "ServiceTask_22",
+          "name": "Call Post Exit",
+          "bpmn_type": "serviceTask",
+          "type": "ExternalCall",
+          "resources": []
+        },
+        {
+          "id": "EndEvent_14",
+          "name": "End 1",
+          "bpmn_type": "endEvent"
+        },
+        {
+          "id": "CallActivity_19",
+          "name": "Bundle Message",
+          "bpmn_type": "callActivity",
+          "type": "Enricher",
+          "resources": [],
+          "details": {
+            "property_table": [],
+            "header_table": [],
+            "bodyType": {
+              "value": "expression",
+              "is_externalized": false
+            },
+            "wrapContent": {
+              "value": "<ns1:Messages xmlns:ns1=\"http://sap.com/xi/XI/SplitAndMerge\">\n<ns1:Message1>\n${property.P_OriginalPayload}\n</ns1:Message1>\n<ns1:Message2>\n${in.body}\n</ns1:Message2>\n</ns1:Messages>",
+              "is_externalized": false
+            }
+          }
+        }
+      ],
+      "edges": [
+        {
+          "sourceRef": "StartEvent_13",
+          "targetRef": "CallActivity_16"
+        },
+        {
+          "sourceRef": "CallActivity_50",
+          "targetRef": "EndEvent_14"
+        },
+        {
+          "sourceRef": "CallActivity_16",
+          "targetRef": "CallActivity_19"
+        },
+        {
+          "sourceRef": "ServiceTask_22",
+          "targetRef": "CallActivity_50"
+        },
+        {
+          "sourceRef": "CallActivity_19",
+          "targetRef": "ServiceTask_22"
+        }
+      ]
     }
   ],
   "message_flows": [
@@ -132,6 +256,92 @@
       "name": "SOAP",
       "sourceRef": "Participant_1",
       "targetRef": "StartEvent_1",
+      "properties": {
+        "ComponentType": {
+          "value": "SOAP",
+          "is_externalized": false
+        },
+        "Description": {
+          "value": "",
+          "is_externalized": false
+        },
+        "address": {
+          "value": "{{C4C_TicketFollowUpRequest_S}}",
+          "is_externalized": true
+        },
+        "maximumBodySize": {
+          "value": "40",
+          "is_externalized": false
+        },
+        "ComponentNS": {
+          "value": "sap",
+          "is_externalized": false
+        },
+        "maximumAttachmentSize": {
+          "value": "100",
+          "is_externalized": false
+        },
+        "componentVersion": {
+          "value": "1.3",
+          "is_externalized": false
+        },
+        "Name": {
+          "value": "SOAP",
+          "is_externalized": false
+        },
+        "TransportProtocolVersion": {
+          "value": "1.7.0",
+          "is_externalized": false
+        },
+        "ComponentSWCVName": {
+          "value": "external",
+          "is_externalized": false
+        },
+        "system": {
+          "value": "C4C",
+          "is_externalized": false
+        },
+        "TransportProtocol": {
+          "value": "HTTP",
+          "is_externalized": false
+        },
+        "cmdVariantUri": {
+          "value": "ctype::AdapterVariant/cname::sap:SOAP/tp::HTTP/mp::Plain SOAP/direction::Sender/version::1.3.4",
+          "is_externalized": false
+        },
+        "userRole": {
+          "value": "{{UserRole}}",
+          "is_externalized": true
+        },
+        "wsdlURL": {
+          "value": "",
+          "is_externalized": false
+        },
+        "senderAuthType": {
+          "value": "{{Sender_Auth}}",
+          "is_externalized": true
+        },
+        "MessageProtocol": {
+          "value": "Plain SOAP",
+          "is_externalized": false
+        },
+        "MessageProtocolVersion": {
+          "value": "1.7.0",
+          "is_externalized": false
+        },
+        "ComponentSWCVId": {
+          "value": "1.7.0",
+          "is_externalized": false
+        },
+        "direction": {
+          "value": "Sender",
+          "is_externalized": false
+        },
+        "clientCertificates": {
+          "value": "<row><cell id='clientCertificate.subjectDN'>{{subject}}</cell><cell id='clientCertificate.issuerDN'>{{issuer}}</cell></row>",
+          "is_externalized": false
+        }
+      },
       "direction": "Sender",
       "component_type": "SOAP",
       "transport_protocol": "HTTP",
@@ -142,6 +352,72 @@
       "name": "ProcessDirectPost",
       "sourceRef": "ServiceTask_22",
       "targetRef": "Participant_25",
+      "properties": {
+        "ComponentType": {
+          "value": "ProcessDirect",
+          "is_externalized": false
+        },
+        "Description": {
+          "value": "TicketFollowUpPostExit",
+          "is_externalized": false
+        },
+        "address": {
+          "value": "{{TicketFollowUpPostExit}}",
+          "is_externalized": true
+        },
+        "ComponentNS": {
+          "value": "sap",
+          "is_externalized": false
+        },
+        "Vendor": {
+          "value": "SAP",
+          "is_externalized": false
+        },
+        "componentVersion": {
+          "value": "1.1",
+          "is_externalized": false
+        },
+        "Name": {
+          "value": "ProcessDirectPost",
+          "is_externalized": false
+        },
+        "TransportProtocolVersion": {
+          "value": "1.1.1",
+          "is_externalized": false
+        },
+        "ComponentSWCVName": {
+          "value": "external",
+          "is_externalized": false
+        },
+        "system": {
+          "value": "TicketFollowUpPostExit",
+          "is_externalized": false
+        },
+        "TransportProtocol": {
+          "value": "Not Applicable",
+          "is_externalized": false
+        },
+        "cmdVariantUri": {
+          "value": "ctype::AdapterVariant/cname::ProcessDirect/vendor::SAP/tp::Not Applicable/mp::Not Applicable/direction::Receiver/version::1.1.0",
+          "is_externalized": false
+        },
+        "MessageProtocol": {
+          "value": "Not Applicable",
+          "is_externalized": false
+        },
+        "MessageProtocolVersion": {
+          "value": "1.1.1",
+          "is_externalized": false
+        },
+        "ComponentSWCVId": {
+          "value": "1.1.1",
+          "is_externalized": false
+        },
+        "direction": {
+          "value": "Receiver",
+          "is_externalized": false
+        }
+      },
       "direction": "Receiver",
       "component_type": "ProcessDirect",
       "transport_protocol": "Not Applicable",
@@ -152,6 +428,116 @@
       "name": "",
       "sourceRef": "EndEvent_1",
       "targetRef": "Participant_2",
+      "properties": {
+        "cleanupHeaders": {
+          "value": "1",
+          "is_externalized": false
+        },
+        "Description": {
+          "value": "",
+          "is_externalized": false
+        },
+        "ComponentNS": {
+          "value": "sap",
+          "is_externalized": false
+        },
+        "privateKeyAlias": {
+          "value": "{{p-key-alias}}",
+          "is_externalized": true
+        },
+        "Name": {
+          "value": "",
+          "is_externalized": false
+        },
+        "TransportProtocolVersion": {
+          "value": "1.3.1",
+          "is_externalized": false
+        },
+        "ComponentSWCVName": {
+          "value": "external",
+          "is_externalized": false
+        },
+        "proxyPort": {
+          "value": "",
+          "is_externalized": false
+        },
+        "IDocContentType": {
+          "value": "{{IDOC_Content_Type}}",
+          "is_externalized": true
+        },
+        "CompressMessage": {
+          "value": "0",
+          "is_externalized": false
+        },
+        "MessageProtocol": {
+          "value": "IDoc SOAP",
+          "is_externalized": false
+        },
+        "ComponentSWCVId": {
+          "value": "1.3.1",
+          "is_externalized": false
+        },
+        "requestTimeout": {
+          "value": "{{TimeOut}}",
+          "is_externalized": true
+        },
+        "direction": {
+          "value": "Receiver",
+          "is_externalized": false
+        },
+        "authentication": {
+          "value": "{{S4_authentication_93}}",
+          "is_externalized": true
+        },
+        "ComponentType": {
+          "value": "IDOC",
+          "is_externalized": false
+        },
+        "address": {
+          "value": "{{Protocol-Host-Port}}/sap/bc/srt/idoc?sap-client={{Client}}",
+          "is_externalized": true
+        },
+        "allowChunking": {
+          "value": "1",
+          "is_externalized": false
+        },
+        "proxyType": {
+          "value": "{{S4_proxyType_92}}",
+          "is_externalized": true
+        },
+        "componentVersion": {
+          "value": "1.3",
+          "is_externalized": false
+        },
+        "proxyHost": {
+          "value": "",
+          "is_externalized": false
+        },
+        "system": {
+          "value": "S4",
+          "is_externalized": false
+        },
+        "locationID": {
+          "value": "{{Location_ID}}",
+          "is_externalized": true
+        },
+        "TransportProtocol": {
+          "value": "HTTP",
+          "is_externalized": false
+        },
+        "cmdVariantUri": {
+          "value": "ctype::AdapterVariant/cname::sap:IDOC/tp::HTTP/mp::IDoc SOAP/direction::Receiver/version::1.3",
+          "is_externalized": false
+        },
+        "credentialName": {
+          "value": "{{artifactname}}",
+          "is_externalized": true
+        },
+        "MessageProtocolVersion": {
+          "value": "1.3.1",
+          "is_externalized": false
+        }
+      },
       "direction": "Receiver",
       "component_type": "IDOC",
       "transport_protocol": "HTTP",
@@ -182,10 +568,2823 @@
   ],
   "resolved_resources": {
     "C4C_S4_ServiceRequestConfirmationProcessingRequest.mmap": {
-      "field_mappings": [],
-      "parse_warnings": [
-        "Transformation block not found in the mmap XML; expected a top-level transformation element with Dst/Src brick mappings."
+      "field_mappings": [
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage",
+          "target": "IDOC",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/MessageHeader/SenderParty/InternalID",
+          "target": "SNDPOR",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/MessageHeader/SenderParty/InternalID",
+          "target": "SNDPRN",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/MessageHeader/RecipientParty/InternalID",
+          "target": "RCVPOR",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/MessageHeader/RecipientParty/InternalID",
+          "target": "RCVPRN",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/BasicMessageHeader/ID",
+          "target": "ARCKEY",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/SenderSequenceNumberValue",
+          "target": "SERIAL",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/ID",
+          "target": "REFOBJKEY",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/ProcessingTypeCode",
+          "target": "REFDOCTYPE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BusinessArea/ReceiverSalesOrganisationID",
+          "target": "SALES_ORG",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BusinessArea/DistributionChannelCode",
+          "target": "DISTR_CHAN",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BusinessArea/DivisionCode",
+          "target": "DIVISION",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BusinessArea/ReceiverSalesGroupID",
+          "target": "SALES_GRP",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BusinessArea/ReceiverSalesOfficeID",
+          "target": "SALES_OFF",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Name",
+          "target": "NAME",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/ID",
+          "target": "PURCH_NO_C",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PricingTerms/CurrencyCode",
+          "target": "CURRENCY",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PricingTerms/WarrantyGoodwillCode",
+          "target": "CALC_MOTIVE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/MessageHeader/SenderParty/InternalID",
+          "target": "LOGSYS",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/SellerParty/RecipientPartyID",
+          "target": "COMPANY_CODE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BusinessArea/ServiceOrganisationID",
+          "target": "SERVICE_ORG",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/ServiceExecutionTeamParty/PartyID",
+          "target": "SERVICE_TEAM",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/ServicePerformerParty/RecipientPartyID",
+          "target": "SERVICE_TECH",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage",
+          "target": "E102COD_S_SRV_CONF",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/ServiceRequestLifeCycleStatus",
+          "target": "TICKET_LC_STATUS",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/ParentWorkTicketID",
+          "target": "PARENT_WORK_TICKET_ID",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BuyerParty",
+          "target": "E101BAPIPARNR",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BuyerParty/RoleCode",
+          "target": "PARTN_ROLE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BuyerParty/RecipientERPPartyID",
+          "target": "PARTN_NUMB",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BuyerParty/Address/ObjectTypeCode",
+          "target": "ADDRESS",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BuyerParty/Address/ObjectTypeCode",
+          "target": "ADDR_ORIG",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/OtherParty/RecipientERPPartyID",
+          "target": "E101BAPIPARNR",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/OtherParty/RoleCode",
+          "target": "PARTN_ROLE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/OtherParty/RecipientERPPartyID",
+          "target": "PARTN_NUMB",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/OtherParty/Address/ObjectTypeCode",
+          "target": "ADDRESS",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/OtherParty/Address/ObjectTypeCode",
+          "target": "ADDR_ORIG",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/ProductRecipientParty/RecipientERPPartyID",
+          "target": "E101BAPIPARNR",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/ProductRecipientParty/RoleCode",
+          "target": "PARTN_ROLE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/ProductRecipientParty/RecipientERPPartyID",
+          "target": "PARTN_NUMB",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/ProductRecipientParty/Address/ObjectTypeCode",
+          "target": "ADDRESS",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/ProductRecipientParty/Address/ObjectTypeCode",
+          "target": "ADDR_ORIG",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BillToParty/RecipientERPPartyID",
+          "target": "E101BAPIPARNR",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BillToParty/RoleCode",
+          "target": "PARTN_ROLE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BillToParty/RecipientERPPartyID",
+          "target": "PARTN_NUMB",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BillToParty/Address/ObjectTypeCode",
+          "target": "ADDRESS",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BillToParty/Address/ObjectTypeCode",
+          "target": "ADDR_ORIG",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PayerParty/RecipientERPPartyID",
+          "target": "E101BAPIPARNR",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PayerParty/RoleCode",
+          "target": "PARTN_ROLE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PayerParty/RecipientERPPartyID",
+          "target": "PARTN_NUMB",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PayerParty/Address/ObjectTypeCode",
+          "target": "ADDRESS",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PayerParty/Address/ObjectTypeCode",
+          "target": "ADDR_ORIG",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BuyerParty/MainContactParty/RecipientPartyID",
+          "target": "PARTN_NUMB",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item",
+          "target": "E101COD_S_SRV_CONF_I",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/ID",
+          "target": "ITM_NUMBER",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/ParentItemID",
+          "target": "HG_LV_ITEM",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/TargetValues/SalesDocumentTargetQuantity",
+          "target": "TARGET_QTY",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/TargetValues/SalesDocumentTargetQuantity/@unitCode",
+          "target": "T_UNIT_ISO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/Description",
+          "target": "SHORT_TEXT",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/ID",
+          "target": "E102COD_S_SRV_CONF_I",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/PricingTerms/CurrencyCode",
+          "target": "CURRENCY",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/ID",
+          "target": "REF_DOC",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/ID",
+          "target": "REF_DOC_IT",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/PricingTerms/WarrantyGoodwillCode",
+          "target": "CALC_MOTIVE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/ID",
+          "target": "E103COD_S_SRV_CONF_I",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/Product/ReceiverID",
+          "target": "MATERIAL_LONG",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/ActualValues",
+          "target": "E101COD_S_SRV_ACTUALS",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/ActualValues/UnconvertedConfirmedFulfilledQuantity",
+          "target": "ACTUAL_QTY",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/ActualValues/UnconvertedConfirmedFulfilledQuantity/@unitCode",
+          "target": "ACTUAL_ISO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/ServicePerformerParty/RecipientPartyID",
+          "target": "SERVICE_TECH",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/ActualValues/UnconvertedConfirmedFulfilledQuantity",
+          "target": "DURATION",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/ActualValues/UnconvertedConfirmedFulfilledQuantity/@unitCode",
+          "target": "DURATION_ISO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/ServiceTransactionProcessingTypeCode",
+          "target": "SERVICE_PROCESS_TYPE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/UserServiceTransactionProcessingTypeCode",
+          "target": "SERVICE_USER_PROCESS_TYPE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/ConsignmentOrderID",
+          "target": "CONSI_ORDER_ID",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/ConsignmentOrderItemID",
+          "target": "CONSI_ITEM_ID",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/InvoicingMethodCode",
+          "target": "INVOICE_RELEVANT",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/UsedContractReference/ContractID",
+          "target": "CONTRACT_ID",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/UsedContractReference/ContractItemID",
+          "target": "CONTRACT_ITEM_ID",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/ItemCoveredObjects",
+          "target": "E101COD_S_TECHNICAL_OBJECT",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/ItemCoveredObjects/RecipientProductID",
+          "target": "MATNR_LONG",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PriceAndTaxCalculation/PriceComponent/MajorLevelNumber",
+          "target": "COND_ST_NO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PriceAndTaxCalculation/PriceComponent/PriceSpecificationElementTypeCode",
+          "target": "COND_TYPE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PriceAndTaxCalculation/PriceComponent/Rate/DecimalValue",
+          "target": "COND_VALUE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PriceAndTaxCalculation/PriceComponent/Rate/BaseDecimalValue",
+          "target": "COND_P_UNT",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PriceAndTaxCalculation/PriceComponent/Rate/CurrencyCode",
+          "target": "CURR_ISO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PriceAndTaxCalculation/PriceComponent/Rate/BaseMeasureUnitCode",
+          "target": "CD_UNT_ISO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PriceAndTaxCalculation/PriceComponent/MinorLevelNumber",
+          "target": "COND_COUNT_LONG",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/PriceAndTaxCalculation/PriceComponent/MajorLevelNumber",
+          "target": "COND_ST_NO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/PriceAndTaxCalculation/PriceComponent/PriceSpecificationElementTypeCode",
+          "target": "COND_TYPE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/PriceAndTaxCalculation/PriceComponent/Rate/DecimalValue",
+          "target": "COND_VALUE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/PriceAndTaxCalculation/PriceComponent/Rate/BaseDecimalValue",
+          "target": "COND_P_UNT",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/PriceAndTaxCalculation/PriceComponent/Rate/CurrencyCode",
+          "target": "CURR_ISO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/PriceAndTaxCalculation/PriceComponent/Rate/BaseMeasureUnitCode",
+          "target": "CD_UNT_ISO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/PriceAndTaxCalculation/PriceComponent/MinorLevelNumber",
+          "target": "COND_COUNT_LONG",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PriceAndTaxCalculation/PriceComponent/Rate/CurrencyCode",
+          "target": "CURRENCY",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PriceAndTaxCalculation/PriceComponent/Rate/BaseMeasureUnitCode",
+          "target": "COND_UNIT",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PriceAndTaxCalculation/PriceComponent/Rate/BaseDecimalValue",
+          "target": "COND_P_UNT",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/PriceAndTaxCalculation/PriceComponent/Rate/CurrencyCode",
+          "target": "CURRENCY",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/PriceAndTaxCalculation/PriceComponent/Rate/BaseMeasureUnitCode",
+          "target": "COND_UNIT",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/PriceAndTaxCalculation/PriceComponent/Rate/BaseDecimalValue",
+          "target": "COND_P_UNT",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/TextCollection/Text/ContentText",
+          "target": "E101BAPISDTEXT",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/TextCollection/Text/ContentText",
+          "target": "TEXT_LINE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/TextCollection/Text/ContentText",
+          "target": "E101BAPISDTEXT",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/Item/TextCollection/Text/ContentText",
+          "target": "TEXT_LINE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/InternalMemo/Text/ContentText",
+          "target": "E101BAPISDTEXT",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/InternalMemo/Text/ContentText",
+          "target": "TEXT_LINE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/CoveredObjects/RecipientInstallationPointID",
+          "target": "E102COD_S_TECHNICAL_OBJECT",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/CoveredObjects/SerialID",
+          "target": "SERNR",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/CoveredObjects/RecipientProductID",
+          "target": "MATNR_LONG",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BuyerParty/Address/OrganisationName/FirstLineName",
+          "target": "E101BAPIADDR1",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BuyerParty/Address/ObjectTypeCode",
+          "target": "FORMOFADDR",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BuyerParty/Address/ObjectTypeCode",
+          "target": "NAME_2",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BuyerParty/Address/ObjectTypeCode",
+          "target": "NAME_3",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BuyerParty/Address/ObjectTypeCode",
+          "target": "NAME_4",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BuyerParty/Address/ObjectTypeCode",
+          "target": "CITY",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BuyerParty/Address/ObjectTypeCode",
+          "target": "DISTRICT",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BuyerParty/Address/ObjectTypeCode",
+          "target": "POSTL_COD1",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BuyerParty/Address/ObjectTypeCode",
+          "target": "POSTL_COD2",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BuyerParty/Address/PostalAddress/POBoxID",
+          "target": "PO_BOX",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BuyerParty/Address/ObjectTypeCode",
+          "target": "STREET",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BuyerParty/Address/ObjectTypeCode",
+          "target": "HOUSE_NO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BuyerParty/Address/ObjectTypeCode",
+          "target": "COUNTRY",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BuyerParty/Address/ObjectTypeCode",
+          "target": "REGION",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BuyerParty/Address/ObjectTypeCode",
+          "target": "E102BAPIADDR1",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BuyerParty/Address/ObjectTypeCode",
+          "target": "LANGU_ISO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/ProductRecipientParty/Address/OrganisationName/FirstLineName",
+          "target": "E101BAPIADDR1",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/ProductRecipientParty/Address/ObjectTypeCode",
+          "target": "FORMOFADDR",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/ProductRecipientParty/Address/ObjectTypeCode",
+          "target": "NAME_2",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/ProductRecipientParty/Address/ObjectTypeCode",
+          "target": "NAME_3",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/ProductRecipientParty/Address/ObjectTypeCode",
+          "target": "NAME_4",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/ProductRecipientParty/Address/ObjectTypeCode",
+          "target": "CITY",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/ProductRecipientParty/Address/ObjectTypeCode",
+          "target": "DISTRICT",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/ProductRecipientParty/Address/ObjectTypeCode",
+          "target": "POSTL_COD2",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/ProductRecipientParty/Address/PostalAddress/POBoxID",
+          "target": "PO_BOX",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/ProductRecipientParty/Address/ObjectTypeCode",
+          "target": "STREET",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/ProductRecipientParty/Address/PostalAddress/HouseID",
+          "target": "HOUSE_NO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/ProductRecipientParty/Address/ObjectTypeCode",
+          "target": "COUNTRY",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/ProductRecipientParty/Address/ObjectTypeCode",
+          "target": "REGION",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/ProductRecipientParty/Address/ObjectTypeCode",
+          "target": "LANGU_ISO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BillToParty/Address/OrganisationName/FirstLineName",
+          "target": "E101BAPIADDR1",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BillToParty/Address/ObjectTypeCode",
+          "target": "FORMOFADDR",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BillToParty/Address/ObjectTypeCode",
+          "target": "NAME_2",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BillToParty/Address/ObjectTypeCode",
+          "target": "NAME_3",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BillToParty/Address/ObjectTypeCode",
+          "target": "NAME_4",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BillToParty/Address/ObjectTypeCode",
+          "target": "CITY",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BillToParty/Address/ObjectTypeCode",
+          "target": "DISTRICT",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BillToParty/Address/ObjectTypeCode",
+          "target": "POSTL_COD1",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BillToParty/Address/ObjectTypeCode",
+          "target": "POSTL_COD2",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BillToParty/Address/PostalAddress/POBoxID",
+          "target": "PO_BOX",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BillToParty/Address/ObjectTypeCode",
+          "target": "STREET",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BillToParty/Address/PostalAddress/HouseID",
+          "target": "HOUSE_NO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BillToParty/Address/ObjectTypeCode",
+          "target": "COUNTRY",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BillToParty/Address/ObjectTypeCode",
+          "target": "REGION",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BillToParty/Address/ObjectTypeCode",
+          "target": "E102BAPIADDR1",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/BillToParty/Address/ObjectTypeCode",
+          "target": "LANGU_ISO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PayerParty/Address/OrganisationName/FirstLineName",
+          "target": "E101BAPIADDR1",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PayerParty/Address/ObjectTypeCode",
+          "target": "FORMOFADDR",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PayerParty/Address/ObjectTypeCode",
+          "target": "NAME_2",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PayerParty/Address/ObjectTypeCode",
+          "target": "NAME_3",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PayerParty/Address/ObjectTypeCode",
+          "target": "NAME_4",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PayerParty/Address/ObjectTypeCode",
+          "target": "CITY",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PayerParty/Address/ObjectTypeCode",
+          "target": "DISTRICT",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PayerParty/Address/ObjectTypeCode",
+          "target": "POSTL_COD1",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PayerParty/Address/ObjectTypeCode",
+          "target": "POSTL_COD2",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PayerParty/Address/PostalAddress/POBoxID",
+          "target": "PO_BOX",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PayerParty/Address/ObjectTypeCode",
+          "target": "STREET",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PayerParty/Address/ObjectTypeCode",
+          "target": "HOUSE_NO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PayerParty/Address/ObjectTypeCode",
+          "target": "COUNTRY",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PayerParty/Address/ObjectTypeCode",
+          "target": "REGION",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PayerParty/Address/ObjectTypeCode",
+          "target": "E102BAPIADDR1",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/PayerParty/Address/ObjectTypeCode",
+          "target": "LANGU_ISO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/OtherParty/Address/OrganisationName/FirstLineName",
+          "target": "E101BAPIADDR1",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/OtherParty/Address/ObjectTypeCode",
+          "target": "FORMOFADDR",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/OtherParty/Address/ObjectTypeCode",
+          "target": "NAME_2",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/OtherParty/Address/ObjectTypeCode",
+          "target": "NAME_3",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/OtherParty/Address/ObjectTypeCode",
+          "target": "NAME_4",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/OtherParty/Address/ObjectTypeCode",
+          "target": "CITY",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/OtherParty/Address/ObjectTypeCode",
+          "target": "DISTRICT",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/OtherParty/Address/ObjectTypeCode",
+          "target": "POSTL_COD1",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/OtherParty/Address/ObjectTypeCode",
+          "target": "POSTL_COD2",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/OtherParty/Address/ObjectTypeCode",
+          "target": "PO_BOX",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/OtherParty/Address/ObjectTypeCode",
+          "target": "STREET",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/OtherParty/Address/ObjectTypeCode",
+          "target": "HOUSE_NO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/OtherParty/Address/ObjectTypeCode",
+          "target": "COUNTRY",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/OtherParty/Address/ObjectTypeCode",
+          "target": "REGION",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/OtherParty/Address/ObjectTypeCode",
+          "target": "LANGU_ISO",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/TimeEntry",
+          "target": "E101COD_S_TIME_ENTRY",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/TimeEntry/RecipientEmployeeID",
+          "target": "PERNR",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/TimeEntry/Date",
+          "target": "WORKDATE",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/TimeEntry/StartDateTime",
+          "target": "BEGUZ",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/TimeEntry/EndDateTime",
+          "target": "ENDUZ",
+          "function": null
+        },
+        {
+          "source": "/ns0:ServiceRequestFollowUpDocumentReplicationRequest/ServiceRequestFollowUpDocumentReplicateRequestMessage/ServiceRequest/TimeEntry/Description",
+          "target": "DESCRIPTION",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "BEGIN",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "EDI_DC40",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TABNAM",
+          "function": "constant",
+          "value": {
+            "value": "EDI_DC 40",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "DIRECT",
+          "function": "constant",
+          "value": {
+            "value": "2",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "IDOCTYP",
+          "function": "constant",
+          "value": {
+            "value": "COD_SERVICE_CONFIRMATION02",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "MESTYP",
+          "function": "constant",
+          "value": {
+            "value": "COD_SERVICE_CONFIRMATION",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SNDPRT",
+          "function": "constant",
+          "value": {
+            "value": "LS",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ARCKEY",
+          "function": "constant",
+          "value": {
+            "value": "urn:sap.com:msgid=",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "E101COD_S_SRV_CONF",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "DOC_TYPE",
+          "function": "constant",
+          "value": {
+            "value": "114",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ORD_REASON",
+          "function": "constant",
+          "value": {
+            "value": "EDI",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "QT_VALID_F",
+          "function": "constant",
+          "value": {
+            "value": "00000000",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "REFDOC_CAT",
+          "function": "constant",
+          "value": {
+            "value": "2",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "DOC_CLASS",
+          "function": "constant",
+          "value": {
+            "value": "CRS",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "EQUIPMENT_NUMBER",
+          "function": "constant",
+          "value": {
+            "value": "true",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TELEPHONE2",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ADDRESS",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ADDR_ORIG",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TELEPHONE2",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ADDRESS",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ADDR_ORIG",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TELEPHONE2",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ADDRESS",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ADDR_ORIG",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TELEPHONE2",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ADDRESS",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ADDR_ORIG",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TELEPHONE2",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ADDRESS",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ADDR_ORIG",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "E101BAPIPARNR",
+          "function": "constant",
+          "value": {
+            "value": "",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "PARTN_ROLE",
+          "function": "constant",
+          "value": {
+            "value": "AP",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "BILL_DATE",
+          "function": "constant",
+          "value": {
+            "value": "00000000",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "DLV_PRIO",
+          "function": "constant",
+          "value": {
+            "value": "XXDEFAULT",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "REF_DOC_CA",
+          "function": "constant",
+          "value": {
+            "value": "2",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "WORK_DATE",
+          "function": "constant",
+          "value": {
+            "value": "",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "START_TIME",
+          "function": "constant",
+          "value": {
+            "value": "00000000000000",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "END_TIME",
+          "function": "constant",
+          "value": {
+            "value": "00000000000000",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "DURATION",
+          "function": "constant",
+          "value": {
+            "value": "0001",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "DURATION_ISO",
+          "function": "constant",
+          "value": {
+            "value": "0001",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "CONSI_DOC_TYPE",
+          "function": "constant",
+          "value": {
+            "value": "Default",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "INVOICE_RELEVANT",
+          "function": "constant",
+          "value": {
+            "value": "",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "E101COD_S_USED_CONTRACT_REF",
+          "function": "constant",
+          "value": {
+            "value": "",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "EQUNR",
+          "function": "constant",
+          "value": {
+            "value": "2",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SERNR",
+          "function": "constant",
+          "value": {
+            "value": "",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TPLNR",
+          "function": "constant",
+          "value": {
+            "value": "6",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "E101BAPICOND",
+          "function": "constant",
+          "value": {
+            "value": "true",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ITM_NUMBER",
+          "function": "constant",
+          "value": {
+            "value": "000000",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "E101BAPICOND",
+          "function": "constant",
+          "value": {
+            "value": "true",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "UPDATEFLAG",
+          "function": "constant",
+          "value": {
+            "value": "U",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COND_VALUE",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "CURRENCY",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COND_UNIT",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COND_P_UNT",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "UPDATEFLAG",
+          "function": "constant",
+          "value": {
+            "value": "U",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COND_VALUE",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "CURRENCY",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COND_UNIT",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COND_P_UNT",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "EQUNR",
+          "function": "constant",
+          "value": {
+            "value": "2",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SERNR",
+          "function": "constant",
+          "value": {
+            "value": "",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TPLNR",
+          "function": "constant",
+          "value": {
+            "value": "6",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "E101BAPIADDR1",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "FORMOFADDR",
+          "function": "constant",
+          "value": {
+            "value": "Company",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_2",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_3",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_4",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "CITY",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "DISTRICT",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "POSTL_COD1",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "POSTL_COD2",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "PO_BOX",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "STREET",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "HOUSE_NO",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COUNTRY",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "REGION",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TEL1_NUMBR",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "FAX_NUMBER",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "E102BAPIADDR1",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "LANGU_ISO",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "E101BAPIADDR1",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "FORMOFADDR",
+          "function": "constant",
+          "value": {
+            "value": "Company",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_2",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_3",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_4",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "CITY",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "DISTRICT",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "POSTL_COD1",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "POSTL_COD2",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "PO_BOX",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "STREET",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "HOUSE_NO",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COUNTRY",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "REGION",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TEL1_NUMBR",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "FAX_NUMBER",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "E102BAPIADDR1",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "LANGU_ISO",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "E101BAPIADDR1",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "FORMOFADDR",
+          "function": "constant",
+          "value": {
+            "value": "Company",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_2",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_3",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_4",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "CITY",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "DISTRICT",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "POSTL_COD1",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "POSTL_COD2",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "PO_BOX",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "STREET",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "HOUSE_NO",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COUNTRY",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "REGION",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TEL1_NUMBR",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "FAX_NUMBER",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "E102BAPIADDR1",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "LANGU_ISO",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "E101BAPIADDR1",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "FORMOFADDR",
+          "function": "constant",
+          "value": {
+            "value": "Company",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_2",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_3",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_4",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "CITY",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "DISTRICT",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "POSTL_COD1",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "POSTL_COD2",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "PO_BOX",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "STREET",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "HOUSE_NO",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COUNTRY",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "REGION",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TEL1_NUMBR",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "FAX_NUMBER",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "E102BAPIADDR1",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "LANGU_ISO",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "E101BAPIADDR1",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "FORMOFADDR",
+          "function": "constant",
+          "value": {
+            "value": "Company",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_2",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_3",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_4",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "CITY",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "DISTRICT",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "POSTL_COD1",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "POSTL_COD2",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "PO_BOX",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "STREET",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "HOUSE_NO",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COUNTRY",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "REGION",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TEL1_NUMBR",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "FAX_NUMBER",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "E102BAPIADDR1",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "LANGU_ISO",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "LSTAR",
+          "function": "constant",
+          "value": {
+            "value": "XXDEFAULT",
+            "is_externalized": false
+          },
+          "is_static": true
+        }
       ],
+      "parse_warnings": [],
+      "schemas": {
+        "TARGET_IFR_MESS": {
+          "schema": "COD_SERVICE_CONFIRMATION",
+          "root_element": "COD_SERVICE_CONFIRMATION02"
+        },
+        "SOURCE_IFR_MESS": {
+          "schema": "ServiceRequestReplicationRequest",
+          "root_element": "ServiceRequestFollowUpDocumentReplicationRequest"
+        }
+      },
+      "multiplicity": "1:1",
+      "source_parameters": [
+        {
+          "name": "",
+          "occurrence": ""
+        }
+      ],
+      "target_parameters": [
+        {
+          "name": "",
+          "occurrence": ""
+        }
+      ],
+      "format": "java_operation_mapping",
       "resolved": true
     },
     "COD_SERVICE_CONFIRMATION.wsdl": {

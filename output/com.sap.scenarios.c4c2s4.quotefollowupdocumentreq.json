@@ -1,13 +1,15 @@
 {
   "artifact_id": "com.sap.scenarios.c4c2s4.quotefollowupdocumentreq",
   "version": "2.4.11",
+  "developer_description": "Sales Order Replication to SAP Business Suite\\nSales Quote Replication to SAP Business Suite\\nCreation of Sales Quote Follow Up Document in SAP Business Suite",
   "nodes": [
     {
       "id": "CallActivity_9780796",
       "name": "Remove XML Declaration",
       "bpmn_type": "callActivity",
       "type": "Filter",
-      "resources": []
+      "resources": [],
+      "details": {}
     },
     {
       "id": "StartEvent_1",
@@ -24,28 +26,95 @@
       "name": "Post Processing",
       "bpmn_type": "callActivity",
       "type": "ProcessCallElement",
-      "resources": []
+      "resources": [],
+      "details": {
+        "process_id": {
+          "value": "Process_9780764",
+          "is_externalized": false
+        }
+      }
     },
     {
       "id": "CallActivity_9780790",
       "name": "Store Source Message",
       "bpmn_type": "callActivity",
       "type": "Enricher",
-      "resources": []
+      "resources": [],
+      "details": {
+        "property_table": [
+          {
+            "Action": {
+              "value": "Create",
+              "is_externalized": false
+            },
+            "Type": {
+              "value": "expression",
+              "is_externalized": false
+            },
+            "Value": {
+              "value": "${in.body}",
+              "is_externalized": false
+            },
+            "Default": {
+              "value": "",
+              "is_externalized": false
+            },
+            "Name": {
+              "value": "P_OriginalPayload",
+              "is_externalized": false
+            },
+            "Datatype": {
+              "value": "",
+              "is_externalized": false
+            }
+          }
+        ],
+        "header_table": [],
+        "bodyType": {
+          "value": "expression",
+          "is_externalized": false
+        },
+        "wrapContent": {
+          "value": "",
+          "is_externalized": false
+        }
+      }
     },
     {
       "id": "_CallActivity_3",
       "name": "Set Monitoring ID",
       "bpmn_type": "callActivity",
       "type": "Enricher",
-      "resources": []
+      "resources": [],
+      "details": {
+        "property_table": [],
+        "header_table": [],
+        "wrapContent": {
+          "value": "",
+          "is_externalized": false
+        }
+      }
     },
     {
       "id": "CallActivity_9780794",
       "name": "General Splitter",
       "bpmn_type": "callActivity",
       "type": "Splitter",
-      "resources": []
+      "resources": [],
+      "details": {
+        "splitExprValue": {
+          "value": "/p1:SalesOrderRequestMassRequest/SalesOrderRequestRequest",
+          "is_externalized": false
+        },
+        "grouping": {
+          "value": "",
+          "is_externalized": false
+        },
+        "splitType": {
+          "value": "GeneralSplitter",
+          "is_externalized": false
+        }
+      }
     },
     {
       "id": "_CallActivity_4",
@@ -65,46 +134,6 @@
       "id": "ExclusiveGateway_9",
       "name": "Extension?",
       "bpmn_type": "exclusiveGateway"
-    },
-    {
-      "id": "StartEvent_9780765",
-      "name": "Start 1",
-      "bpmn_type": "startEvent"
-    },
-    {
-      "id": "CallActivity_9780784",
-      "name": "Remove Multi-Map Wrapper",
-      "bpmn_type": "callActivity",
-      "type": "Mapping",
-      "resources": [
-        "RemoveMultiMappingHeader.mmap"
-      ]
-    },
-    {
-      "id": "CallActivity_9780768",
-      "name": "Filter Standard Mapping Output",
-      "bpmn_type": "callActivity",
-      "type": "Filter",
-      "resources": []
-    },
-    {
-      "id": "ServiceTask_9780774",
-      "name": "Call Post Exit",
-      "bpmn_type": "serviceTask",
-      "type": "ExternalCall",
-      "resources": []
-    },
-    {
-      "id": "EndEvent_9780766",
-      "name": "End 1",
-      "bpmn_type": "endEvent"
-    },
-    {
-      "id": "CallActivity_9780771",
-      "name": "Bundle Message",
-      "bpmn_type": "callActivity",
-      "type": "Enricher",
-      "resources": []
     }
   ],
   "edges": [
@@ -153,26 +182,275 @@
     {
       "sourceRef": "ExclusiveGateway_9",
       "targetRef": "EndEvent_1"
+    }
+  ],
+  "processes": [
+    {
+      "id": "Process_1",
+      "classification": "main",
+      "nodes": [
+        {
+          "id": "CallActivity_9780796",
+          "name": "Remove XML Declaration",
+          "bpmn_type": "callActivity",
+          "type": "Filter",
+          "resources": [],
+          "details": {}
+        },
+        {
+          "id": "StartEvent_1",
+          "name": "Start",
+          "bpmn_type": "startEvent"
+        },
+        {
+          "id": "EndEvent_1",
+          "name": "End",
+          "bpmn_type": "endEvent"
+        },
+        {
+          "id": "CallActivity_12",
+          "name": "Post Processing",
+          "bpmn_type": "callActivity",
+          "type": "ProcessCallElement",
+          "resources": [],
+          "details": {
+            "process_id": {
+              "value": "Process_9780764",
+              "is_externalized": false
+            }
+          }
+        },
+        {
+          "id": "CallActivity_9780790",
+          "name": "Store Source Message",
+          "bpmn_type": "callActivity",
+          "type": "Enricher",
+          "resources": [],
+          "details": {
+            "property_table": [
+              {
+                "Action": {
+                  "value": "Create",
+                  "is_externalized": false
+                },
+                "Type": {
+                  "value": "expression",
+                  "is_externalized": false
+                },
+                "Value": {
+                  "value": "${in.body}",
+                  "is_externalized": false
+                },
+                "Default": {
+                  "value": "",
+                  "is_externalized": false
+                },
+                "Name": {
+                  "value": "P_OriginalPayload",
+                  "is_externalized": false
+                },
+                "Datatype": {
+                  "value": "",
+                  "is_externalized": false
+                }
+              }
+            ],
+            "header_table": [],
+            "bodyType": {
+              "value": "expression",
+              "is_externalized": false
+            },
+            "wrapContent": {
+              "value": "",
+              "is_externalized": false
+            }
+          }
+        },
+        {
+          "id": "_CallActivity_3",
+          "name": "Set Monitoring ID",
+          "bpmn_type": "callActivity",
+          "type": "Enricher",
+          "resources": [],
+          "details": {
+            "property_table": [],
+            "header_table": [],
+            "wrapContent": {
+              "value": "",
+              "is_externalized": false
+            }
+          }
+        },
+        {
+          "id": "CallActivity_9780794",
+          "name": "General Splitter",
+          "bpmn_type": "callActivity",
+          "type": "Splitter",
+          "resources": [],
+          "details": {
+            "splitExprValue": {
+              "value": "/p1:SalesOrderRequestMassRequest/SalesOrderRequestRequest",
+              "is_externalized": false
+            },
+            "grouping": {
+              "value": "",
+              "is_externalized": false
+            },
+            "splitType": {
+              "value": "GeneralSplitter",
+              "is_externalized": false
+            }
+          }
+        },
+        {
+          "id": "_CallActivity_4",
+          "name": "C4C_S4_CustomerQuoteFollowupBusinessTransactionDocumentReq",
+          "bpmn_type": "callActivity",
+          "type": "Mapping",
+          "resources": [
+            "C4C_S4_CustomerQuoteFollowupBusinessTransactionDocumentReq.mmap"
+          ]
+        },
+        {
+          "id": "ExclusiveGateway_9780787",
+          "name": "Extension?",
+          "bpmn_type": "exclusiveGateway"
+        },
+        {
+          "id": "ExclusiveGateway_9",
+          "name": "Extension?",
+          "bpmn_type": "exclusiveGateway"
+        }
+      ],
+      "edges": [
+        {
+          "sourceRef": "CallActivity_9780796",
+          "targetRef": "ExclusiveGateway_9780787"
+        },
+        {
+          "sourceRef": "StartEvent_1",
+          "targetRef": "_CallActivity_3"
+        },
+        {
+          "sourceRef": "CallActivity_12",
+          "targetRef": "EndEvent_1"
+        },
+        {
+          "sourceRef": "CallActivity_9780790",
+          "targetRef": "_CallActivity_4"
+        },
+        {
+          "sourceRef": "_CallActivity_3",
+          "targetRef": "CallActivity_9780794"
+        },
+        {
+          "sourceRef": "CallActivity_9780794",
+          "targetRef": "CallActivity_9780796"
+        },
+        {
+          "sourceRef": "_CallActivity_4",
+          "targetRef": "ExclusiveGateway_9"
+        },
+        {
+          "sourceRef": "ExclusiveGateway_9780787",
+          "targetRef": "_CallActivity_4"
+        },
+        {
+          "sourceRef": "ExclusiveGateway_9780787",
+          "targetRef": "CallActivity_9780790",
+          "condition": "${property.P_Custom_Extension_Enabled} = 'true'"
+        },
+        {
+          "sourceRef": "ExclusiveGateway_9",
+          "targetRef": "CallActivity_12",
+          "condition": "${property.P_Custom_Extension_Enabled} = 'true'"
+        },
+        {
+          "sourceRef": "ExclusiveGateway_9",
+          "targetRef": "EndEvent_1"
+        }
+      ]
     },
     {
-      "sourceRef": "StartEvent_9780765",
-      "targetRef": "CallActivity_9780768"
-    },
-    {
-      "sourceRef": "CallActivity_9780784",
-      "targetRef": "EndEvent_9780766"
-    },
-    {
-      "sourceRef": "CallActivity_9780768",
-      "targetRef": "CallActivity_9780771"
-    },
-    {
-      "sourceRef": "ServiceTask_9780774",
-      "targetRef": "CallActivity_9780784"
-    },
-    {
-      "sourceRef": "CallActivity_9780771",
-      "targetRef": "ServiceTask_9780774"
+      "id": "Process_9780764",
+      "classification": "local_subprocess",
+      "nodes": [
+        {
+          "id": "StartEvent_9780765",
+          "name": "Start 1",
+          "bpmn_type": "startEvent"
+        },
+        {
+          "id": "CallActivity_9780784",
+          "name": "Remove Multi-Map Wrapper",
+          "bpmn_type": "callActivity",
+          "type": "Mapping",
+          "resources": [
+            "RemoveMultiMappingHeader.mmap"
+          ]
+        },
+        {
+          "id": "CallActivity_9780768",
+          "name": "Filter Standard Mapping Output",
+          "bpmn_type": "callActivity",
+          "type": "Filter",
+          "resources": [],
+          "details": {}
+        },
+        {
+          "id": "ServiceTask_9780774",
+          "name": "Call Post Exit",
+          "bpmn_type": "serviceTask",
+          "type": "ExternalCall",
+          "resources": []
+        },
+        {
+          "id": "EndEvent_9780766",
+          "name": "End 1",
+          "bpmn_type": "endEvent"
+        },
+        {
+          "id": "CallActivity_9780771",
+          "name": "Bundle Message",
+          "bpmn_type": "callActivity",
+          "type": "Enricher",
+          "resources": [],
+          "details": {
+            "property_table": [],
+            "header_table": [],
+            "bodyType": {
+              "value": "expression",
+              "is_externalized": false
+            },
+            "wrapContent": {
+              "value": "<ns1:Messages xmlns:ns1=\"http://sap.com/xi/XI/SplitAndMerge\">\n<ns1:Message1>\n${property.P_OriginalPayload}\n</ns1:Message1>\n<ns1:Message2>\n${in.body}\n</ns1:Message2>\n</ns1:Messages>",
+              "is_externalized": false
+            }
+          }
+        }
+      ],
+      "edges": [
+        {
+          "sourceRef": "StartEvent_9780765",
+          "targetRef": "CallActivity_9780768"
+        },
+        {
+          "sourceRef": "CallActivity_9780784",
+          "targetRef": "EndEvent_9780766"
+        },
+        {
+          "sourceRef": "CallActivity_9780768",
+          "targetRef": "CallActivity_9780771"
+        },
+        {
+          "sourceRef": "ServiceTask_9780774",
+          "targetRef": "CallActivity_9780784"
+        },
+        {
+          "sourceRef": "CallActivity_9780771",
+          "targetRef": "ServiceTask_9780774"
+        }
+      ]
     }
   ],
   "message_flows": [
@@ -181,6 +459,92 @@
       "name": "SOAP",
       "sourceRef": "Participant_1",
       "targetRef": "StartEvent_1",
+      "properties": {
+        "ComponentType": {
+          "value": "SOAP",
+          "is_externalized": false
+        },
+        "Description": {
+          "value": "",
+          "is_externalized": false
+        },
+        "address": {
+          "value": "{{C4C_Quote2Order_S}}",
+          "is_externalized": true
+        },
+        "maximumBodySize": {
+          "value": "40",
+          "is_externalized": false
+        },
+        "ComponentNS": {
+          "value": "sap",
+          "is_externalized": false
+        },
+        "maximumAttachmentSize": {
+          "value": "100",
+          "is_externalized": false
+        },
+        "componentVersion": {
+          "value": "1.3",
+          "is_externalized": false
+        },
+        "Name": {
+          "value": "SOAP",
+          "is_externalized": false
+        },
+        "TransportProtocolVersion": {
+          "value": "1.7.1",
+          "is_externalized": false
+        },
+        "ComponentSWCVName": {
+          "value": "external",
+          "is_externalized": false
+        },
+        "system": {
+          "value": "C4C",
+          "is_externalized": false
+        },
+        "TransportProtocol": {
+          "value": "HTTP",
+          "is_externalized": false
+        },
+        "cmdVariantUri": {
+          "value": "ctype::AdapterVariant/cname::sap:SOAP/tp::HTTP/mp::Plain SOAP/direction::Sender/version::1.3.5",
+          "is_externalized": false
+        },
+        "userRole": {
+          "value": "{{UserRole}}",
+          "is_externalized": true
+        },
+        "wsdlURL": {
+          "value": "",
+          "is_externalized": false
+        },
+        "senderAuthType": {
+          "value": "{{Sender_Auth}}",
+          "is_externalized": true
+        },
+        "MessageProtocol": {
+          "value": "Plain SOAP",
+          "is_externalized": false
+        },
+        "MessageProtocolVersion": {
+          "value": "1.7.1",
+          "is_externalized": false
+        },
+        "ComponentSWCVId": {
+          "value": "1.7.1",
+          "is_externalized": false
+        },
+        "direction": {
+          "value": "Sender",
+          "is_externalized": false
+        },
+        "clientCertificates": {
+          "value": "<row><cell id='clientCertificate.subjectDN'>{{Subject}}</cell><cell id='clientCertificate.issuerDN'>{{Issuer}}</cell></row>",
+          "is_externalized": false
+        }
+      },
       "direction": "Sender",
       "component_type": "SOAP",
       "transport_protocol": "HTTP",
@@ -191,6 +555,72 @@
       "name": "ProcessDirectPost",
       "sourceRef": "ServiceTask_9780774",
       "targetRef": "Participant_9780777",
+      "properties": {
+        "ComponentType": {
+          "value": "ProcessDirect",
+          "is_externalized": false
+        },
+        "Description": {
+          "value": "QuoteFollowupPostExit",
+          "is_externalized": false
+        },
+        "address": {
+          "value": "{{QuoteFollowupPostExit}}",
+          "is_externalized": true
+        },
+        "ComponentNS": {
+          "value": "sap",
+          "is_externalized": false
+        },
+        "Vendor": {
+          "value": "SAP",
+          "is_externalized": false
+        },
+        "componentVersion": {
+          "value": "1.1",
+          "is_externalized": false
+        },
+        "Name": {
+          "value": "ProcessDirectPost",
+          "is_externalized": false
+        },
+        "TransportProtocolVersion": {
+          "value": "1.1.1",
+          "is_externalized": false
+        },
+        "ComponentSWCVName": {
+          "value": "external",
+          "is_externalized": false
+        },
+        "system": {
+          "value": "QuoteFollowupPostExit",
+          "is_externalized": false
+        },
+        "TransportProtocol": {
+          "value": "Not Applicable",
+          "is_externalized": false
+        },
+        "cmdVariantUri": {
+          "value": "ctype::AdapterVariant/cname::ProcessDirect/vendor::SAP/tp::Not Applicable/mp::Not Applicable/direction::Receiver/version::1.1.0",
+          "is_externalized": false
+        },
+        "MessageProtocol": {
+          "value": "Not Applicable",
+          "is_externalized": false
+        },
+        "MessageProtocolVersion": {
+          "value": "1.1.1",
+          "is_externalized": false
+        },
+        "ComponentSWCVId": {
+          "value": "1.1.1",
+          "is_externalized": false
+        },
+        "direction": {
+          "value": "Receiver",
+          "is_externalized": false
+        }
+      },
       "direction": "Receiver",
       "component_type": "ProcessDirect",
       "transport_protocol": "Not Applicable",
@@ -201,6 +631,116 @@
       "name": "",
       "sourceRef": "EndEvent_1",
       "targetRef": "Participant_2",
+      "properties": {
+        "cleanupHeaders": {
+          "value": "1",
+          "is_externalized": false
+        },
+        "Description": {
+          "value": "",
+          "is_externalized": false
+        },
+        "ComponentNS": {
+          "value": "sap",
+          "is_externalized": false
+        },
+        "privateKeyAlias": {
+          "value": "{{p-key-alias}}",
+          "is_externalized": true
+        },
+        "Name": {
+          "value": "",
+          "is_externalized": false
+        },
+        "TransportProtocolVersion": {
+          "value": "1.3.1",
+          "is_externalized": false
+        },
+        "ComponentSWCVName": {
+          "value": "external",
+          "is_externalized": false
+        },
+        "proxyPort": {
+          "value": "",
+          "is_externalized": false
+        },
+        "IDocContentType": {
+          "value": "{{IDOC-Content-type}}",
+          "is_externalized": true
+        },
+        "CompressMessage": {
+          "value": "0",
+          "is_externalized": false
+        },
+        "MessageProtocol": {
+          "value": "IDoc SOAP",
+          "is_externalized": false
+        },
+        "ComponentSWCVId": {
+          "value": "1.3.1",
+          "is_externalized": false
+        },
+        "requestTimeout": {
+          "value": "{{TimeOut}}",
+          "is_externalized": true
+        },
+        "direction": {
+          "value": "Receiver",
+          "is_externalized": false
+        },
+        "authentication": {
+          "value": "{{S4_authentication_73}}",
+          "is_externalized": true
+        },
+        "ComponentType": {
+          "value": "IDOC",
+          "is_externalized": false
+        },
+        "address": {
+          "value": "{{Protocol-Host-Port}}/sap/bc/srt/idoc?sap-client={{Client}}",
+          "is_externalized": true
+        },
+        "allowChunking": {
+          "value": "1",
+          "is_externalized": false
+        },
+        "proxyType": {
+          "value": "{{S4_proxyType_72}}",
+          "is_externalized": true
+        },
+        "componentVersion": {
+          "value": "1.3",
+          "is_externalized": false
+        },
+        "proxyHost": {
+          "value": "",
+          "is_externalized": false
+        },
+        "system": {
+          "value": "S4",
+          "is_externalized": false
+        },
+        "locationID": {
+          "value": "{{Location_ID}}",
+          "is_externalized": true
+        },
+        "TransportProtocol": {
+          "value": "HTTP",
+          "is_externalized": false
+        },
+        "cmdVariantUri": {
+          "value": "ctype::AdapterVariant/cname::sap:IDOC/tp::HTTP/mp::IDoc SOAP/direction::Receiver/version::1.3",
+          "is_externalized": false
+        },
+        "credentialName": {
+          "value": "{{artifactname}}",
+          "is_externalized": true
+        },
+        "MessageProtocolVersion": {
+          "value": "1.3.1",
+          "is_externalized": false
+        }
+      },
       "direction": "Receiver",
       "component_type": "IDOC",
       "transport_protocol": "HTTP",
@@ -231,10 +771,2928 @@
   ],
   "resolved_resources": {
     "C4C_S4_CustomerQuoteFollowupBusinessTransactionDocumentReq.mmap": {
-      "field_mappings": [],
-      "parse_warnings": [
-        "Transformation block not found in the mmap XML; expected a top-level transformation element with Dst/Src brick mappings."
+      "field_mappings": [
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest",
+          "target": "IDOC",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/MessageHeader/SenderParty/InternalID",
+          "target": "SNDPOR",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/MessageHeader/SenderParty/InternalID",
+          "target": "SNDPRN",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/MessageHeader/RecipientParty/InternalID",
+          "target": "RCVPOR",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/MessageHeader/RecipientParty/InternalID",
+          "target": "RCVPRN",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/BasicMessageHeader/ID",
+          "target": "ARCKEY",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/SenderSequenceNumberValue",
+          "target": "SERIAL",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest",
+          "target": "E1SALESORDER_CREATEFROMDAT2",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/RecepientID",
+          "target": "SALESDOCUMENTIN",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest",
+          "target": "E1BPSDHD1",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/TypeCode",
+          "target": "REFOBJTYPE",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/ID",
+          "target": "REFOBJKEY",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/ProcessingTypeCode",
+          "target": "DOC_TYPE",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/SalesBusinessArea/SalesOrganisationRecipientID",
+          "target": "SALES_ORG",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/SalesBusinessArea/DistributionChannelCode",
+          "target": "DISTR_CHAN",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/SalesBusinessArea/DivisionCode",
+          "target": "DIVISION",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/SalesBusinessArea/SalesGroupRecipientID",
+          "target": "SALES_GRP",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/SalesBusinessArea/SalesOfficeRecipientID",
+          "target": "SALES_OFF",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/PeriodTerms/RequestedDate",
+          "target": "REQ_DATE_H",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/DeliveryTerms/IncotermsClassificationCode",
+          "target": "INCOTERMS1",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/DeliveryTerms/IncotermsTransferLocationName",
+          "target": "INCOTERMS2",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/CashDiscountTerms/CashDiscountTermsCode",
+          "target": "PMNTTRMS",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/OrderReasonCode",
+          "target": "ORD_REASON",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/PricingTerms/PriceDate",
+          "target": "PRICE_DATE",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/PeriodTerms/ValidityPeriodStartDate",
+          "target": "QT_VALID_F",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/PeriodTerms/ValidityPeriodEndDate",
+          "target": "QT_VALID_T",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerID",
+          "target": "PURCH_NO_C",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/DocumentDate",
+          "target": "DOC_DATE",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Name",
+          "target": "PP_SEARCH",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/DeliveryTerms/ShippingCondition",
+          "target": "DUN_COUNT",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/PricingTerms/CurrencyCode",
+          "target": "CURR_ISO",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest",
+          "target": "E1BPSDHD1X",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/TypeCode",
+          "target": "QT_VALID_F",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest",
+          "target": "E1BP_SENDER",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/MessageHeader/SenderParty/InternalID",
+          "target": "LOG_SYSTEM",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest",
+          "target": "E1BPSDLS",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/ExternalPricingIndicator",
+          "target": "COND_HANDL",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty",
+          "target": "E1BPPARNR",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/RoleCode",
+          "target": "PARTN_ROLE",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/RecipientERPPartyID",
+          "target": "PARTN_NUMB",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/Address/ObjectTypeCode",
+          "target": "ADDRESS",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/Address/ObjectTypeCode",
+          "target": "ADDR_ORIG",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/PartyContactParty",
+          "target": "E1BPPARNR",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/PartyContactParty/RecipientERPPartyID",
+          "target": "PARTN_NUMB",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/PartyContactParty/Address/ObjectTypeCode",
+          "target": "NAME",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/PartyContactParty/Address/ObjectTypeCode",
+          "target": "NAME_2",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/PartyContactParty/Address/ObjectTypeCode",
+          "target": "NAME_3",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/PartyContactParty/Address/ObjectTypeCode",
+          "target": "NAME_4",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/PartyContactParty/Address/ObjectTypeCode",
+          "target": "STREET",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/PartyContactParty/Address/ObjectTypeCode",
+          "target": "COUNTRY",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/PartyContactParty/Address/ObjectTypeCode",
+          "target": "POSTL_CODE",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/PartyContactParty/Address/ObjectTypeCode",
+          "target": "POBX_PCD",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/PartyContactParty/Address/ObjectTypeCode",
+          "target": "CITY",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/PartyContactParty/Address/ObjectTypeCode",
+          "target": "DISTRICT",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/PartyContactParty/Address/ObjectTypeCode",
+          "target": "REGION",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/PartyContactParty/Address/ObjectTypeCode",
+          "target": "PO_BOX",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/PartyContactParty/Address/ObjectTypeCode",
+          "target": "LANGU_ISO",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/PartyContactParty/Address/ObjectTypeCode",
+          "target": "ADDR_ORIG",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/ShipToParty",
+          "target": "E1BPPARNR",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/ShipToParty/RoleCode",
+          "target": "PARTN_ROLE",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/ShipToParty/RecipientERPPartyID",
+          "target": "PARTN_NUMB",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/ID",
+          "target": "ITM_NUMBER",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/ShipToParty/Address/ObjectTypeCode",
+          "target": "ADDRESS",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Party",
+          "target": "E1BPPARNR",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Party/RoleCode",
+          "target": "PARTN_ROLE",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Party/RecipientERPPartyID",
+          "target": "PARTN_NUMB",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/Party",
+          "target": "E1BPPARNR",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/Party/RoleCode",
+          "target": "PARTN_ROLE",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/Party/RecipientERPPartyID",
+          "target": "PARTN_NUMB",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/Party/Address/ObjectTypeCode",
+          "target": "ADDR_ORIG",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/ScheduleLine",
+          "target": "E1BPSCHDL",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/ScheduleLine/ScheduleLineID",
+          "target": "SCHED_LINE",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/ScheduleLine/Quantity",
+          "target": "REQ_QTY",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/PriceComponent/MajorLevelNumber",
+          "target": "COND_ST_NO",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/PriceComponent/TypeCode",
+          "target": "COND_TYPE",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/PriceComponent/Rate/DecimalValue",
+          "target": "COND_VALUE",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/PriceComponent/Rate/BaseDecimalValue",
+          "target": "COND_P_UNT",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/PriceComponent/Rate/CurrencyCode",
+          "target": "CURR_ISO",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/PriceComponent/Rate/BaseMeasureUnitCode",
+          "target": "CD_UNT_ISO",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/PriceComponent/MinorLevelNumber",
+          "target": "COND_COUNT_LONG",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/PriceComponent/MajorLevelNumber",
+          "target": "COND_ST_NO",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/PriceComponent/TypeCode",
+          "target": "COND_TYPE",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/PriceComponent/Rate/DecimalValue",
+          "target": "COND_VALUE",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/PriceComponent/Rate/BaseDecimalValue",
+          "target": "COND_P_UNT",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/PriceComponent/Rate/CurrencyCode",
+          "target": "CURR_ISO",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/PriceComponent/Rate/BaseMeasureUnitCode",
+          "target": "CD_UNT_ISO",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/PriceComponent/MinorLevelNumber",
+          "target": "COND_COUNT_LONG",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/PriceComponent/MajorLevelNumber",
+          "target": "COND_ST_NO",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/PriceComponent/TypeCode",
+          "target": "COND_TYPE",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/PriceComponent/Rate/CurrencyCode",
+          "target": "CURRENCY",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/PriceComponent/Rate/BaseMeasureUnitCode",
+          "target": "COND_UNIT",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/PriceComponent/Rate/BaseDecimalValue",
+          "target": "COND_P_UNT",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/PriceComponent/MinorLevelNumber",
+          "target": "COND_COUNT_LONG",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/PriceComponent/MajorLevelNumber",
+          "target": "COND_ST_NO",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/PriceComponent/TypeCode",
+          "target": "COND_TYPE",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/PriceComponent/Rate/CurrencyCode",
+          "target": "CURRENCY",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/PriceComponent/Rate/BaseMeasureUnitCode",
+          "target": "COND_UNIT",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/PriceComponent/Rate/BaseDecimalValue",
+          "target": "COND_P_UNT",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/PriceComponent/MinorLevelNumber",
+          "target": "COND_COUNT_LONG",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/TextCollection/Text/TextContent",
+          "target": "E1BPSDTEXT",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/RecepientID",
+          "target": "DOC_NUMBER",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/TextCollection/Text/TextContent",
+          "target": "TEXT_LINE",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/TextCollection/Text/TextContent",
+          "target": "E1BPSDTEXT",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/RecepientID",
+          "target": "DOC_NUMBER",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/TextCollection/Text/TextContent",
+          "target": "TEXT_LINE",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Party/Address/OrganisationName/FirstLineName",
+          "target": "E1BPADR1",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/Address/ObjectTypeCode",
+          "target": "E1BPADR1",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/Address/ObjectTypeCode",
+          "target": "FORMOFADDR",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/Address/OrganisationName/SecondLineName",
+          "target": "NAME_2",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/Address/OrganisationName/ThirdLineName",
+          "target": "NAME_3",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/Address/OrganisationName/FourthLineName",
+          "target": "NAME_4",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/Address/PostalAddress/CityName",
+          "target": "CITY",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/Address/PostalAddress/DistrictName",
+          "target": "DISTRICT",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/Address/PostalAddress/StreetPostalCode",
+          "target": "POSTL_COD1",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/Address/PostalAddress/POBoxPostalCode",
+          "target": "POSTL_COD2",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/Address/ObjectTypeCode",
+          "target": "PO_BOX",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/Address/PostalAddress/StreetName",
+          "target": "STREET",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/Address/ObjectTypeCode",
+          "target": "HOUSE_NO",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/Address/PostalAddress/CountryCode",
+          "target": "COUNTRY",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/Address/PostalAddress/RegionCode",
+          "target": "REGION",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/Address/ObjectTypeCode",
+          "target": "E1BPADR11",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/BuyerParty/Address/CorrespondenceLanguageCode",
+          "target": "LANGU_ISO",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/ShipToParty/Address/OrganisationName/FirstLineName",
+          "target": "E1BPADR1",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/ShipToParty/Address/ObjectTypeCode",
+          "target": "FORMOFADDR",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/ShipToParty/Address/ObjectTypeCode",
+          "target": "NAME",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/ShipToParty/Address/ObjectTypeCode",
+          "target": "NAME_2",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/ShipToParty/Address/ObjectTypeCode",
+          "target": "NAME_3",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/ShipToParty/Address/ObjectTypeCode",
+          "target": "NAME_4",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/ShipToParty/Address/ObjectTypeCode",
+          "target": "CITY",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/ShipToParty/Address/ObjectTypeCode",
+          "target": "DISTRICT",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/ShipToParty/Address/ObjectTypeCode",
+          "target": "POSTL_COD1",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/ShipToParty/Address/ObjectTypeCode",
+          "target": "POSTL_COD2",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/ShipToParty/Address/ObjectTypeCode",
+          "target": "PO_BOX",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/ShipToParty/Address/ObjectTypeCode",
+          "target": "STREET",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/ShipToParty/Address/ObjectTypeCode",
+          "target": "HOUSE_NO",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/ShipToParty/Address/ObjectTypeCode",
+          "target": "COUNTRY",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/ShipToParty/Address/ObjectTypeCode",
+          "target": "REGION",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/ShipToParty/Address/ObjectTypeCode",
+          "target": "E1BPADR11",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/ShipToParty/Address/CorrespondenceLanguageCode",
+          "target": "LANGU_ISO",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/Party/Address/OrganisationName/FirstLineName",
+          "target": "E1BPADR1",
+          "function": null
+        },
+        {
+          "source": "/ns0:SalesOrderRequestMassRequest/SalesOrderRequestRequest/SalesOrderRequest/Item/Party/Address/ObjectTypeCode",
+          "target": "LANGU_ISO",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "BEGIN",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TABNAM",
+          "function": "constant",
+          "value": {
+            "value": "EDI_DC 40",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "DIRECT",
+          "function": "constant",
+          "value": {
+            "value": "2",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "IDOCTYP",
+          "function": "constant",
+          "value": {
+            "value": "SALESORDER_CREATEFROMDAT204",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "MESTYP",
+          "function": "constant",
+          "value": {
+            "value": "SALESORDER_CREATEFROMDAT2",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SNDPRT",
+          "function": "constant",
+          "value": {
+            "value": "LS",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "RCVPRT",
+          "function": "constant",
+          "value": {
+            "value": "LS",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ARCKEY",
+          "function": "constant",
+          "value": {
+            "value": "urn:sap.com:msgid=",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SALESDOCUMENTIN",
+          "function": "constant",
+          "value": {
+            "value": "",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "BINARY_RELATIONSHIPTYPE",
+          "function": "constant",
+          "value": {
+            "value": "COD2",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "REQ_DATE_H",
+          "function": "constant",
+          "value": {
+            "value": "00000000",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "QT_VALID_F",
+          "function": "constant",
+          "value": {
+            "value": "30",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "QT_VALID_T",
+          "function": "constant",
+          "value": {
+            "value": "30",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SHIP_COND",
+          "function": "constant",
+          "value": {
+            "value": "0",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "UPDATEFLAG",
+          "function": "constant",
+          "value": {
+            "value": "I",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SALES_GRP",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SALES_OFF",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "REQ_DATE_H",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ORD_REASON",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "PRICE_DATE",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "QT_VALID_F",
+          "function": "constant",
+          "value": {
+            "value": "30",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "PURCH_NO_C",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "DOC_DATE",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "PP_SEARCH",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "CURRENCY",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COND_HANDL",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "E1BPSDITM",
+          "function": "constant",
+          "value": {
+            "value": "0",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ITM_NUMBER",
+          "function": "constant",
+          "value": {
+            "value": "0",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "HG_LV_ITEM",
+          "function": "constant",
+          "value": {
+            "value": "",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ALT_TO_ITM",
+          "function": "constant",
+          "value": {
+            "value": "0",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "REASON_REJ",
+          "function": "constant",
+          "value": {
+            "value": "0",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "PLANT",
+          "function": "constant",
+          "value": {
+            "value": "0",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TARGET_QTY",
+          "function": "constant",
+          "value": {
+            "value": "0",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "T_UNIT_ISO",
+          "function": "constant",
+          "value": {
+            "value": "0",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ITEM_CATEG",
+          "function": "constant",
+          "value": {
+            "value": "0",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SHORT_TEXT",
+          "function": "constant",
+          "value": {
+            "value": "0",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "INCOTERMS1",
+          "function": "constant",
+          "value": {
+            "value": "0",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "INCOTERMS2",
+          "function": "constant",
+          "value": {
+            "value": "0",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "PMNTTRMS",
+          "function": "constant",
+          "value": {
+            "value": "0",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "DLV_PRIO",
+          "function": "constant",
+          "value": {
+            "value": "0",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SHIP_POINT",
+          "function": "constant",
+          "value": {
+            "value": "0",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "E1BPSDITM1",
+          "function": "constant",
+          "value": {
+            "value": "",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "REF_DOC",
+          "function": "constant",
+          "value": {
+            "value": "0",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "REF_DOC_IT",
+          "function": "constant",
+          "value": {
+            "value": "0",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "REF_DOC_CA",
+          "function": "constant",
+          "value": {
+            "value": "0",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ITM_TYPE_USAGE",
+          "function": "constant",
+          "value": {
+            "value": "0",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "E1BPSDITM2",
+          "function": "constant",
+          "value": {
+            "value": "",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "MATERIAL_LONG",
+          "function": "constant",
+          "value": {
+            "value": "0",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "MAT_ENTRD_LONG",
+          "function": "constant",
+          "value": {
+            "value": "0",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "E1BPSDITM",
+          "function": "constant",
+          "value": {
+            "value": "0",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ITM_NUMBER",
+          "function": "constant",
+          "value": {
+            "value": "0",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "HG_LV_ITEM",
+          "function": "constant",
+          "value": {
+            "value": "0",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "UPDATEFLAG",
+          "function": "constant",
+          "value": {
+            "value": "I",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "HG_LV_ITEM",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "PLANT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TARGET_QTY",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ITEM_CATEG",
+          "function": "constant",
+          "value": {
+            "value": "",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SHORT_TEXT",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "INCOTERMS1",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "INCOTERMS2",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "PMNTTRMS",
+          "function": "constant",
+          "value": {
+            "value": "",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SALES_UNIT",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "DLV_PRIO",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "UPDATEFLAG",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TARGET_QTY",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "PMNTTRMS",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ADDRESS",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ADDR_ORIG",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "PARTN_ROLE",
+          "function": "constant",
+          "value": {
+            "value": "AP",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_2",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_3",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_4",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "STREET",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COUNTRY",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "POSTL_CODE",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "POBX_PCD",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "CITY",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "DISTRICT",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "REGION",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "PO_BOX",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TELEPHONE",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TELEPHONE2",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "FAX_NUMBER",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "LANGU_ISO",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ADDR_ORIG",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ADDRESS",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ADDR_ORIG",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ADDRESS",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ADDR_ORIG",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TELEPHONE2",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ADDRESS",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ADDR_ORIG",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "DATE_TYPE",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "UPDATEFLAG",
+          "function": "constant",
+          "value": {
+            "value": "I",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "REQ_DATE",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "REQ_QTY",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "E1BPCOND",
+          "function": "constant",
+          "value": {
+            "value": "true",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "E1BPCOND",
+          "function": "constant",
+          "value": {
+            "value": "true",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ITM_NUMBER",
+          "function": "constant",
+          "value": {
+            "value": "000000",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "UPDATEFLAG",
+          "function": "constant",
+          "value": {
+            "value": "U",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COND_VALUE",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "CURRENCY",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COND_UNIT",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COND_P_UNT",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ITM_NUMBER",
+          "function": "constant",
+          "value": {
+            "value": "000000",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "UPDATEFLAG",
+          "function": "constant",
+          "value": {
+            "value": "U",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COND_VALUE",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "CURRENCY",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COND_UNIT",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COND_P_UNT",
+          "function": "constant",
+          "value": {
+            "value": "X",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "E1BPADR1",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ADDR_NO",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "FORMOFADDR",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_2",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_3",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_4",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "CITY",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "DISTRICT",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "POSTL_COD1",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "POSTL_COD2",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "PO_BOX",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "STREET",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "HOUSE_NO",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COUNTRY",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "REGION",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TEL1_NUMBR",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "FAX_NUMBER",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "E1BPADR11",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "LANGU_ISO",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "E1BPADR1",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "FORMOFADDR",
+          "function": "constant",
+          "value": {
+            "value": "Company",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_2",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_3",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_4",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "CITY",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "DISTRICT",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "POSTL_COD1",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "POSTL_COD2",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "PO_BOX",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "STREET",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "HOUSE_NO",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COUNTRY",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "REGION",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TEL1_NUMBR",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "FAX_NUMBER",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "E1BPADR11",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "LANGU_ISO",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "E1BPADR1",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "FORMOFADDR",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_2",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_3",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_4",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "CITY",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "DISTRICT",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "POSTL_COD1",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "POSTL_COD2",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "PO_BOX",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "STREET",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "HOUSE_NO",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COUNTRY",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "REGION",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TEL1_NUMBR",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "FAX_NUMBER",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "E1BPADR11",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "LANGU_ISO",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "E1BPADR1",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "FORMOFADDR",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_2",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_3",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "NAME_4",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "CITY",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "DISTRICT",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "POSTL_COD1",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "POSTL_COD2",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "PO_BOX",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "STREET",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "HOUSE_NO",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "COUNTRY",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "REGION",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "TEL1_NUMBR",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "FAX_NUMBER",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "E1BPADR11",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SEGMENT",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "LANGU_ISO",
+          "function": "constant",
+          "value": {
+            "value": "1432",
+            "is_externalized": false
+          },
+          "is_static": true
+        }
       ],
+      "parse_warnings": [],
+      "schemas": {
+        "TARGET_IFR_MESS": {
+          "schema": "SALESORDER_CREATEFROMDAT204",
+          "root_element": "SALESORDER_CREATEFROMDAT204"
+        },
+        "SOURCE_IFR_MESS": {
+          "schema": "CustomerQuote_Processing_SalesOrder_Request_Out",
+          "root_element": "SalesOrderRequestMassRequest"
+        }
+      },
+      "multiplicity": "1:1",
+      "source_parameters": [
+        {
+          "name": "",
+          "occurrence": ""
+        }
+      ],
+      "target_parameters": [
+        {
+          "name": "",
+          "occurrence": ""
+        }
+      ],
+      "format": "java_operation_mapping",
       "resolved": true
     },
     "CustomerQuote_Processing_SalesOrder_Request_Out.wsdl": {

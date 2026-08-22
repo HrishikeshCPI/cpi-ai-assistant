@@ -1,6 +1,7 @@
 {
   "artifact_id": "com.sap.scenarios.s42c4c.businesspartnerrelationshi",
   "version": "2.1.1",
+  "developer_description": "Business Partner Replication from SAP Business Suite",
   "nodes": [
     {
       "id": "CallActivity_34",
@@ -26,14 +27,28 @@
       "name": "Post Processing",
       "bpmn_type": "callActivity",
       "type": "ProcessCallElement",
-      "resources": []
+      "resources": [],
+      "details": {
+        "process_id": {
+          "value": "Process_12",
+          "is_externalized": false
+        }
+      }
     },
     {
       "id": "_CallActivity_3",
       "name": "Set Application ID",
       "bpmn_type": "callActivity",
       "type": "Enricher",
-      "resources": []
+      "resources": [],
+      "details": {
+        "property_table": [],
+        "header_table": [],
+        "wrapContent": {
+          "value": "",
+          "is_externalized": false
+        }
+      }
     },
     {
       "id": "CallActivity_1",
@@ -48,44 +63,6 @@
       "id": "ExclusiveGateway_6",
       "name": "Extension?",
       "bpmn_type": "exclusiveGateway"
-    },
-    {
-      "id": "StartEvent_13",
-      "name": "Start 1",
-      "bpmn_type": "startEvent"
-    },
-    {
-      "id": "CallActivity_16",
-      "name": "Filter Standard Mapping Output",
-      "bpmn_type": "callActivity",
-      "type": "Filter",
-      "resources": []
-    },
-    {
-      "id": "CallActivity_25",
-      "name": "Filter Target Message",
-      "bpmn_type": "callActivity",
-      "type": "Filter",
-      "resources": []
-    },
-    {
-      "id": "ServiceTask_22",
-      "name": "Call Extension",
-      "bpmn_type": "serviceTask",
-      "type": "ExternalCall",
-      "resources": []
-    },
-    {
-      "id": "EndEvent_14",
-      "name": "End 1",
-      "bpmn_type": "endEvent"
-    },
-    {
-      "id": "CallActivity_19",
-      "name": "Bundle Message",
-      "bpmn_type": "callActivity",
-      "type": "Enricher",
-      "resources": []
     }
   ],
   "edges": [
@@ -117,26 +94,186 @@
       "sourceRef": "ExclusiveGateway_6",
       "targetRef": "CallActivity_9",
       "condition": "${property.P_ExtensionEnabled} = 'true'"
+    }
+  ],
+  "processes": [
+    {
+      "id": "Process_1",
+      "classification": "main",
+      "nodes": [
+        {
+          "id": "CallActivity_34",
+          "name": "Filter Delete Action for Same Business Partner Relationship",
+          "bpmn_type": "callActivity",
+          "type": "Script",
+          "resources": [
+            "PrePostProcessing.groovy"
+          ]
+        },
+        {
+          "id": "StartEvent_1",
+          "name": "Start",
+          "bpmn_type": "startEvent"
+        },
+        {
+          "id": "EndEvent_1",
+          "name": "End",
+          "bpmn_type": "endEvent"
+        },
+        {
+          "id": "CallActivity_9",
+          "name": "Post Processing",
+          "bpmn_type": "callActivity",
+          "type": "ProcessCallElement",
+          "resources": [],
+          "details": {
+            "process_id": {
+              "value": "Process_12",
+              "is_externalized": false
+            }
+          }
+        },
+        {
+          "id": "_CallActivity_3",
+          "name": "Set Application ID",
+          "bpmn_type": "callActivity",
+          "type": "Enricher",
+          "resources": [],
+          "details": {
+            "property_table": [],
+            "header_table": [],
+            "wrapContent": {
+              "value": "",
+              "is_externalized": false
+            }
+          }
+        },
+        {
+          "id": "CallActivity_1",
+          "name": "S4_C4C_BusinessPartnerRelationshipReplication",
+          "bpmn_type": "callActivity",
+          "type": "Mapping",
+          "resources": [
+            "S4_C4C_BusinessPartnerRelationshipReplication.mmap"
+          ]
+        },
+        {
+          "id": "ExclusiveGateway_6",
+          "name": "Extension?",
+          "bpmn_type": "exclusiveGateway"
+        }
+      ],
+      "edges": [
+        {
+          "sourceRef": "CallActivity_34",
+          "targetRef": "ExclusiveGateway_6"
+        },
+        {
+          "sourceRef": "StartEvent_1",
+          "targetRef": "_CallActivity_3"
+        },
+        {
+          "sourceRef": "CallActivity_9",
+          "targetRef": "EndEvent_1"
+        },
+        {
+          "sourceRef": "_CallActivity_3",
+          "targetRef": "CallActivity_1"
+        },
+        {
+          "sourceRef": "CallActivity_1",
+          "targetRef": "CallActivity_34"
+        },
+        {
+          "sourceRef": "ExclusiveGateway_6",
+          "targetRef": "EndEvent_1"
+        },
+        {
+          "sourceRef": "ExclusiveGateway_6",
+          "targetRef": "CallActivity_9",
+          "condition": "${property.P_ExtensionEnabled} = 'true'"
+        }
+      ]
     },
     {
-      "sourceRef": "StartEvent_13",
-      "targetRef": "CallActivity_16"
-    },
-    {
-      "sourceRef": "CallActivity_16",
-      "targetRef": "CallActivity_19"
-    },
-    {
-      "sourceRef": "CallActivity_25",
-      "targetRef": "EndEvent_14"
-    },
-    {
-      "sourceRef": "ServiceTask_22",
-      "targetRef": "CallActivity_25"
-    },
-    {
-      "sourceRef": "CallActivity_19",
-      "targetRef": "ServiceTask_22"
+      "id": "Process_12",
+      "classification": "local_subprocess",
+      "nodes": [
+        {
+          "id": "StartEvent_13",
+          "name": "Start 1",
+          "bpmn_type": "startEvent"
+        },
+        {
+          "id": "CallActivity_16",
+          "name": "Filter Standard Mapping Output",
+          "bpmn_type": "callActivity",
+          "type": "Filter",
+          "resources": [],
+          "details": {}
+        },
+        {
+          "id": "CallActivity_25",
+          "name": "Filter Target Message",
+          "bpmn_type": "callActivity",
+          "type": "Filter",
+          "resources": [],
+          "details": {}
+        },
+        {
+          "id": "ServiceTask_22",
+          "name": "Call Extension",
+          "bpmn_type": "serviceTask",
+          "type": "ExternalCall",
+          "resources": []
+        },
+        {
+          "id": "EndEvent_14",
+          "name": "End 1",
+          "bpmn_type": "endEvent"
+        },
+        {
+          "id": "CallActivity_19",
+          "name": "Bundle Message",
+          "bpmn_type": "callActivity",
+          "type": "Enricher",
+          "resources": [],
+          "details": {
+            "property_table": [],
+            "header_table": [],
+            "bodyType": {
+              "value": "expression",
+              "is_externalized": false
+            },
+            "wrapContent": {
+              "value": "<ns1:Messages xmlns:ns1=\"http://sap.com/xi/XI/SplitAndMerge\">\n<ns1:Message1>\n${property.P_OriginalPayload}\n</ns1:Message1>\n<ns1:Message2>\n${in.body}\n</ns1:Message2>\n</ns1:Messages>",
+              "is_externalized": false
+            }
+          }
+        }
+      ],
+      "edges": [
+        {
+          "sourceRef": "StartEvent_13",
+          "targetRef": "CallActivity_16"
+        },
+        {
+          "sourceRef": "CallActivity_16",
+          "targetRef": "CallActivity_19"
+        },
+        {
+          "sourceRef": "CallActivity_25",
+          "targetRef": "EndEvent_14"
+        },
+        {
+          "sourceRef": "ServiceTask_22",
+          "targetRef": "CallActivity_25"
+        },
+        {
+          "sourceRef": "CallActivity_19",
+          "targetRef": "ServiceTask_22"
+        }
+      ]
     }
   ],
   "message_flows": [
@@ -145,6 +282,92 @@
       "name": "SOAP",
       "sourceRef": "Participant_1",
       "targetRef": "StartEvent_1",
+      "properties": {
+        "ComponentType": {
+          "value": "SOAP",
+          "is_externalized": false
+        },
+        "Description": {
+          "value": "",
+          "is_externalized": false
+        },
+        "address": {
+          "value": "{{S4_Send_BPRelationShip}}",
+          "is_externalized": true
+        },
+        "maximumBodySize": {
+          "value": "40",
+          "is_externalized": false
+        },
+        "ComponentNS": {
+          "value": "sap",
+          "is_externalized": false
+        },
+        "maximumAttachmentSize": {
+          "value": "100",
+          "is_externalized": false
+        },
+        "componentVersion": {
+          "value": "1.3",
+          "is_externalized": false
+        },
+        "Name": {
+          "value": "SOAP",
+          "is_externalized": false
+        },
+        "TransportProtocolVersion": {
+          "value": "1.7.0",
+          "is_externalized": false
+        },
+        "ComponentSWCVName": {
+          "value": "external",
+          "is_externalized": false
+        },
+        "system": {
+          "value": "S4",
+          "is_externalized": false
+        },
+        "TransportProtocol": {
+          "value": "HTTP",
+          "is_externalized": false
+        },
+        "cmdVariantUri": {
+          "value": "ctype::AdapterVariant/cname::sap:SOAP/tp::HTTP/mp::Plain SOAP/direction::Sender/version::1.3.4",
+          "is_externalized": false
+        },
+        "userRole": {
+          "value": "{{UserRole}}",
+          "is_externalized": true
+        },
+        "wsdlURL": {
+          "value": "",
+          "is_externalized": false
+        },
+        "senderAuthType": {
+          "value": "{{Sender_Auth}}",
+          "is_externalized": true
+        },
+        "MessageProtocol": {
+          "value": "Plain SOAP",
+          "is_externalized": false
+        },
+        "MessageProtocolVersion": {
+          "value": "1.7.0",
+          "is_externalized": false
+        },
+        "ComponentSWCVId": {
+          "value": "1.7.0",
+          "is_externalized": false
+        },
+        "direction": {
+          "value": "Sender",
+          "is_externalized": false
+        },
+        "clientCertificates": {
+          "value": "<row><cell id='clientCertificate.subjectDN'>{{subject}}</cell><cell id='clientCertificate.issuerDN'>{{issuer}}</cell></row>",
+          "is_externalized": false
+        }
+      },
       "direction": "Sender",
       "component_type": "SOAP",
       "transport_protocol": "HTTP",
@@ -155,6 +378,72 @@
       "name": "ProcessDirect",
       "sourceRef": "ServiceTask_22",
       "targetRef": "Participant_28",
+      "properties": {
+        "ComponentType": {
+          "value": "ProcessDirect",
+          "is_externalized": false
+        },
+        "Description": {
+          "value": "",
+          "is_externalized": false
+        },
+        "address": {
+          "value": "{{S4-C4C-BusinessPartnerRelationshipReplicationPostExit}}",
+          "is_externalized": true
+        },
+        "ComponentNS": {
+          "value": "sap",
+          "is_externalized": false
+        },
+        "Vendor": {
+          "value": "SAP",
+          "is_externalized": false
+        },
+        "componentVersion": {
+          "value": "1.1",
+          "is_externalized": false
+        },
+        "Name": {
+          "value": "ProcessDirect",
+          "is_externalized": false
+        },
+        "TransportProtocolVersion": {
+          "value": "1.1.1",
+          "is_externalized": false
+        },
+        "ComponentSWCVName": {
+          "value": "external",
+          "is_externalized": false
+        },
+        "system": {
+          "value": "BusinessPartnerRelationshipReplicationPostExit",
+          "is_externalized": false
+        },
+        "TransportProtocol": {
+          "value": "Not Applicable",
+          "is_externalized": false
+        },
+        "cmdVariantUri": {
+          "value": "ctype::AdapterVariant/cname::ProcessDirect/vendor::SAP/tp::Not Applicable/mp::Not Applicable/direction::Receiver/version::1.1.0",
+          "is_externalized": false
+        },
+        "MessageProtocol": {
+          "value": "Not Applicable",
+          "is_externalized": false
+        },
+        "MessageProtocolVersion": {
+          "value": "1.1.1",
+          "is_externalized": false
+        },
+        "ComponentSWCVId": {
+          "value": "1.1.1",
+          "is_externalized": false
+        },
+        "direction": {
+          "value": "Receiver",
+          "is_externalized": false
+        }
+      },
       "direction": "Receiver",
       "component_type": "ProcessDirect",
       "transport_protocol": "Not Applicable",
@@ -165,6 +454,128 @@
       "name": "SOAP",
       "sourceRef": "EndEvent_1",
       "targetRef": "Participant_2",
+      "properties": {
+        "cleanupHeaders": {
+          "value": "{{CleanRequestHeaders}}",
+          "is_externalized": true
+        },
+        "Description": {
+          "value": "",
+          "is_externalized": false
+        },
+        "ComponentNS": {
+          "value": "sap",
+          "is_externalized": false
+        },
+        "privateKeyAlias": {
+          "value": "{{pv-key-alias}}",
+          "is_externalized": true
+        },
+        "location_id": {
+          "value": "",
+          "is_externalized": false
+        },
+        "Name": {
+          "value": "SOAP",
+          "is_externalized": false
+        },
+        "TransportProtocolVersion": {
+          "value": "1.7.0",
+          "is_externalized": false
+        },
+        "ComponentSWCVName": {
+          "value": "external",
+          "is_externalized": false
+        },
+        "proxyPort": {
+          "value": "",
+          "is_externalized": false
+        },
+        "soapWsdlURL": {
+          "value": "",
+          "is_externalized": false
+        },
+        "CompressMessage": {
+          "value": "0",
+          "is_externalized": false
+        },
+        "soapServiceName": {
+          "value": "",
+          "is_externalized": false
+        },
+        "MessageProtocol": {
+          "value": "Plain SOAP",
+          "is_externalized": false
+        },
+        "ComponentSWCVId": {
+          "value": "1.7.0",
+          "is_externalized": false
+        },
+        "requestTimeout": {
+          "value": "{{TimeOut}}",
+          "is_externalized": true
+        },
+        "direction": {
+          "value": "Receiver",
+          "is_externalized": false
+        },
+        "authentication": {
+          "value": "{{Receiver_Auth}}",
+          "is_externalized": true
+        },
+        "ComponentType": {
+          "value": "SOAP",
+          "is_externalized": false
+        },
+        "address": {
+          "value": "https://{{C4C-Host}}/sap/bc/srt/scs/sap/businesspartnerrelationshiprep",
+          "is_externalized": false
+        },
+        "allowChunking": {
+          "value": "{{AllowChunking}}",
+          "is_externalized": true
+        },
+        "proxyType": {
+          "value": "default",
+          "is_externalized": false
+        },
+        "soapWsdlPortName": {
+          "value": "",
+          "is_externalized": false
+        },
+        "operationName": {
+          "value": "",
+          "is_externalized": false
+        },
+        "componentVersion": {
+          "value": "1.6",
+          "is_externalized": false
+        },
+        "proxyHost": {
+          "value": "",
+          "is_externalized": false
+        },
+        "system": {
+          "value": "C4C",
+          "is_externalized": false
+        },
+        "TransportProtocol": {
+          "value": "HTTP",
+          "is_externalized": false
+        },
+        "cmdVariantUri": {
+          "value": "ctype::AdapterVariant/cname::sap:SOAP/tp::HTTP/mp::Plain SOAP/direction::Receiver/version::1.6.1",
+          "is_externalized": false
+        },
+        "credentialName": {
+          "value": "{{c4c-communication-user}}",
+          "is_externalized": true
+        },
+        "MessageProtocolVersion": {
+          "value": "1.7.0",
+          "is_externalized": false
+        }
+      },
       "direction": "Receiver",
       "component_type": "SOAP",
       "transport_protocol": "HTTP",
@@ -211,13 +622,1581 @@
       "complexity": "business-logic",
       "business_note": "This deduplication rule removes actionCode='05' (delete) records when a matching actionCode='04' (update) record exists. This prevents duplicate delete operations when both appear in the same incoming batch. All identifier fields must match for deduplication to occur.",
       "resolved": true,
-      "source": "cache"
+      "source": "cache",
+      "cpi_apis": [
+        {
+          "api_name": "message.getBody",
+          "literal_argument": null
+        },
+        {
+          "api_name": "message.setBody",
+          "literal_argument": null
+        }
+      ]
     },
     "S4_C4C_BusinessPartnerRelationshipReplication.mmap": {
-      "field_mappings": [],
-      "parse_warnings": [
-        "Transformation block not found in the mmap XML; expected a top-level transformation element with Dst/Src brick mappings."
+      "field_mappings": [
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest",
+          "target": "ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader",
+          "target": "MessageHeader",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/ID",
+          "target": "ID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/ID/@schemeID",
+          "target": "schemeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/ID/@schemeAgencyID",
+          "target": "schemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/ID/@schemeAgencySchemeAgencyID",
+          "target": "schemeAgencySchemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/UUID",
+          "target": "UUID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/UUID/@schemeID",
+          "target": "schemeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/UUID/@schemeAgencyID",
+          "target": "schemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/ReferenceID",
+          "target": "ReferenceID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/ReferenceID/@schemeID",
+          "target": "schemeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/ReferenceID/@schemeAgencyID",
+          "target": "schemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/ReferenceID/@schemeAgencySchemeAgencyID",
+          "target": "schemeAgencySchemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/ReferenceUUID",
+          "target": "ReferenceUUID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/ReferenceUUID/@schemeID",
+          "target": "schemeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/ReferenceUUID/@schemeAgencyID",
+          "target": "schemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/CreationDateTime",
+          "target": "CreationDateTime",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/TestDataIndicator",
+          "target": "TestDataIndicator",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/ReconciliationIndicator",
+          "target": "ReconciliationIndicator",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderBusinessSystemID",
+          "target": "SenderBusinessSystemID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientBusinessSystemID",
+          "target": "RecipientBusinessSystemID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty",
+          "target": "SenderParty",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty/InternalID",
+          "target": "InternalID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty/InternalID/@schemeID",
+          "target": "schemeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty/InternalID/@schemeAgencyID",
+          "target": "schemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty/StandardID",
+          "target": "StandardID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty/StandardID/@schemeAgencyID",
+          "target": "schemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty/ContactPerson",
+          "target": "ContactPerson",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty/ContactPerson/InternalID",
+          "target": "InternalID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty/ContactPerson/InternalID/@schemeID",
+          "target": "schemeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty/ContactPerson/InternalID/@schemeAgencyID",
+          "target": "schemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty/ContactPerson/OrganisationFormattedName",
+          "target": "OrganisationFormattedName",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty/ContactPerson/PersonFormattedName",
+          "target": "PersonFormattedName",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty/ContactPerson/PhoneNumber",
+          "target": "PhoneNumber",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty/ContactPerson/PhoneNumber/AreaID",
+          "target": "AreaID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty/ContactPerson/PhoneNumber/SubscriberID",
+          "target": "SubscriberID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty/ContactPerson/PhoneNumber/ExtensionID",
+          "target": "ExtensionID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty/ContactPerson/PhoneNumber/CountryCode",
+          "target": "CountryCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty/ContactPerson/PhoneNumber/CountryDiallingCode",
+          "target": "CountryDiallingCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty/ContactPerson/PhoneNumber/CountryName",
+          "target": "CountryName",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty/ContactPerson/PhoneNumber/CountryName/@languageCode",
+          "target": "languageCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty/ContactPerson/FaxNumber",
+          "target": "FaxNumber",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty/ContactPerson/FaxNumber/AreaID",
+          "target": "AreaID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty/ContactPerson/FaxNumber/SubscriberID",
+          "target": "SubscriberID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty/ContactPerson/FaxNumber/ExtensionID",
+          "target": "ExtensionID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty/ContactPerson/FaxNumber/CountryCode",
+          "target": "CountryCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty/ContactPerson/FaxNumber/CountryDiallingCode",
+          "target": "CountryDiallingCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty/ContactPerson/FaxNumber/CountryName",
+          "target": "CountryName",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty/ContactPerson/FaxNumber/CountryName/@languageCode",
+          "target": "languageCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty/ContactPerson/EmailURI",
+          "target": "EmailURI",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/SenderParty/ContactPerson/EmailURI/@schemeID",
+          "target": "schemeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty",
+          "target": "RecipientParty",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty/InternalID",
+          "target": "InternalID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty/InternalID/@schemeID",
+          "target": "schemeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty/InternalID/@schemeAgencyID",
+          "target": "schemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty/StandardID",
+          "target": "StandardID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty/StandardID/@schemeAgencyID",
+          "target": "schemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty/ContactPerson",
+          "target": "ContactPerson",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty/ContactPerson/InternalID",
+          "target": "InternalID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty/ContactPerson/InternalID/@schemeID",
+          "target": "schemeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty/ContactPerson/InternalID/@schemeAgencyID",
+          "target": "schemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty/ContactPerson/OrganisationFormattedName",
+          "target": "OrganisationFormattedName",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty/ContactPerson/PersonFormattedName",
+          "target": "PersonFormattedName",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty/ContactPerson/PhoneNumber",
+          "target": "PhoneNumber",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty/ContactPerson/PhoneNumber/AreaID",
+          "target": "AreaID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty/ContactPerson/PhoneNumber/SubscriberID",
+          "target": "SubscriberID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty/ContactPerson/PhoneNumber/ExtensionID",
+          "target": "ExtensionID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty/ContactPerson/PhoneNumber/CountryCode",
+          "target": "CountryCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty/ContactPerson/PhoneNumber/CountryDiallingCode",
+          "target": "CountryDiallingCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty/ContactPerson/PhoneNumber/CountryName",
+          "target": "CountryName",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty/ContactPerson/PhoneNumber/CountryName/@languageCode",
+          "target": "languageCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty/ContactPerson/FaxNumber",
+          "target": "FaxNumber",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty/ContactPerson/FaxNumber/AreaID",
+          "target": "AreaID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty/ContactPerson/FaxNumber/SubscriberID",
+          "target": "SubscriberID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty/ContactPerson/FaxNumber/ExtensionID",
+          "target": "ExtensionID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty/ContactPerson/FaxNumber/CountryCode",
+          "target": "CountryCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty/ContactPerson/FaxNumber/CountryDiallingCode",
+          "target": "CountryDiallingCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty/ContactPerson/FaxNumber/CountryName",
+          "target": "CountryName",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty/ContactPerson/FaxNumber/CountryName/@languageCode",
+          "target": "languageCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty/ContactPerson/EmailURI",
+          "target": "EmailURI",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/RecipientParty/ContactPerson/EmailURI/@schemeID",
+          "target": "schemeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/BusinessScope",
+          "target": "BusinessScope",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/BusinessScope/TypeCode",
+          "target": "TypeCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/BusinessScope/TypeCode/@listID",
+          "target": "listID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/BusinessScope/TypeCode/@listVersionID",
+          "target": "listVersionID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/BusinessScope/TypeCode/@listAgencyID",
+          "target": "listAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/BusinessScope/TypeCode/@listAgencySchemeID",
+          "target": "listAgencySchemeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/BusinessScope/TypeCode/@listAgencySchemeAgencyID",
+          "target": "listAgencySchemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/BusinessScope/InstanceID",
+          "target": "InstanceID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/BusinessScope/InstanceID/@schemeID",
+          "target": "schemeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/BusinessScope/InstanceID/@schemeAgencyID",
+          "target": "schemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/BusinessScope/ID",
+          "target": "ID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/BusinessScope/ID/@schemeID",
+          "target": "schemeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/MessageHeader/BusinessScope/ID/@schemeAgencyID",
+          "target": "schemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage",
+          "target": "BusinessPartnerRelationshipSUITEReplicateRequestMessage",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/MessageHeader",
+          "target": "MessageHeader",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/MessageHeader/ID",
+          "target": "ID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/MessageHeader/ID/@schemeID",
+          "target": "schemeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/MessageHeader/ID/@schemeAgencyID",
+          "target": "schemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/MessageHeader/ID/@schemeAgencySchemeAgencyID",
+          "target": "schemeAgencySchemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/MessageHeader/UUID",
+          "target": "UUID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/MessageHeader/UUID/@schemeID",
+          "target": "schemeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/MessageHeader/UUID/@schemeAgencyID",
+          "target": "schemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/MessageHeader/ReferenceID",
+          "target": "ReferenceID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/MessageHeader/ReferenceID/@schemeID",
+          "target": "schemeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/MessageHeader/ReferenceID/@schemeAgencyID",
+          "target": "schemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/MessageHeader/ReferenceID/@schemeAgencySchemeAgencyID",
+          "target": "schemeAgencySchemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/MessageHeader/ReferenceUUID",
+          "target": "ReferenceUUID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/MessageHeader/ReferenceUUID/@schemeID",
+          "target": "schemeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/MessageHeader/ReferenceUUID/@schemeAgencyID",
+          "target": "schemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/MessageHeader/CreationDateTime",
+          "target": "CreationDateTime",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/MessageHeader/SenderBusinessSystemID",
+          "target": "SenderBusinessSystemID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship",
+          "target": "BusinessPartnerRelationship",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/@actionCode",
+          "target": "actionCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/BusinessPartnerInternalID",
+          "target": "BusinessPartnerInternalID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ReceiverBusinessPartnerInternalID",
+          "target": "ReceiverBusinessPartnerInternalID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/BusinessPartnerExternalID",
+          "target": "BusinessPartnerExternalID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/BusinessPartnerExternalID/@schemeID",
+          "target": "schemeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/BusinessPartnerExternalID/@schemeVersionID",
+          "target": "schemeVersionID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/BusinessPartnerExternalID/@schemeAgencyID",
+          "target": "schemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/RelationshipBusinessPartnerInternalID",
+          "target": "RelationshipBusinessPartnerInternalID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ReceiverRelationshipBusinessPartnerInternalID",
+          "target": "ReceiverRelationshipBusinessPartnerInternalID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/RelationshipBusinessPartnerExternalID",
+          "target": "RelationshipBusinessPartnerExternalID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/RelationshipBusinessPartnerExternalID/@schemeID",
+          "target": "schemeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/RelationshipBusinessPartnerExternalID/@schemeVersionID",
+          "target": "schemeVersionID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/RelationshipBusinessPartnerExternalID/@schemeAgencyID",
+          "target": "schemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/RoleCode/@listID",
+          "target": "listID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/RoleCode/@listVersionID",
+          "target": "listVersionID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/RoleCode/@listAgencyID",
+          "target": "listAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ValidityPeriod",
+          "target": "ValidityPeriod",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ValidityPeriod/StartDate",
+          "target": "StartDate",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ValidityPeriod/EndDate",
+          "target": "EndDate",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/DefaultIndicator",
+          "target": "DefaultIndicator",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson",
+          "target": "ContactPerson",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/@actionCode",
+          "target": "actionCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/@workplaceAddressListCompleteTransmissionIndicator",
+          "target": "workplaceAddressListCompleteTransmissionIndicator",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/BusinessPartnerFunctionTypeCode",
+          "target": "BusinessPartnerFunctionTypeCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/BusinessPartnerFunctionTypeCode/@listID",
+          "target": "listID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/BusinessPartnerFunctionTypeCode/@listVersionID",
+          "target": "listVersionID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/BusinessPartnerFunctionTypeCode/@listAgencyID",
+          "target": "listAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/BusinessPartnerFunctionTypeCode/@listAgencySchemeID",
+          "target": "listAgencySchemeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/BusinessPartnerFunctionTypeCode/@listAgencySchemeAgencyID",
+          "target": "listAgencySchemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/BusinessPartnerFunctionalAreaCode",
+          "target": "BusinessPartnerFunctionalAreaCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/BusinessPartnerFunctionalAreaCode/@listID",
+          "target": "listID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/BusinessPartnerFunctionalAreaCode/@listVersionID",
+          "target": "listVersionID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/BusinessPartnerFunctionalAreaCode/@listAgencyID",
+          "target": "listAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/BusinessPartnerFunctionalAreaCode/@listAgencySchemeID",
+          "target": "listAgencySchemeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/BusinessPartnerFunctionalAreaCode/@listAgencySchemeAgencyID",
+          "target": "listAgencySchemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/VIPReasonCode",
+          "target": "VIPReasonCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/VIPReasonCode/@listID",
+          "target": "listID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/VIPReasonCode/@listVersionID",
+          "target": "listVersionID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/VIPReasonCode/@listAgencyID",
+          "target": "listAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/VIPReasonCode/@listAgencySchemeID",
+          "target": "listAgencySchemeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/VIPReasonCode/@listAgencySchemeAgencyID",
+          "target": "listAgencySchemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation",
+          "target": "WorkplaceAddressInformation",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/@actionCode",
+          "target": "actionCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/AddressUUID",
+          "target": "AddressUUID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/AddressUUID/@schemeID",
+          "target": "schemeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/AddressUUID/@schemeAgencyID",
+          "target": "schemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/AddressReceiverUUID",
+          "target": "AddressReceiverUUID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/AddressReceiverUUID/@schemeID",
+          "target": "schemeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/AddressReceiverUUID/@schemeAgencyID",
+          "target": "schemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/DefaultIndicator",
+          "target": "DefaultIndicator",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address",
+          "target": "Address",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/@actionCode",
+          "target": "actionCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/@emailListCompleteTransmissionIndicator",
+          "target": "emailListCompleteTransmissionIndicator",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/@facsimileListCompleteTransmissionIndicator",
+          "target": "facsimileListCompleteTransmissionIndicator",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/@telephoneListCompleteTransmissionIndicator",
+          "target": "telephoneListCompleteTransmissionIndicator",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/@workplaceListCompleteTransmissionIndicator",
+          "target": "workplaceListCompleteTransmissionIndicator",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/@addressRepresentationPersonNameListCompleteTransmissionIndicator",
+          "target": "addressRepresentationPersonNameListCompleteTransmissionIndicator",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/CommunicationPreference",
+          "target": "CommunicationPreference",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/CommunicationPreference/@actionCode",
+          "target": "actionCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/CommunicationPreference/PreferredCommunicationMediumTypeCode",
+          "target": "PreferredCommunicationMediumTypeCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/CommunicationPreference/PreferredCommunicationMediumTypeCode/@listID",
+          "target": "listID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/CommunicationPreference/PreferredCommunicationMediumTypeCode/@listVersionID",
+          "target": "listVersionID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/CommunicationPreference/PreferredCommunicationMediumTypeCode/@listAgencyID",
+          "target": "listAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Email",
+          "target": "Email",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Email/@actionCode",
+          "target": "actionCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Email/@eMailUsageListCompleteTransmissionIndicator",
+          "target": "eMailUsageListCompleteTransmissionIndicator",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Email/URI",
+          "target": "URI",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Email/URI/@schemeID",
+          "target": "schemeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Email/UsageDeniedIndicator",
+          "target": "UsageDeniedIndicator",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Email/ValidityPeriod",
+          "target": "ValidityPeriod",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Email/ValidityPeriod/StartDate",
+          "target": "StartDate",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Email/ValidityPeriod/EndDate",
+          "target": "EndDate",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Email/EmailUsage",
+          "target": "EmailUsage",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Email/EmailUsage/@actionCode",
+          "target": "actionCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Email/EmailUsage/Usage",
+          "target": "Usage",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Email/EmailUsage/Usage/Code",
+          "target": "Code",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Email/EmailUsage/Usage/Code/@listID",
+          "target": "listID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Email/EmailUsage/Usage/Code/@listVersionID",
+          "target": "listVersionID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Email/EmailUsage/Usage/Code/@listAgencyID",
+          "target": "listAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Email/EmailUsage/Usage/Code/@listAgencySchemeID",
+          "target": "listAgencySchemeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Email/EmailUsage/Usage/Code/@listAgencySchemeAgencyID",
+          "target": "listAgencySchemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Email/EmailUsage/Usage/Name",
+          "target": "Name",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Email/EmailUsage/Usage/Name/@languageCode",
+          "target": "languageCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Email/EmailUsage/Usage/ValidityPeriod",
+          "target": "ValidityPeriod",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Email/EmailUsage/Usage/ValidityPeriod/StartDate",
+          "target": "StartDate",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Email/EmailUsage/Usage/ValidityPeriod/EndDate",
+          "target": "EndDate",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Facsimile",
+          "target": "Facsimile",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Facsimile/@actionCode",
+          "target": "actionCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Facsimile/@facsimileUsageListCompleteTransmissionIndicator",
+          "target": "facsimileUsageListCompleteTransmissionIndicator",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Facsimile/Number",
+          "target": "Number",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Facsimile/Number/AreaID",
+          "target": "AreaID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Facsimile/Number/SubscriberID",
+          "target": "SubscriberID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Facsimile/Number/ExtensionID",
+          "target": "ExtensionID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Facsimile/Number/CountryCode",
+          "target": "CountryCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Facsimile/Number/CountryDiallingCode",
+          "target": "CountryDiallingCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Facsimile/Number/CountryName",
+          "target": "CountryName",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Facsimile/Number/CountryName/@languageCode",
+          "target": "languageCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Facsimile/UsageDeniedIndicator",
+          "target": "UsageDeniedIndicator",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Facsimile/ValidityPeriod",
+          "target": "ValidityPeriod",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Facsimile/ValidityPeriod/StartDate",
+          "target": "StartDate",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Facsimile/ValidityPeriod/EndDate",
+          "target": "EndDate",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Facsimile/FacsimileUsage",
+          "target": "FacsimileUsage",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Facsimile/FacsimileUsage/@actionCode",
+          "target": "actionCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Facsimile/FacsimileUsage/Usage",
+          "target": "Usage",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Facsimile/FacsimileUsage/Usage/Code",
+          "target": "Code",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Facsimile/FacsimileUsage/Usage/Code/@listID",
+          "target": "listID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Facsimile/FacsimileUsage/Usage/Code/@listVersionID",
+          "target": "listVersionID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Facsimile/FacsimileUsage/Usage/Code/@listAgencyID",
+          "target": "listAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Facsimile/FacsimileUsage/Usage/Code/@listAgencySchemeID",
+          "target": "listAgencySchemeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Facsimile/FacsimileUsage/Usage/Code/@listAgencySchemeAgencyID",
+          "target": "listAgencySchemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Facsimile/FacsimileUsage/Usage/Name",
+          "target": "Name",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Facsimile/FacsimileUsage/Usage/Name/@languageCode",
+          "target": "languageCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Facsimile/FacsimileUsage/Usage/ValidityPeriod",
+          "target": "ValidityPeriod",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Facsimile/FacsimileUsage/Usage/ValidityPeriod/StartDate",
+          "target": "StartDate",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Facsimile/FacsimileUsage/Usage/ValidityPeriod/EndDate",
+          "target": "EndDate",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone",
+          "target": "Telephone",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone/@actionCode",
+          "target": "actionCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone/@telephoneUsageListCompleteTransmissionIndicator",
+          "target": "telephoneUsageListCompleteTransmissionIndicator",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone/Number",
+          "target": "Number",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone/Number/AreaID",
+          "target": "AreaID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone/Number/SubscriberID",
+          "target": "SubscriberID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone/Number/ExtensionID",
+          "target": "ExtensionID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone/Number/CountryCode",
+          "target": "CountryCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone/Number/CountryDiallingCode",
+          "target": "CountryDiallingCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone/Number/CountryName",
+          "target": "CountryName",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone/Number/CountryName/@languageCode",
+          "target": "languageCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone/UsageDeniedIndicator",
+          "target": "UsageDeniedIndicator",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone/ValidityPeriod",
+          "target": "ValidityPeriod",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone/ValidityPeriod/StartDate",
+          "target": "StartDate",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone/ValidityPeriod/EndDate",
+          "target": "EndDate",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone/MobilePhoneNumberIndicator",
+          "target": "MobilePhoneNumberIndicator",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone/TelephoneUsage",
+          "target": "TelephoneUsage",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone/TelephoneUsage/@actionCode",
+          "target": "actionCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone/TelephoneUsage/Usage",
+          "target": "Usage",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone/TelephoneUsage/Usage/Code",
+          "target": "Code",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone/TelephoneUsage/Usage/Code/@listID",
+          "target": "listID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone/TelephoneUsage/Usage/Code/@listVersionID",
+          "target": "listVersionID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone/TelephoneUsage/Usage/Code/@listAgencyID",
+          "target": "listAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone/TelephoneUsage/Usage/Code/@listAgencySchemeID",
+          "target": "listAgencySchemeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone/TelephoneUsage/Usage/Code/@listAgencySchemeAgencyID",
+          "target": "listAgencySchemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone/TelephoneUsage/Usage/Name",
+          "target": "Name",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone/TelephoneUsage/Usage/Name/@languageCode",
+          "target": "languageCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone/TelephoneUsage/Usage/ValidityPeriod",
+          "target": "ValidityPeriod",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone/TelephoneUsage/Usage/ValidityPeriod/StartDate",
+          "target": "StartDate",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Telephone/TelephoneUsage/Usage/ValidityPeriod/EndDate",
+          "target": "EndDate",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/AddressRepresentationPersonName",
+          "target": "AddressRepresentationPersonName",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/AddressRepresentationPersonName/@actionCode",
+          "target": "actionCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/AddressRepresentationPersonName/AddressRepresentationCode",
+          "target": "AddressRepresentationCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/AddressRepresentationPersonName/Name",
+          "target": "Name",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/AddressRepresentationPersonName/Name/FormOfAddressCode",
+          "target": "FormOfAddressCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/AddressRepresentationPersonName/Name/GivenName",
+          "target": "GivenName",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/AddressRepresentationPersonName/Name/MiddleName",
+          "target": "MiddleName",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/AddressRepresentationPersonName/Name/FamilyName",
+          "target": "FamilyName",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/AddressRepresentationPersonName/Name/AdditionalFamilyName",
+          "target": "AdditionalFamilyName",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/AddressRepresentationPersonName/Name/BirthName",
+          "target": "BirthName",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/AddressRepresentationPersonName/Name/NickName",
+          "target": "NickName",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/AddressRepresentationPersonName/Name/InitialsName",
+          "target": "InitialsName",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/AddressRepresentationPersonName/Name/AcademicTitleCode",
+          "target": "AcademicTitleCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/AddressRepresentationPersonName/Name/AdditionalAcademicTitleCode",
+          "target": "AdditionalAcademicTitleCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/AddressRepresentationPersonName/Name/NamePrefixCode",
+          "target": "NamePrefixCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/AddressRepresentationPersonName/Name/AdditionalNamePrefixCode",
+          "target": "AdditionalNamePrefixCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/AddressRepresentationPersonName/Name/NameSupplementCode",
+          "target": "NameSupplementCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/AddressRepresentationPersonName/Name/DeviatingFullName",
+          "target": "DeviatingFullName",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/AddressRepresentationPersonName/Name/NameFormatCountryCode",
+          "target": "NameFormatCountryCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/AddressRepresentationPersonName/Name/NameFormatCode",
+          "target": "NameFormatCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Workplace",
+          "target": "Workplace",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Workplace/@actionCode",
+          "target": "actionCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Workplace/AddressRepresentationCode",
+          "target": "AddressRepresentationCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Workplace/AddressRepresentationCode/@listVersionID",
+          "target": "listVersionID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Workplace/AddressRepresentationCode/@listAgencyID",
+          "target": "listAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Workplace/AddressRepresentationCode/@listAgencySchemeID",
+          "target": "listAgencySchemeID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Workplace/AddressRepresentationCode/@listAgencySchemeAgencyID",
+          "target": "listAgencySchemeAgencyID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Workplace/FunctionalTitleName",
+          "target": "FunctionalTitleName",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Workplace/DepartmentName",
+          "target": "DepartmentName",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Workplace/BuildingID",
+          "target": "BuildingID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Workplace/FloorID",
+          "target": "FloorID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/WorkplaceAddressInformation/Address/Workplace/RoomID",
+          "target": "RoomID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/CustomerContactPerson",
+          "target": "CustomerContactPerson",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ContactPerson/CustomerContactPerson/InternalID",
+          "target": "InternalID",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/RoleCode",
+          "target": "PartyRoleCode",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ValidityPeriod/StartDate",
+          "target": "StartDate",
+          "function": null
+        },
+        {
+          "source": "/ns0:BusinessPartnerRelationshipSUITEBulkReplicateRequest/BusinessPartnerRelationshipSUITEReplicateRequestMessage/BusinessPartnerRelationship/ValidityPeriod/EndDate",
+          "target": "EndDate",
+          "function": null
+        },
+        {
+          "source": null,
+          "target": "employeeResponsibleListCompleteTransmissionIndicator",
+          "function": "constant",
+          "value": {
+            "value": "false",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "SenderSequenceNumberValue",
+          "function": "constant",
+          "value": {
+            "value": "1",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "RoleCode",
+          "function": "constant",
+          "value": {
+            "value": "",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "StartDate",
+          "function": "constant",
+          "value": {
+            "value": "1800-01-01",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "EmployeeResponsible",
+          "function": "constant",
+          "value": {
+            "value": "false",
+            "is_externalized": false
+          },
+          "is_static": true
+        },
+        {
+          "source": null,
+          "target": "ValidityPeriod",
+          "function": "constant",
+          "value": {
+            "value": "Constant",
+            "is_externalized": false
+          },
+          "is_static": true
+        }
       ],
+      "parse_warnings": [],
+      "schemas": {
+        "TARGET_IFR_MESS": {
+          "schema": "Business_Partner_Relationship_Replication_In",
+          "root_element": "BusinessPartnerRelationshipSUITEBulkReplicateRequest"
+        },
+        "SOURCE_IFR_MESS": {
+          "schema": "BusinessPartnerRelationshipSUITEBulkReplicateRequest",
+          "root_element": "BusinessPartnerRelationshipSUITEBulkReplicateRequest"
+        }
+      },
+      "multiplicity": "1:1",
+      "source_parameters": [
+        {
+          "name": "",
+          "occurrence": ""
+        }
+      ],
+      "target_parameters": [
+        {
+          "name": "",
+          "occurrence": ""
+        }
+      ],
+      "format": "java_operation_mapping",
       "resolved": true
     },
     "BusinessPartnerRelationshipSUITEBulkReplicateRequest.wsdl": {

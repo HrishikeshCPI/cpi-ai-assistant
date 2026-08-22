@@ -16,25 +16,6 @@ import streamlit.components.v1 as components
 from src.agent.chat import create_chat, chat_turn
 from src.agent.tools import list_all_iflows
 
-st.set_page_config(page_title="CPI Integration Assistant", layout="wide")
-
-# --- Sidebar: iFlow list + new conversation button ---
-with st.sidebar:
-    st.header("iFlows in scope")
-    try:
-        iflows = list_all_iflows()
-        for f in iflows:
-            st.markdown(f"- **{f['artifact_id']}** (v{f.get('version', '?')})")
-    except Exception as e:
-        st.error(f"Could not load iFlow list: {e}")
-
-    st.divider()
-    if st.button("New conversation"):
-        st.session_state.messages = []
-        st.session_state.chat = create_chat()
-        st.rerun()
-
-
 def extract_mermaid(text: str) -> str:
     """Pull out just the Mermaid diagram content, stripping any code fences 
     or commentary the model added around it."""
@@ -65,37 +46,56 @@ def contains_mermaid(text: str) -> bool:
     return "flowchart" in text or "graph TD" in text
 
 
-# --- Session state init ---
-if "messages" not in st.session_state:
-    st.session_state.messages = []
-if "chat" not in st.session_state:
-    st.session_state.chat = create_chat()
+def render_chat() -> None:
+    """Render the CPI Integration Assistant chat page."""
+    st.set_page_config(page_title="CPI Integration Assistant", layout="wide")
 
-st.title("CPI Integration Assistant")
-st.caption("Ask questions about iFlows, resources, and systems in your CPI landscape.")
+    with st.sidebar:
+        st.header("iFlows in scope")
+        try:
+            iflows = list_all_iflows()
+            for iflow in iflows:
+                if "error" not in iflow:
+                    st.markdown(f"- **{iflow['artifact_id']}** (v{iflow.get('version', '?')})")
+        except Exception as exc:
+            st.error(f"Could not load iFlow list: {exc}")
 
-# --- Render conversation history ---
-for i, msg in enumerate(st.session_state.messages):
-    with st.chat_message(msg["role"]):
-        if msg["role"] == "assistant" and contains_mermaid(msg["content"]):
-            render_mermaid(msg["content"], key=f"diagram_{i}")
-        else:
-            st.markdown(msg["content"])
+        st.divider()
+        if st.button("New conversation"):
+            st.session_state.messages = []
+            st.session_state.chat = create_chat()
+            st.rerun()
 
-# --- Chat input ---
-user_input = st.chat_input("Ask about your CPI integration landscape...")
-if user_input:
-    st.session_state.messages.append({"role": "user", "content": user_input})
-    with st.chat_message("user"):
-        st.markdown(user_input)
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
+    if "chat" not in st.session_state:
+        st.session_state.chat = create_chat()
 
-    with st.chat_message("assistant"):
-        with st.spinner("Thinking..."):
-            answer = chat_turn(st.session_state.chat, user_input)
+    st.title("CPI Integration Assistant")
+    st.caption("Ask questions about iFlows, resources, and systems in your CPI landscape.")
 
-        if contains_mermaid(answer):
-            render_mermaid(answer, key=f"diagram_new_{len(st.session_state.messages)}")
-        else:
-            st.markdown(answer)
+    for index, message in enumerate(st.session_state.messages):
+        with st.chat_message(message["role"]):
+            if message["role"] == "assistant" and contains_mermaid(message["content"]):
+                render_mermaid(message["content"], key=f"diagram_{index}")
+            else:
+                st.markdown(message["content"])
 
-    st.session_state.messages.append({"role": "assistant", "content": answer})
+    user_input = st.chat_input("Ask about your CPI integration landscape...")
+    if user_input:
+        st.session_state.messages.append({"role": "user", "content": user_input})
+        with st.chat_message("user"):
+            st.markdown(user_input)
+
+        with st.chat_message("assistant"):
+            with st.spinner("Thinking..."):
+                answer = chat_turn(st.session_state.chat, user_input)
+            if contains_mermaid(answer):
+                render_mermaid(answer, key=f"diagram_new_{len(st.session_state.messages)}")
+            else:
+                st.markdown(answer)
+        st.session_state.messages.append({"role": "assistant", "content": answer})
+
+
+if __name__ == "__main__":
+    render_chat()

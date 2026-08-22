@@ -6,9 +6,11 @@ from typing import Any, Callable
 from src.parser.groovy_summarizer import resolve_groovy
 from src.parser.mapping_resolver import resolve_mapping
 from src.parser.wsdl_resolver import resolve_wsdl
+from src.parser.xsd_resolver import resolve_xsd
 
 RESOLVERS: dict[str, Callable[[str], dict[str, Any]]] = {
     ".wsdl": resolve_wsdl,
+    ".xsd": resolve_xsd,
     ".mmap": resolve_mapping,
     ".groovy": resolve_groovy,
 }

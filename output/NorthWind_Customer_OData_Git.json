@@ -1,6 +1,7 @@
 {
   "artifact_id": "NorthWind_Customer_OData_Git",
-  "version": "1.0.2",
+  "version": "1.0.3",
+  "developer_description": "",
   "nodes": [
     {
       "id": "CallActivity_8",
@@ -28,7 +29,73 @@
       "name": "Set Headers & Properties",
       "bpmn_type": "callActivity",
       "type": "Enricher",
-      "resources": []
+      "resources": [],
+      "details": {
+        "property_table": [
+          {
+            "Action": {
+              "value": "Create",
+              "is_externalized": false
+            },
+            "Type": {
+              "value": "constant",
+              "is_externalized": false
+            },
+            "Value": {
+              "value": "{{EnableLogging}}",
+              "is_externalized": true
+            },
+            "Default": {
+              "value": "",
+              "is_externalized": false
+            },
+            "Name": {
+              "value": "EnablePayloadLogging",
+              "is_externalized": false
+            },
+            "Datatype": {
+              "value": "",
+              "is_externalized": false
+            }
+          }
+        ],
+        "header_table": [
+          {
+            "Action": {
+              "value": "Create",
+              "is_externalized": false
+            },
+            "Type": {
+              "value": "constant",
+              "is_externalized": false
+            },
+            "Value": {
+              "value": "NorthWind_Customer_OData_Git",
+              "is_externalized": false
+            },
+            "Default": {
+              "value": "",
+              "is_externalized": false
+            },
+            "Name": {
+              "value": "IntegrationFlowName",
+              "is_externalized": false
+            },
+            "Datatype": {
+              "value": "",
+              "is_externalized": false
+            }
+          }
+        ],
+        "bodyType": {
+          "value": "constant",
+          "is_externalized": false
+        },
+        "wrapContent": {
+          "value": "",
+          "is_externalized": false
+        }
+      }
     },
     {
       "id": "StartEvent_2",
@@ -78,22 +145,559 @@
       "targetRef": "CallActivity_8"
     }
   ],
+  "processes": [
+    {
+      "id": "Process_1",
+      "classification": "main",
+      "nodes": [
+        {
+          "id": "CallActivity_8",
+          "name": "Log Response",
+          "bpmn_type": "callActivity",
+          "type": "Script",
+          "resources": [
+            "script1.groovy"
+          ]
+        },
+        {
+          "id": "ServiceTask_11",
+          "name": "Get Customers",
+          "bpmn_type": "serviceTask",
+          "type": "ExternalCall",
+          "resources": []
+        },
+        {
+          "id": "EndEvent_2",
+          "name": "End",
+          "bpmn_type": "endEvent"
+        },
+        {
+          "id": "CallActivity_5",
+          "name": "Set Headers & Properties",
+          "bpmn_type": "callActivity",
+          "type": "Enricher",
+          "resources": [],
+          "details": {
+            "property_table": [
+              {
+                "Action": {
+                  "value": "Create",
+                  "is_externalized": false
+                },
+                "Type": {
+                  "value": "constant",
+                  "is_externalized": false
+                },
+                "Value": {
+                  "value": "{{EnableLogging}}",
+                  "is_externalized": true
+                },
+                "Default": {
+                  "value": "",
+                  "is_externalized": false
+                },
+                "Name": {
+                  "value": "EnablePayloadLogging",
+                  "is_externalized": false
+                },
+                "Datatype": {
+                  "value": "",
+                  "is_externalized": false
+                }
+              }
+            ],
+            "header_table": [
+              {
+                "Action": {
+                  "value": "Create",
+                  "is_externalized": false
+                },
+                "Type": {
+                  "value": "constant",
+                  "is_externalized": false
+                },
+                "Value": {
+                  "value": "NorthWind_Customer_OData_Git",
+                  "is_externalized": false
+                },
+                "Default": {
+                  "value": "",
+                  "is_externalized": false
+                },
+                "Name": {
+                  "value": "IntegrationFlowName",
+                  "is_externalized": false
+                },
+                "Datatype": {
+                  "value": "",
+                  "is_externalized": false
+                }
+              }
+            ],
+            "bodyType": {
+              "value": "constant",
+              "is_externalized": false
+            },
+            "wrapContent": {
+              "value": "",
+              "is_externalized": false
+            }
+          }
+        },
+        {
+          "id": "StartEvent_2",
+          "name": "Start",
+          "bpmn_type": "startEvent"
+        },
+        {
+          "id": "CallActivity_15",
+          "name": "JSON to XML Converter 1",
+          "bpmn_type": "callActivity",
+          "type": "JsonToXmlConverter",
+          "resources": []
+        },
+        {
+          "id": "CallActivity_18",
+          "name": "Convert XML structure",
+          "bpmn_type": "callActivity",
+          "type": "Mapping",
+          "resources": [
+            "MM_ConvertNorthWindStructuer.mmap"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "sourceRef": "CallActivity_8",
+          "targetRef": "EndEvent_2"
+        },
+        {
+          "sourceRef": "ServiceTask_11",
+          "targetRef": "CallActivity_15"
+        },
+        {
+          "sourceRef": "CallActivity_5",
+          "targetRef": "ServiceTask_11"
+        },
+        {
+          "sourceRef": "StartEvent_2",
+          "targetRef": "CallActivity_5"
+        },
+        {
+          "sourceRef": "CallActivity_15",
+          "targetRef": "CallActivity_18"
+        },
+        {
+          "sourceRef": "CallActivity_18",
+          "targetRef": "CallActivity_8"
+        }
+      ]
+    }
+  ],
   "message_flows": [
     {
       "id": "MessageFlow_14",
       "name": "OData",
       "sourceRef": "ServiceTask_11",
       "targetRef": "Participant_2",
+      "properties": {
+        "odataCertAuthPrivateKeyAlias": {
+          "value": "",
+          "is_externalized": false
+        },
+        "retryOnExceptionsTable": {
+          "value": "",
+          "is_externalized": false
+        },
+        "customQueryOptions": {
+          "value": "",
+          "is_externalized": false
+        },
+        "metadataAllowedURIParams": {
+          "value": "",
+          "is_externalized": false
+        },
+        "Name": {
+          "value": "OData",
+          "is_externalized": false
+        },
+        "internetProxyType": {
+          "value": "",
+          "is_externalized": false
+        },
+        "TransportProtocolVersion": {
+          "value": "1.30.1",
+          "is_externalized": false
+        },
+        "proxyPort": {
+          "value": "",
+          "is_externalized": false
+        },
+        "enableMPLAttachments": {
+          "value": "true",
+          "is_externalized": false
+        },
+        "receiveTimeOut": {
+          "value": "1",
+          "is_externalized": false
+        },
+        "contentType": {
+          "value": "application/json",
+          "is_externalized": false
+        },
+        "ComponentSWCVId": {
+          "value": "1.30.1",
+          "is_externalized": false
+        },
+        "providerName": {
+          "value": "",
+          "is_externalized": false
+        },
+        "queryOptions": {
+          "value": "$select=CustomerID,CompanyName,ContactName,ContactTitle,Address,City,PostalCode,Region&$top=1&$skip=1",
+          "is_externalized": false
+        },
+        "clearStaleConnection": {
+          "value": "false",
+          "is_externalized": false
+        },
+        "componentVersion": {
+          "value": "1.30",
+          "is_externalized": false
+        },
+        "proxyHost": {
+          "value": "",
+          "is_externalized": false
+        },
+        "edmxFilePath": {
+          "value": "edmx/services_odata_org_Northwind_Northwind_svc.edmx",
+          "is_externalized": false
+        },
+        "providerUrl": {
+          "value": "",
+          "is_externalized": false
+        },
+        "retryOnStatusCodes": {
+          "value": "",
+          "is_externalized": false
+        },
+        "system": {
+          "value": "Receiver",
+          "is_externalized": false
+        },
+        "authenticationMethod": {
+          "value": "None",
+          "is_externalized": false
+        },
+        "odataOperationExpression": {
+          "value": "",
+          "is_externalized": false
+        },
+        "retryOnFailure": {
+          "value": "false",
+          "is_externalized": false
+        },
+        "maxIdleTimeout": {
+          "value": "",
+          "is_externalized": false
+        },
+        "TransportProtocol": {
+          "value": "HTTP",
+          "is_externalized": false
+        },
+        "cmdVariantUri": {
+          "value": "ctype::AdapterVariant/cname::sap:HCIOData/tp::HTTP/mp::OData V2/direction::Receiver/version::1.30.1",
+          "is_externalized": false
+        },
+        "fields": {
+          "value": "",
+          "is_externalized": false
+        },
+        "characterEncoding": {
+          "value": "none",
+          "is_externalized": false
+        },
+        "MessageProtocolVersion": {
+          "value": "1.30.1",
+          "is_externalized": false
+        },
+        "providerRelativeUrl": {
+          "value": "",
+          "is_externalized": false
+        },
+        "Description": {
+          "value": "",
+          "is_externalized": false
+        },
+        "pagination": {
+          "value": "0",
+          "is_externalized": false
+        },
+        "apiArtifactType": {
+          "value": "",
+          "is_externalized": false
+        },
+        "providerAuth": {
+          "value": "",
+          "is_externalized": false
+        },
+        "ComponentNS": {
+          "value": "sap",
+          "is_externalized": false
+        },
+        "resourcePath": {
+          "value": "Customers",
+          "is_externalized": false
+        },
+        "apiprovider_location_id": {
+          "value": "",
+          "is_externalized": false
+        },
+        "retryOnException": {
+          "value": "false",
+          "is_externalized": false
+        },
+        "ComponentSWCVName": {
+          "value": "external",
+          "is_externalized": false
+        },
+        "alias": {
+          "value": "",
+          "is_externalized": false
+        },
+        "maxRetryIterations": {
+          "value": "1",
+          "is_externalized": false
+        },
+        "retryIntervalSec": {
+          "value": "5",
+          "is_externalized": false
+        },
+        "MessageProtocol": {
+          "value": "OData V2",
+          "is_externalized": false
+        },
+        "direction": {
+          "value": "Receiver",
+          "is_externalized": false
+        },
+        "scc_location_id": {
+          "value": "",
+          "is_externalized": false
+        },
+        "metadataAllowedHeaders": {
+          "value": "",
+          "is_externalized": false
+        },
+        "ComponentType": {
+          "value": "HCIOData",
+          "is_externalized": false
+        },
+        "address": {
+          "value": "https://services.odata.org/Northwind/Northwind.svc",
+          "is_externalized": false
+        },
+        "isCSRFEnabled": {
+          "value": "false",
+          "is_externalized": false
+        },
+        "proxyType": {
+          "value": "default",
+          "is_externalized": false
+        },
+        "enableTLSSessionReuse": {
+          "value": "true",
+          "is_externalized": false
+        },
+        "odatapagesize": {
+          "value": "",
+          "is_externalized": false
+        },
+        "whitelistResponseHeaders": {
+          "value": "traceparent",
+          "is_externalized": false
+        },
+        "enableBatchProcessing": {
+          "value": "0",
+          "is_externalized": false
+        },
+        "whitelistRequestHeaders": {
+          "value": "traceparent",
+          "is_externalized": false
+        },
+        "operation": {
+          "value": "Query(GET)",
+          "is_externalized": false
+        }
+      },
       "direction": "Receiver",
       "component_type": "HCIOData",
       "transport_protocol": "HTTP",
       "address": "https://services.odata.org/Northwind/Northwind.svc"
     },
     {
+      "id": "MessageFlow_21",
+      "name": "ProcessDirect",
+      "sourceRef": "EndEvent_2",
+      "targetRef": "Participant_20",
+      "properties": {
+        "ComponentType": {
+          "value": "ProcessDirect",
+          "is_externalized": false
+        },
+        "Description": {
+          "value": "",
+          "is_externalized": false
+        },
+        "address": {
+          "value": "{{SubIntegrationFlow}}",
+          "is_externalized": true
+        },
+        "ComponentNS": {
+          "value": "sap",
+          "is_externalized": false
+        },
+        "Vendor": {
+          "value": "SAP",
+          "is_externalized": false
+        },
+        "componentVersion": {
+          "value": "1.1",
+          "is_externalized": false
+        },
+        "Name": {
+          "value": "ProcessDirect",
+          "is_externalized": false
+        },
+        "TransportProtocolVersion": {
+          "value": "1.1.2",
+          "is_externalized": false
+        },
+        "ComponentSWCVName": {
+          "value": "external",
+          "is_externalized": false
+        },
+        "system": {
+          "value": "SubIntegrationFlow",
+          "is_externalized": false
+        },
+        "TransportProtocol": {
+          "value": "Not Applicable",
+          "is_externalized": false
+        },
+        "cmdVariantUri": {
+          "value": "ctype::AdapterVariant/cname::ProcessDirect/vendor::SAP/tp::Not Applicable/mp::Not Applicable/direction::Receiver/version::1.1.1",
+          "is_externalized": false
+        },
+        "MessageProtocol": {
+          "value": "Not Applicable",
+          "is_externalized": false
+        },
+        "MessageProtocolVersion": {
+          "value": "1.1.2",
+          "is_externalized": false
+        },
+        "ComponentSWCVId": {
+          "value": "1.1.2",
+          "is_externalized": false
+        },
+        "direction": {
+          "value": "Receiver",
+          "is_externalized": false
+        }
+      },
+      "direction": "Receiver",
+      "component_type": "ProcessDirect",
+      "transport_protocol": "Not Applicable",
+      "address": "{{SubIntegrationFlow}}"
+    },
+    {
       "id": "MessageFlow_4",
       "name": "HTTPS",
       "sourceRef": "Participant_1",
       "targetRef": "StartEvent_2",
+      "properties": {
+        "ComponentType": {
+          "value": "HTTPS",
+          "is_externalized": false
+        },
+        "Description": {
+          "value": "",
+          "is_externalized": false
+        },
+        "maximumBodySize": {
+          "value": "40",
+          "is_externalized": false
+        },
+        "ComponentNS": {
+          "value": "sap",
+          "is_externalized": false
+        },
+        "componentVersion": {
+          "value": "1.5",
+          "is_externalized": false
+        },
+        "urlPath": {
+          "value": "{{HTTPSAddress}}",
+          "is_externalized": true
+        },
+        "Name": {
+          "value": "HTTPS",
+          "is_externalized": false
+        },
+        "TransportProtocolVersion": {
+          "value": "1.5.2",
+          "is_externalized": false
+        },
+        "ComponentSWCVName": {
+          "value": "external",
+          "is_externalized": false
+        },
+        "system": {
+          "value": "Postman",
+          "is_externalized": false
+        },
+        "xsrfProtection": {
+          "value": "0",
+          "is_externalized": false
+        },
+        "TransportProtocol": {
+          "value": "HTTPS",
+          "is_externalized": false
+        },
+        "cmdVariantUri": {
+          "value": "ctype::AdapterVariant/cname::sap:HTTPS/tp::HTTPS/mp::None/direction::Sender/version::1.5.2",
+          "is_externalized": false
+        },
+        "userRole": {
+          "value": "ESBMessaging.send",
+          "is_externalized": false
+        },
+        "senderAuthType": {
+          "value": "RoleBased",
+          "is_externalized": false
+        },
+        "MessageProtocol": {
+          "value": "None",
+          "is_externalized": false
+        },
+        "MessageProtocolVersion": {
+          "value": "1.5.2",
+          "is_externalized": false
+        },
+        "ComponentSWCVId": {
+          "value": "1.5.2",
+          "is_externalized": false
+        },
+        "direction": {
+          "value": "Sender",
+          "is_externalized": false
+        },
+        "clientCertificates": {
+          "value": "",
+          "is_externalized": false
+        }
+      },
       "direction": "Sender",
       "component_type": "HTTPS",
       "transport_protocol": "HTTPS"
@@ -107,6 +711,10 @@
     {
       "id": "Participant_2",
       "name": "Receiver"
+    },
+    {
+      "id": "Participant_20",
+      "name": "SubIFlow"
     },
     {
       "id": "Participant_Process_1",
@@ -129,7 +737,25 @@
       "complexity": "trivial",
       "business_note": null,
       "resolved": true,
-      "source": "cache"
+      "source": "cache",
+      "cpi_apis": [
+        {
+          "api_name": "message.getProperty",
+          "literal_argument": "EnablePayloadLogging"
+        },
+        {
+          "api_name": "message.getBody",
+          "literal_argument": null
+        },
+        {
+          "api_name": "messageLogFactory.getMessageLog",
+          "literal_argument": null
+        },
+        {
+          "api_name": "messageLog.addAttachmentAsString",
+          "literal_argument": "Response Payload"
+        }
+      ]
     },
     "MM_ConvertNorthWindStructuer.mmap": {
       "field_mappings": [
@@ -185,22 +811,134 @@
         }
       ],
       "parse_warnings": [],
+      "schemas": {
+        "TARGET_IFR_MESS": {
+          "schema": "CustomerTargetNorthwindResponset.xsd",
+          "root_element": "CustomerResponse"
+        },
+        "SOURCE_IFR_MESS": {
+          "schema": "SourceNorthwindRequest.xsd",
+          "root_element": "root"
+        }
+      },
+      "multiplicity": "1:1",
+      "source_parameters": [
+        {
+          "name": "",
+          "occurrence": ""
+        }
+      ],
+      "target_parameters": [
+        {
+          "name": "",
+          "occurrence": ""
+        }
+      ],
+      "format": "xitrafo",
       "resolved": true
     },
     "CustomerTargetNorthwindResponset.xsd": {
-      "resolved": false,
-      "note": "no resolver registered for this file type",
-      "filename": "CustomerTargetNorthwindResponset.xsd"
+      "elements": [
+        {
+          "name": "CustomerResponse",
+          "type": ""
+        },
+        {
+          "name": "Customer",
+          "type": ""
+        },
+        {
+          "name": "CustomerID",
+          "type": "xs:string"
+        },
+        {
+          "name": "CompanyName",
+          "type": "xs:string"
+        },
+        {
+          "name": "ContactName",
+          "type": "xs:string"
+        },
+        {
+          "name": "ContactTitle",
+          "type": "xs:string"
+        },
+        {
+          "name": "Address",
+          "type": "xs:string"
+        },
+        {
+          "name": "City",
+          "type": "xs:string"
+        },
+        {
+          "name": "Region",
+          "type": "xs:string"
+        },
+        {
+          "name": "PostalCode",
+          "type": "xs:string"
+        }
+      ],
+      "parse_warnings": [],
+      "resolved": true
     },
     "SourceNorthwindRequest.xsd": {
-      "resolved": false,
-      "note": "no resolver registered for this file type",
-      "filename": "SourceNorthwindRequest.xsd"
+      "elements": [
+        {
+          "name": "root",
+          "type": ""
+        },
+        {
+          "name": "odata.metadata",
+          "type": "xs:string"
+        },
+        {
+          "name": "value",
+          "type": ""
+        },
+        {
+          "name": "CustomerID",
+          "type": "xs:string"
+        },
+        {
+          "name": "CompanyName",
+          "type": "xs:string"
+        },
+        {
+          "name": "ContactName",
+          "type": "xs:string"
+        },
+        {
+          "name": "ContactTitle",
+          "type": "xs:string"
+        },
+        {
+          "name": "Address",
+          "type": "xs:string"
+        },
+        {
+          "name": "City",
+          "type": "xs:string"
+        },
+        {
+          "name": "Region",
+          "type": "xs:string"
+        },
+        {
+          "name": "PostalCode",
+          "type": "xs:string"
+        }
+      ],
+      "parse_warnings": [],
+      "resolved": true
     },
     "CustomersEntityGET.xsd": {
-      "resolved": false,
-      "note": "no resolver registered for this file type",
-      "filename": "CustomersEntityGET.xsd"
+      "elements": [],
+      "parse_warnings": [
+        "XSD file not found: data\\raw_artifacts\\CPI-NorthWind\\NorthWind_Customer_OData_Git\\src\\main\\resources\\xsd\\CustomersEntityGET.xsd"
+      ],
+      "resolved": true
     }
   },
   "externalized_parameters": [
@@ -219,6 +957,14 @@
       "attribute_category": "",
       "attribute_label": "EnableLogging",
       "configured_value": "false"
+    },
+    {
+      "name": "SubIntegrationFlow",
+      "type": "xsd:string",
+      "is_required": "false",
+      "attribute_category": "SubIFlow",
+      "attribute_label": "Address",
+      "configured_value": "/subflow1"
     }
   ],
   "resources": {

@@ -8,6 +8,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from src.parser.iflow_parser import parse_package
+from src.parser.link_subflows import write_subflow_links
 
 
 def _find_package_dirs(root_dir: Path) -> list[Path]:
@@ -44,6 +45,7 @@ def main() -> None:
 
     package_dirs = _find_package_dirs(root_dir)
     summary_rows: list[dict[str, object]] = []
+    artifacts = []
 
     if not package_dirs:
         print(f"No package folders found under: {root_dir}")
@@ -58,6 +60,7 @@ def main() -> None:
                 print(f"Warning: {package_name} has {len(iflw_files)} .iflw files under {iflw_dir}")
 
             artifact = parse_package(str(package_dir))
+            artifacts.append(artifact)
             output_dir = Path("output")
             output_dir.mkdir(parents=True, exist_ok=True)
             output_path = output_dir / f"{artifact.artifact_id}.json"
@@ -87,6 +90,7 @@ def main() -> None:
             )
 
     _print_summary(summary_rows)
+    write_subflow_links(artifacts)
 
 
 if __name__ == "__main__":

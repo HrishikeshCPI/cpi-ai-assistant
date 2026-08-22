@@ -8,8 +8,10 @@ class IFlowArtifact(BaseModel):
 
     artifact_id: str
     version: str
+    developer_description: str = ""
     nodes: list[dict[str, Any]] = Field(default_factory=list)
     edges: list[dict[str, Any]] = Field(default_factory=list)
+    processes: list[dict[str, Any]] = Field(default_factory=list)
     message_flows: list[dict[str, Any]] = Field(default_factory=list)
     systems: list[dict[str, Any]] = Field(default_factory=list)
     resolved_resources: dict[str, dict[str, Any]] = Field(default_factory=dict)

@@ -1,6 +1,7 @@
 {
   "artifact_id": "com.sap.scenarios.s42c4c.attachment.replicate",
   "version": "1.0.4",
+  "developer_description": "Replicate Sales Order Attachment from SAP Business Suite\\nReplicate Material Attachment from SAP Business Suite\\nReplicate Contract Attachment from SAP Business Suite",
   "nodes": [
     {
       "id": "ExclusiveGateway_1",
@@ -12,7 +13,15 @@
       "name": "Content Modifier",
       "bpmn_type": "callActivity",
       "type": "Enricher",
-      "resources": []
+      "resources": [],
+      "details": {
+        "property_table": [],
+        "header_table": [],
+        "wrapContent": {
+          "value": "",
+          "is_externalized": false
+        }
+      }
     },
     {
       "id": "EndEvent_5",
@@ -69,12 +78,212 @@
       "targetRef": "CallActivity_1"
     }
   ],
+  "processes": [
+    {
+      "id": "Process_1",
+      "classification": "main",
+      "nodes": [
+        {
+          "id": "ExclusiveGateway_1",
+          "name": "Router",
+          "bpmn_type": "exclusiveGateway"
+        },
+        {
+          "id": "CallActivity_1",
+          "name": "Content Modifier",
+          "bpmn_type": "callActivity",
+          "type": "Enricher",
+          "resources": [],
+          "details": {
+            "property_table": [],
+            "header_table": [],
+            "wrapContent": {
+              "value": "",
+              "is_externalized": false
+            }
+          }
+        },
+        {
+          "id": "EndEvent_5",
+          "name": "End Event 5",
+          "bpmn_type": "endEvent"
+        },
+        {
+          "id": "EndEvent_4",
+          "name": "End Event 4",
+          "bpmn_type": "endEvent"
+        },
+        {
+          "id": "EndEvent_6",
+          "name": "End Event 6",
+          "bpmn_type": "endEvent"
+        },
+        {
+          "id": "EndEvent_1",
+          "name": "End",
+          "bpmn_type": "endEvent"
+        },
+        {
+          "id": "StartEvent_1",
+          "name": "Start",
+          "bpmn_type": "startEvent"
+        }
+      ],
+      "edges": [
+        {
+          "sourceRef": "ExclusiveGateway_1",
+          "targetRef": "EndEvent_6",
+          "condition": "/p1:AttachmentFolderBulkReplicateRequest/AttachmentFolderReplicateRequestMessage/AttachmentFolder/HostObjectReference/ObjectTypeCode = '1'"
+        },
+        {
+          "sourceRef": "ExclusiveGateway_1",
+          "targetRef": "EndEvent_4"
+        },
+        {
+          "sourceRef": "ExclusiveGateway_1",
+          "targetRef": "EndEvent_5",
+          "condition": "/p1:AttachmentFolderBulkReplicateRequest/AttachmentFolderReplicateRequestMessage/AttachmentFolder/HostObjectReference/ObjectTypeCode = '2014'"
+        },
+        {
+          "sourceRef": "ExclusiveGateway_1",
+          "targetRef": "EndEvent_1",
+          "condition": "/p1:AttachmentFolderBulkReplicateRequest/AttachmentFolderReplicateRequestMessage/AttachmentFolder/HostObjectReference/ObjectTypeCode = '2059'"
+        },
+        {
+          "sourceRef": "CallActivity_1",
+          "targetRef": "ExclusiveGateway_1"
+        },
+        {
+          "sourceRef": "StartEvent_1",
+          "targetRef": "CallActivity_1"
+        }
+      ]
+    }
+  ],
   "message_flows": [
     {
       "id": "MessageFlow_5",
       "name": "CFC_SOAP_ContractAttachmentReplicationIn_Receive",
       "sourceRef": "EndEvent_5",
       "targetRef": "Participant_2",
+      "properties": {
+        "cleanupHeaders": {
+          "value": "{{C4C_cleanupHeaders_31}}",
+          "is_externalized": true
+        },
+        "Description": {
+          "value": "",
+          "is_externalized": false
+        },
+        "ComponentNS": {
+          "value": "sap",
+          "is_externalized": false
+        },
+        "privateKeyAlias": {
+          "value": "{{pv-key-alias}}",
+          "is_externalized": true
+        },
+        "Name": {
+          "value": "CFC_SOAP_ContractAttachmentReplicationIn_Receive",
+          "is_externalized": false
+        },
+        "TransportProtocolVersion": {
+          "value": "1.1.4",
+          "is_externalized": false
+        },
+        "ComponentSWCVName": {
+          "value": "1.2",
+          "is_externalized": false
+        },
+        "proxyPort": {
+          "value": "",
+          "is_externalized": false
+        },
+        "soapWsdlURL": {
+          "value": "",
+          "is_externalized": false
+        },
+        "CompressMessage": {
+          "value": "0",
+          "is_externalized": false
+        },
+        "soapServiceName": {
+          "value": "",
+          "is_externalized": false
+        },
+        "MessageProtocol": {
+          "value": "Plain SOAP",
+          "is_externalized": false
+        },
+        "ComponentSWCVId": {
+          "value": "1.2",
+          "is_externalized": false
+        },
+        "requestTimeout": {
+          "value": "{{TimeOut}}",
+          "is_externalized": true
+        },
+        "direction": {
+          "value": "Receiver",
+          "is_externalized": false
+        },
+        "authentication": {
+          "value": "{{C4C_authentication_34}}",
+          "is_externalized": true
+        },
+        "ComponentType": {
+          "value": "SOAP",
+          "is_externalized": false
+        },
+        "address": {
+          "value": "https://{{host}}:{{port}}/sap/bc/srt/scs/sap/replicatecontractattachmentfol",
+          "is_externalized": false
+        },
+        "allowChunking": {
+          "value": "{{C4C_allowChunking_32}}",
+          "is_externalized": true
+        },
+        "proxyType": {
+          "value": "{{C4C_proxyType_33}}",
+          "is_externalized": true
+        },
+        "soapWsdlPortName": {
+          "value": "",
+          "is_externalized": false
+        },
+        "operationName": {
+          "value": "",
+          "is_externalized": false
+        },
+        "componentVersion": {
+          "value": "1.2",
+          "is_externalized": false
+        },
+        "proxyHost": {
+          "value": "",
+          "is_externalized": false
+        },
+        "system": {
+          "value": "C4C",
+          "is_externalized": false
+        },
+        "TransportProtocol": {
+          "value": "HTTP",
+          "is_externalized": false
+        },
+        "cmdVariantUri": {
+          "value": "ctype::AdapterVariant/cname::sap:SOAP/tp::HTTP/mp::Plain SOAP/direction::Receiver/version::1.2",
+          "is_externalized": false
+        },
+        "credentialName": {
+          "value": "{{artifactname}}",
+          "is_externalized": true
+        },
+        "MessageProtocolVersion": {
+          "value": "1.0.5",
+          "is_externalized": false
+        }
+      },
       "direction": "Receiver",
       "component_type": "SOAP",
       "transport_protocol": "HTTP",
@@ -85,6 +294,124 @@
       "name": "CFC_SOAP_MaterialAttachmentReplicationIn_Receive",
       "sourceRef": "EndEvent_6",
       "targetRef": "Participant_2",
+      "properties": {
+        "cleanupHeaders": {
+          "value": "{{C4C_cleanupHeaders_37}}",
+          "is_externalized": true
+        },
+        "Description": {
+          "value": "",
+          "is_externalized": false
+        },
+        "ComponentNS": {
+          "value": "sap",
+          "is_externalized": false
+        },
+        "privateKeyAlias": {
+          "value": "{{pv-key-alias}}",
+          "is_externalized": true
+        },
+        "Name": {
+          "value": "CFC_SOAP_MaterialAttachmentReplicationIn_Receive",
+          "is_externalized": false
+        },
+        "TransportProtocolVersion": {
+          "value": "1.1.4",
+          "is_externalized": false
+        },
+        "ComponentSWCVName": {
+          "value": "1.2",
+          "is_externalized": false
+        },
+        "proxyPort": {
+          "value": "",
+          "is_externalized": false
+        },
+        "soapWsdlURL": {
+          "value": "",
+          "is_externalized": false
+        },
+        "CompressMessage": {
+          "value": "0",
+          "is_externalized": false
+        },
+        "soapServiceName": {
+          "value": "",
+          "is_externalized": false
+        },
+        "MessageProtocol": {
+          "value": "Plain SOAP",
+          "is_externalized": false
+        },
+        "ComponentSWCVId": {
+          "value": "1.2",
+          "is_externalized": false
+        },
+        "requestTimeout": {
+          "value": "{{TimeOut}}",
+          "is_externalized": true
+        },
+        "direction": {
+          "value": "Receiver",
+          "is_externalized": false
+        },
+        "authentication": {
+          "value": "{{C4C_authentication_40}}",
+          "is_externalized": true
+        },
+        "ComponentType": {
+          "value": "SOAP",
+          "is_externalized": false
+        },
+        "address": {
+          "value": "https://{{host}}:{{port}}/sap/bc/srt/scs/sap/replicatematerialattachmentfol",
+          "is_externalized": false
+        },
+        "allowChunking": {
+          "value": "{{C4C_allowChunking_38}}",
+          "is_externalized": true
+        },
+        "proxyType": {
+          "value": "{{C4C_proxyType_39}}",
+          "is_externalized": true
+        },
+        "soapWsdlPortName": {
+          "value": "",
+          "is_externalized": false
+        },
+        "operationName": {
+          "value": "",
+          "is_externalized": false
+        },
+        "componentVersion": {
+          "value": "1.2",
+          "is_externalized": false
+        },
+        "proxyHost": {
+          "value": "",
+          "is_externalized": false
+        },
+        "system": {
+          "value": "C4C",
+          "is_externalized": false
+        },
+        "TransportProtocol": {
+          "value": "HTTP",
+          "is_externalized": false
+        },
+        "cmdVariantUri": {
+          "value": "ctype::AdapterVariant/cname::sap:SOAP/tp::HTTP/mp::Plain SOAP/direction::Receiver/version::1.2",
+          "is_externalized": false
+        },
+        "credentialName": {
+          "value": "{{artifactname}}",
+          "is_externalized": true
+        },
+        "MessageProtocolVersion": {
+          "value": "1.2.0",
+          "is_externalized": false
+        }
+      },
       "direction": "Receiver",
       "component_type": "SOAP",
       "transport_protocol": "HTTP",
@@ -95,6 +422,124 @@
       "name": "CFC_SOAP_SalesOrderAttachmentReplicationIn_Receive",
       "sourceRef": "EndEvent_1",
       "targetRef": "Participant_2",
+      "properties": {
+        "cleanupHeaders": {
+          "value": "{{C4C_cleanupHeaders_27}}",
+          "is_externalized": true
+        },
+        "Description": {
+          "value": "",
+          "is_externalized": false
+        },
+        "ComponentNS": {
+          "value": "sap",
+          "is_externalized": false
+        },
+        "privateKeyAlias": {
+          "value": "{{pv-key-alias}}",
+          "is_externalized": true
+        },
+        "Name": {
+          "value": "CFC_SOAP_SalesOrderAttachmentReplicationIn_Receive",
+          "is_externalized": false
+        },
+        "TransportProtocolVersion": {
+          "value": "1.1.4",
+          "is_externalized": false
+        },
+        "ComponentSWCVName": {
+          "value": "1.2",
+          "is_externalized": false
+        },
+        "proxyPort": {
+          "value": "",
+          "is_externalized": false
+        },
+        "soapWsdlURL": {
+          "value": "",
+          "is_externalized": false
+        },
+        "CompressMessage": {
+          "value": "0",
+          "is_externalized": false
+        },
+        "soapServiceName": {
+          "value": "",
+          "is_externalized": false
+        },
+        "MessageProtocol": {
+          "value": "Plain SOAP",
+          "is_externalized": false
+        },
+        "ComponentSWCVId": {
+          "value": "1.2",
+          "is_externalized": false
+        },
+        "requestTimeout": {
+          "value": "{{TimeOut}}",
+          "is_externalized": true
+        },
+        "direction": {
+          "value": "Receiver",
+          "is_externalized": false
+        },
+        "authentication": {
+          "value": "{{C4C_authentication_30}}",
+          "is_externalized": true
+        },
+        "ComponentType": {
+          "value": "SOAP",
+          "is_externalized": false
+        },
+        "address": {
+          "value": "https://{{host}}:{{port}}/sap/bc/srt/scs/sap/replicatecustomerorderattachme",
+          "is_externalized": false
+        },
+        "allowChunking": {
+          "value": "{{C4C_allowChunking_28}}",
+          "is_externalized": true
+        },
+        "proxyType": {
+          "value": "{{C4C_proxyType_29}}",
+          "is_externalized": true
+        },
+        "soapWsdlPortName": {
+          "value": "",
+          "is_externalized": false
+        },
+        "operationName": {
+          "value": "",
+          "is_externalized": false
+        },
+        "componentVersion": {
+          "value": "1.2",
+          "is_externalized": false
+        },
+        "proxyHost": {
+          "value": "",
+          "is_externalized": false
+        },
+        "system": {
+          "value": "C4C",
+          "is_externalized": false
+        },
+        "TransportProtocol": {
+          "value": "HTTP",
+          "is_externalized": false
+        },
+        "cmdVariantUri": {
+          "value": "ctype::AdapterVariant/cname::sap:SOAP/tp::HTTP/mp::Plain SOAP/direction::Receiver/version::1.2",
+          "is_externalized": false
+        },
+        "credentialName": {
+          "value": "{{artifactname}}",
+          "is_externalized": true
+        },
+        "MessageProtocolVersion": {
+          "value": "1.2.0",
+          "is_externalized": false
+        }
+      },
       "direction": "Receiver",
       "component_type": "SOAP",
       "transport_protocol": "HTTP",
@@ -105,6 +550,92 @@
       "name": "SOAP",
       "sourceRef": "Participant_1",
       "targetRef": "StartEvent_1",
+      "properties": {
+        "ComponentType": {
+          "value": "SOAP",
+          "is_externalized": false
+        },
+        "Description": {
+          "value": "",
+          "is_externalized": false
+        },
+        "address": {
+          "value": "{{S4_address_35}}",
+          "is_externalized": true
+        },
+        "maximumBodySize": {
+          "value": "40",
+          "is_externalized": false
+        },
+        "ComponentNS": {
+          "value": "sap",
+          "is_externalized": false
+        },
+        "maximumAttachmentSize": {
+          "value": "100",
+          "is_externalized": false
+        },
+        "componentVersion": {
+          "value": "1.4",
+          "is_externalized": false
+        },
+        "Name": {
+          "value": "SOAP",
+          "is_externalized": false
+        },
+        "TransportProtocolVersion": {
+          "value": "1.12.2",
+          "is_externalized": false
+        },
+        "ComponentSWCVName": {
+          "value": "external",
+          "is_externalized": false
+        },
+        "system": {
+          "value": "S4",
+          "is_externalized": false
+        },
+        "TransportProtocol": {
+          "value": "HTTP",
+          "is_externalized": false
+        },
+        "cmdVariantUri": {
+          "value": "ctype::AdapterVariant/cname::sap:SOAP/tp::HTTP/mp::Plain SOAP/direction::Sender/version::1.4.0",
+          "is_externalized": false
+        },
+        "userRole": {
+          "value": "{{UserRole}}",
+          "is_externalized": true
+        },
+        "wsdlURL": {
+          "value": "{{S4_wsdlURL_36}}",
+          "is_externalized": true
+        },
+        "senderAuthType": {
+          "value": "{{Sender_Auth}}",
+          "is_externalized": true
+        },
+        "MessageProtocol": {
+          "value": "Plain SOAP",
+          "is_externalized": false
+        },
+        "MessageProtocolVersion": {
+          "value": "1.12.2",
+          "is_externalized": false
+        },
+        "ComponentSWCVId": {
+          "value": "1.12.2",
+          "is_externalized": false
+        },
+        "direction": {
+          "value": "Sender",
+          "is_externalized": false
+        },
+        "clientCertificates": {
+          "value": "",
+          "is_externalized": false
+        }
+      },
       "direction": "Sender",
       "component_type": "SOAP",
       "transport_protocol": "HTTP",

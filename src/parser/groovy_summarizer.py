@@ -2,9 +2,31 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Any
+
+
+_CPI_API_PATTERNS = (
+    "message.getProperty",
+    "message.setProperty",
+    "message.getBody",
+    "message.setBody",
+    "message.getHeaders",
+    "messageLogFactory.getMessageLog",
+    "messageLog.addAttachmentAsString",
+)
+
+
+def _scan_cpi_apis(content: str) -> list[dict[str, str | None]]:
+    """Return deterministic CPI API usage, with a literal first argument when present."""
+    matches: list[dict[str, str | None]] = []
+    for api_name in _CPI_API_PATTERNS:
+        pattern = re.escape(api_name) + r"\s*\(\s*(?:([\"'])(.*?)\1)?"
+        for match in re.finditer(pattern, content, flags=re.DOTALL):
+            matches.append({"api_name": api_name, "literal_argument": match.group(2)})
+    return matches
 
 
 def _cache_dir() -> Path:
@@ -26,6 +48,7 @@ def resolve_groovy(groovy_path: str) -> dict[str, Any]:
         content = path.read_bytes().decode("utf-8", errors="replace")
 
     content_hash = hashlib.sha256(content.encode("utf-8")).hexdigest()
+    cpi_apis = _scan_cpi_apis(content)
     cache_path = _cache_dir() / f"{content_hash}.json"
     expected_cache_path = str(Path("output/.groovy_cache") / f"{content_hash}.json")
 
@@ -35,6 +58,7 @@ def resolve_groovy(groovy_path: str) -> dict[str, Any]:
             if isinstance(cached, dict):
                 cached["resolved"] = True
                 cached["source"] = "cache"
+                cached["cpi_apis"] = cpi_apis
                 return cached
         except json.JSONDecodeError:
             pass
@@ -45,6 +69,7 @@ def resolve_groovy(groovy_path: str) -> dict[str, Any]:
         "filename": path.name,
         "expected_cache_path": expected_cache_path,
         "hash": content_hash,
+        "cpi_apis": cpi_apis,
     }
 
 
