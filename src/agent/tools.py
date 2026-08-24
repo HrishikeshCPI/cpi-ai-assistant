@@ -11,6 +11,8 @@ real query failure.
 
 from __future__ import annotations
 
+import json
+
 from src.graph.neo4j_client import run_query
 
 
@@ -69,7 +71,7 @@ def describe_iflow(artifact_id: str) -> dict:
     """
     query = """
     MATCH (i:IFlow {id: $artifact_id})
-    OPTIONAL MATCH (i)<-[:BELONGS_TO]-(s:Step)
+    OPTIONAL MATCH (i)<-[:PART_OF]-(:Process)<-[:BELONGS_TO]-(s:Step)
     OPTIONAL MATCH (s)-[:USES]->(r:Resource)
     RETURN i.id AS artifact_id, i.version AS version,
            s.id AS step_id, s.name AS step_name,
@@ -98,11 +100,36 @@ def describe_iflow(artifact_id: str) -> dict:
             "resources_used": [r for r in row["resources_used"] if r],
         })
 
-    return {
+    response = {
         "artifact_id": artifact_id_val,
         "version": version,
         "steps": steps,
     }
+
+    process_query = """
+    MATCH (:IFlow {id: $artifact_id})<-[:PART_OF]-(p:Process)
+    WHERE p.classification <> 'main'
+    RETURN p.classification AS classification, count(p) AS process_count
+    ORDER BY p.classification
+    """
+    try:
+        process_rows = run_query(process_query, {"artifact_id": artifact_id})
+    except Exception as exc:
+        return {"error": f"Query failed: {exc}"}
+
+    if process_rows:
+        labels = {
+            "local_subprocess": "local subprocess",
+            "error_handling": "error-handling subprocess",
+        }
+        parts = []
+        for row in process_rows:
+            count = row["process_count"]
+            label = labels.get(row["classification"], row["classification"].replace("_", " "))
+            parts.append(f"{count} {label}{'' if count == 1 else 'es'}")
+        response["process_structure"] = ", ".join(parts)
+
+    return response
 
 
 def get_iflow_resources(artifact_id: str) -> list:
@@ -294,3 +321,237 @@ def find_systems_shared_across_iflows(min_count: int = 2) -> list:
         return [dict(r) for r in results]
     except Exception as exc:
         return [{"error": f"Query failed: {exc}"}]
+
+
+def get_subflow_chain(artifact_id: str) -> dict:
+    """Return the direct subflows called by an iFlow and its direct callers."""
+    query = """
+    MATCH (i:IFlow {id: $artifact_id})
+    OPTIONAL MATCH (i)-[outgoing:CALLS_SUBFLOW]->(callee:IFlow)
+    WITH i, collect(DISTINCT {callee: callee.id, address: outgoing.address}) AS calls
+    OPTIONAL MATCH (caller:IFlow)-[incoming:CALLS_SUBFLOW]->(i)
+    RETURN i.id AS artifact_id, calls,
+           collect(DISTINCT {caller: caller.id, address: incoming.address}) AS called_by
+    """
+    try:
+        rows = run_query(query, {"artifact_id": artifact_id})
+        if not rows:
+            return {}
+        row = rows[0]
+        return {
+            "artifact_id": row["artifact_id"],
+            "calls": [item for item in row["calls"] if item["callee"]],
+            "called_by": [item for item in row["called_by"] if item["caller"]],
+        }
+    except Exception as exc:
+        return {"error": f"Query failed: {exc}"}
+
+
+def find_subflow_callers(artifact_id: str) -> dict:
+    """Find every iFlow that calls the specified reusable subflow."""
+    query = """
+    MATCH (i:IFlow {id: $artifact_id})
+    OPTIONAL MATCH (caller:IFlow)-[c:CALLS_SUBFLOW]->(i)
+    RETURN i.id AS artifact_id,
+           collect(DISTINCT {caller: caller.id, address: c.address}) AS called_by
+    """
+    try:
+        rows = run_query(query, {"artifact_id": artifact_id})
+        if not rows:
+            return {}
+        row = rows[0]
+        return {
+            "artifact_id": row["artifact_id"],
+            "called_by": [item for item in row["called_by"] if item["caller"]],
+        }
+    except Exception as exc:
+        return {"error": f"Query failed: {exc}"}
+
+
+def get_iflow_processes(artifact_id: str) -> dict:
+    """List an iFlow's processes, classifications, and Process-scoped Step counts."""
+    query = """
+    MATCH (i:IFlow {id: $artifact_id})
+    OPTIONAL MATCH (i)<-[:PART_OF]-(p:Process)
+    OPTIONAL MATCH (p)<-[:BELONGS_TO]-(s:Step)
+    RETURN i.id AS artifact_id, p.id AS process_id,
+           p.classification AS classification, count(s) AS step_count
+    ORDER BY process_id
+    """
+    try:
+        rows = run_query(query, {"artifact_id": artifact_id})
+        if not rows:
+            return {}
+        return {
+            "artifact_id": rows[0]["artifact_id"],
+            "processes": [
+                {
+                    "process_id": row["process_id"],
+                    "classification": row["classification"],
+                    "step_count": row["step_count"],
+                }
+                for row in rows if row["process_id"] is not None
+            ],
+        }
+    except Exception as exc:
+        return {"error": f"Query failed: {exc}"}
+
+
+def get_error_handling_coverage() -> dict:
+    """Summarize error-handling Processes and their triggers/end steps across all iFlows."""
+    iflows_query = "MATCH (i:IFlow) RETURN i.id AS artifact_id ORDER BY artifact_id"
+    details_query = """
+    MATCH (i:IFlow)<-[:PART_OF]-(p:Process {classification: 'error_handling'})
+    OPTIONAL MATCH (p)<-[:BELONGS_TO]-(s:Step)
+    RETURN i.id AS artifact_id, p.id AS process_id,
+           collect(DISTINCT s.error_trigger_type) AS trigger_types,
+           collect(DISTINCT CASE WHEN s.bpmn_type = 'endEvent' THEN s.name END) AS terminal_steps
+    ORDER BY artifact_id, process_id
+    """
+    try:
+        all_iflows = [row["artifact_id"] for row in run_query(iflows_query)]
+        rows = run_query(details_query)
+        grouped: dict[str, list[dict]] = {}
+        for row in rows:
+            grouped.setdefault(row["artifact_id"], []).append({
+                "process_id": row["process_id"],
+                "trigger_types": [value for value in row["trigger_types"] if value is not None],
+                "terminal_steps": [value for value in row["terminal_steps"] if value is not None],
+            })
+        with_error_handling = [
+            {
+                "artifact_id": artifact_id,
+                "error_process_count": len(details),
+                "details": details,
+            }
+            for artifact_id, details in grouped.items()
+        ]
+        return {
+            "iflows_with_error_handling": with_error_handling,
+            "total_iflows_checked": len(all_iflows),
+            "iflows_without_error_handling": [
+                artifact_id for artifact_id in all_iflows if artifact_id not in grouped
+            ],
+        }
+    except Exception as exc:
+        return {"error": f"Query failed: {exc}"}
+
+
+def get_local_subprocess_calls(artifact_id: str) -> dict:
+    """List local Process invocations from an iFlow, excluding cross-iFlow subflow calls."""
+    query = """
+    MATCH (i:IFlow {id: $artifact_id})<-[:PART_OF]-(:Process)<-[:BELONGS_TO]-(s:Step)
+          -[:INVOKES]->(target:Process)
+    WHERE target.classification IN ['local_subprocess', 'error_handling']
+    RETURN i.id AS artifact_id, s.name AS step_name, target.id AS target_process_id,
+           target.classification AS target_classification
+    ORDER BY step_name
+    """
+    try:
+        rows = run_query(query, {"artifact_id": artifact_id})
+        return {
+            "artifact_id": artifact_id,
+            "invocations": [
+                {
+                    "step_name": row["step_name"],
+                    "target_process_id": row["target_process_id"],
+                    "target_classification": row["target_classification"],
+                }
+                for row in rows
+            ],
+        }
+    except Exception as exc:
+        return {"error": f"Query failed: {exc}"}
+
+
+def find_iflows_by_auth_property(property_key: str, property_value: str | None) -> dict:
+    """Find adapter CALLS whose JSON properties contain a requested key/value.
+
+    Pass ``None`` for ``property_value`` to find properties whose value is
+    absent, null, or an empty string.
+    """
+    query = """
+    MATCH (i:IFlow)<-[:PART_OF]-(:Process)<-[:BELONGS_TO]-(s:Step)-[c:CALLS]->(sys:System)
+    RETURN i.id AS artifact_id, s.name AS step_name, sys.name AS system_name,
+           c.component_type AS component_type, c.properties_json AS properties_json
+    ORDER BY artifact_id, step_name, system_name
+    """
+    try:
+        matches = []
+        for row in run_query(query):
+            properties = json.loads(row["properties_json"] or "{}")
+            if property_key not in properties:
+                continue
+            matched_property = properties[property_key]
+            value = matched_property.get("value") if isinstance(matched_property, dict) else matched_property
+            is_empty = value is None or value == ""
+            if (property_value is None and not is_empty) or (
+                property_value is not None and value != property_value
+            ):
+                continue
+            matches.append({
+                "artifact_id": row["artifact_id"],
+                "step_name": row["step_name"],
+                "system_name": row["system_name"],
+                "component_type": row["component_type"],
+                "matched_property": {property_key: matched_property},
+            })
+        return {"matches": matches}
+    except Exception as exc:
+        return {"error": f"Query failed: {exc}"}
+
+
+def get_adapter_security_summary(artifact_id: str) -> dict:
+    """List an iFlow's adapter calls with externalization and literal property counts."""
+    query = """
+    MATCH (i:IFlow {id: $artifact_id})<-[:PART_OF]-(:Process)<-[:BELONGS_TO]-(s:Step)
+          -[c:CALLS]->(sys:System)
+    RETURN s.name AS step_name, sys.name AS system_name,
+           c.component_type AS component_type, c.direction AS direction,
+           c.externalized_count AS externalized_count, c.literal_count AS literal_count
+    ORDER BY step_name, system_name
+    """
+    try:
+        rows = run_query(query, {"artifact_id": artifact_id})
+        return {"artifact_id": artifact_id, "adapters": [dict(row) for row in rows]}
+    except Exception as exc:
+        return {"error": f"Query failed: {exc}"}
+
+
+def find_scripts_using_cpi_api(api_name: str) -> dict:
+    """Find Groovy resources that call a named CPI API and report literal arguments."""
+    query = """
+    MATCH (i:IFlow)<-[:PART_OF]-(:Process)<-[:BELONGS_TO]-(:Step)-[:USES]->(r:Resource {kind: 'groovy'})
+    WHERE r.cpi_apis_json IS NOT NULL
+    RETURN DISTINCT i.id AS artifact_id, r.filename AS script_filename,
+           r.cpi_apis_json AS cpi_apis_json
+    ORDER BY artifact_id, script_filename
+    """
+    try:
+        matches = []
+        for row in run_query(query):
+            for api in json.loads(row["cpi_apis_json"]):
+                if api.get("api_name") == api_name:
+                    matches.append({
+                        "artifact_id": row["artifact_id"],
+                        "script_filename": row["script_filename"],
+                        "literal_argument": api.get("literal_argument"),
+                    })
+        return {"api_name": api_name, "matches": matches}
+    except Exception as exc:
+        return {"error": f"Query failed: {exc}"}
+
+
+def find_complex_mappings() -> dict:
+    """List mappings with parser-detected complex transformation structures."""
+    query = """
+    MATCH (i:IFlow)<-[:PART_OF]-(:Process)<-[:BELONGS_TO]-(:Step)-[:USES]->(r:Resource)
+    WHERE r.has_complex_transformations = true
+    RETURN DISTINCT i.id AS artifact_id, r.filename AS filename,
+           r.mapping_format AS mapping_format
+    ORDER BY artifact_id, filename
+    """
+    try:
+        return {"complex_mappings": [dict(row) for row in run_query(query)]}
+    except Exception as exc:
+        return {"error": f"Query failed: {exc}"}
