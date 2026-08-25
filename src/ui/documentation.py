@@ -2,10 +2,13 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import streamlit as st
 
 from src.agent.tools import list_all_iflows
 from src.docgen.ts_document import build_ts_content
+from src.docgen.word_export import generate_ts_docx
 from src.ui.app import render_mermaid
 
 
@@ -80,3 +83,15 @@ def render_documentation_page() -> None:
     for category, parameters in content["parameters"].items():
         st.markdown(f"#### {category}")
         st.dataframe(parameters, use_container_width=True, hide_index=True)
+
+    if st.button("Generate Word document"):
+        try:
+            docx_path = generate_ts_docx(artifact_id)
+            st.download_button(
+                "Download as Word",
+                data=Path(docx_path).read_bytes(),
+                file_name=Path(docx_path).name,
+                mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            )
+        except Exception as exc:
+            st.error(f"Could not generate Word document: {exc}")

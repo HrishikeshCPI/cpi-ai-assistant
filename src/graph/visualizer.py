@@ -38,7 +38,7 @@ def generate_mermaid(artifact_id: str) -> str:
     """
     # Query 1: Get all steps for the iFlow
     steps_query = """
-    MATCH (i:IFlow {id: $artifact_id})<-[:BELONGS_TO]-(s:Step)
+    MATCH (i:IFlow {id: $artifact_id})<-[:PART_OF]-(:Process)<-[:BELONGS_TO]-(s:Step)
     RETURN s.id AS step_id, s.name AS step_name, s.bpmn_type AS bpmn_type
     ORDER BY s.id
     """
@@ -49,8 +49,8 @@ def generate_mermaid(artifact_id: str) -> str:
     
     # Query 2: Get all NEXT edges between steps
     edges_query = """
-    MATCH (i:IFlow {id: $artifact_id})<-[:BELONGS_TO]-(s1:Step)
-    MATCH (i)<-[:BELONGS_TO]-(s2:Step)
+    MATCH (i:IFlow {id: $artifact_id})<-[:PART_OF]-(:Process)<-[:BELONGS_TO]-(s1:Step)
+    MATCH (i)<-[:PART_OF]-(:Process)<-[:BELONGS_TO]-(s2:Step)
     MATCH (s1)-[next:NEXT]->(s2)
     RETURN s1.id AS source_id, s2.id AS target_id, next.condition AS condition
     ORDER BY s1.id, s2.id
@@ -59,7 +59,7 @@ def generate_mermaid(artifact_id: str) -> str:
     
     # Query 3: Get all resources used by each step
     resources_query = """
-    MATCH (i:IFlow {id: $artifact_id})<-[:BELONGS_TO]-(s:Step)-[:USES]->(r:Resource)
+    MATCH (i:IFlow {id: $artifact_id})<-[:PART_OF]-(:Process)<-[:BELONGS_TO]-(s:Step)-[:USES]->(r:Resource)
     RETURN s.id AS step_id, r.filename AS filename, r.kind AS kind
     ORDER BY s.id, r.filename
     """
@@ -67,7 +67,7 @@ def generate_mermaid(artifact_id: str) -> str:
     
     # Query 4: Get all systems called by steps
     systems_query = """
-    MATCH (i:IFlow {id: $artifact_id})<-[:BELONGS_TO]-(s:Step)-[calls:CALLS]->(sys:System)
+    MATCH (i:IFlow {id: $artifact_id})<-[:PART_OF]-(:Process)<-[:BELONGS_TO]-(s:Step)-[calls:CALLS]->(sys:System)
     RETURN s.id AS step_id, sys.name AS system_name, calls.direction AS direction, calls.component_type AS component_type
     ORDER BY s.id, sys.name
     """

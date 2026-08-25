@@ -38,7 +38,11 @@ SYSTEM_INSTRUCTION = (
     "- don't guess or make up information. Be concise and technical. "
     "IMPORTANT: For each question, call the appropriate tool to get fresh data. "
     "Do not reuse data from earlier in the conversation unless the question is clearly "
-    "a follow-up about the same specific iFlow or resource already named by the user in that follow-up."
+    "a follow-up about the same specific iFlow or resource already named by the user in that follow-up. "
+    "Complex mapping transformations refer only to .mmap mapping files with non-trivial field logic, "
+    "not to Groovy script complexity classifications. "
+    "Always turn tool results into a concrete answer; never reply with a placeholder such as 'data found'. "
+    "For error-handling coverage, explicitly count the returned iFlows."
 )
 
 
@@ -199,6 +203,92 @@ TOOLS = [
                     required=[],
                 ),
             ),
+            genai.types.FunctionDeclaration(
+                name="get_subflow_chain",
+                description="Get direct subflows called by an iFlow and its direct callers",
+                parameters=genai.types.Schema(
+                    type="object",
+                    properties={"artifact_id": genai.types.Schema(type="string", description="IFlow artifact ID")},
+                    required=["artifact_id"],
+                ),
+            ),
+            genai.types.FunctionDeclaration(
+                name="find_subflow_callers",
+                description="Find every iFlow that calls a reusable subflow",
+                parameters=genai.types.Schema(
+                    type="object",
+                    properties={"artifact_id": genai.types.Schema(type="string", description="Subflow artifact ID")},
+                    required=["artifact_id"],
+                ),
+            ),
+            genai.types.FunctionDeclaration(
+                name="get_iflow_processes",
+                description="List an iFlow's Process nodes, classifications, and step counts",
+                parameters=genai.types.Schema(
+                    type="object",
+                    properties={"artifact_id": genai.types.Schema(type="string", description="IFlow artifact ID")},
+                    required=["artifact_id"],
+                ),
+            ),
+            genai.types.FunctionDeclaration(
+                name="get_error_handling_coverage",
+                description="Summarize error-handling Processes across all iFlows",
+                parameters=genai.types.Schema(type="object", properties={}, required=[]),
+            ),
+            genai.types.FunctionDeclaration(
+                name="get_local_subprocess_calls",
+                description="List local subprocess and error-handling Process invocations for an iFlow",
+                parameters=genai.types.Schema(
+                    type="object",
+                    properties={"artifact_id": genai.types.Schema(type="string", description="IFlow artifact ID")},
+                    required=["artifact_id"],
+                ),
+            ),
+            genai.types.FunctionDeclaration(
+                name="find_iflows_by_auth_property",
+                description="Find adapter calls by a properties_json key and value; null value finds empty properties",
+                parameters=genai.types.Schema(
+                    type="object",
+                    properties={
+                        "property_key": genai.types.Schema(type="string", description="Adapter property key"),
+                        "property_value": genai.types.Schema(type="string", nullable=True, description="Property value, or null for empty/missing"),
+                    },
+                    required=["property_key", "property_value"],
+                ),
+            ),
+            genai.types.FunctionDeclaration(
+                name="get_adapter_security_summary",
+                description="List adapter calls with externalized and literal property counts for an iFlow",
+                parameters=genai.types.Schema(
+                    type="object",
+                    properties={"artifact_id": genai.types.Schema(type="string", description="IFlow artifact ID")},
+                    required=["artifact_id"],
+                ),
+            ),
+            genai.types.FunctionDeclaration(
+                name="find_scripts_using_cpi_api",
+                description="Find Groovy scripts using a named CPI API",
+                parameters=genai.types.Schema(
+                    type="object",
+                    properties={"api_name": genai.types.Schema(type="string", description="CPI API name, for example message.getProperty")},
+                    required=["api_name"],
+                ),
+            ),
+            genai.types.FunctionDeclaration(
+                name="find_complex_mappings",
+                description="Find .mmap mapping files with non-trivial field transformation logic, not Groovy script complexity",
+                parameters=genai.types.Schema(type="object", properties={}, required=[]),
+            ),
+            genai.types.FunctionDeclaration(
+                name="get_process_complexity_ranking",
+                description="Rank iFlows by total local-subprocess and error-handling Process count",
+                parameters=genai.types.Schema(type="object", properties={}, required=[]),
+            ),
+            genai.types.FunctionDeclaration(
+                name="get_multicast_step_count",
+                description="Return the total number of Multicast Steps across the entire landscape",
+                parameters=genai.types.Schema(type="object", properties={}, required=[]),
+            ),
         ]
     )
 ]
@@ -217,6 +307,17 @@ TOOL_FUNCTIONS = {
     "search_iflows_by_keyword": tools.search_iflows_by_keyword,
     "get_unused_resources": tools.get_unused_resources,
     "get_iflow_step_count_ranked": tools.get_iflow_step_count_ranked,
+    "get_subflow_chain": tools.get_subflow_chain,
+    "find_subflow_callers": tools.find_subflow_callers,
+    "get_iflow_processes": tools.get_iflow_processes,
+    "get_error_handling_coverage": tools.get_error_handling_coverage,
+    "get_local_subprocess_calls": tools.get_local_subprocess_calls,
+    "find_iflows_by_auth_property": tools.find_iflows_by_auth_property,
+    "get_adapter_security_summary": tools.get_adapter_security_summary,
+    "find_scripts_using_cpi_api": tools.find_scripts_using_cpi_api,
+    "find_complex_mappings": tools.find_complex_mappings,
+    "get_process_complexity_ranking": tools.get_process_complexity_ranking,
+    "get_multicast_step_count": tools.get_multicast_step_count,
 }
 
 

@@ -41,8 +41,9 @@ def load_artifact(json_path: str) -> dict[str, int]:
         raise ValueError(f"No artifact_id found in {json_path}")
 
     # Step 1: Clean up existing IFlow, Steps, Processes, and package-scoped
-    # Parameters. Package, System, and Resource nodes remain shared across
-    # IFlows. The legacy cleanup also removes Steps from artifacts loaded
+    # Parameters, Package, and System nodes are shared across IFlows. Resources
+    # are artifact-scoped, so their identity is ``artifact_id::filename``.
+    # The legacy cleanup also removes Steps from artifacts loaded
     # before Process nodes were introduced.
     cleanup_parameters_query = """
     MATCH (i:IFlow {id: $artifact_id})-[:HAS_PARAMETER]->(p:Parameter)
@@ -70,6 +71,14 @@ def load_artifact(json_path: str) -> dict[str, int]:
     DETACH DELETE i
     """
     run_query(cleanup_iflow_query, {"artifact_id": artifact_id})
+
+    # Remove the prior artifact-scoped resource set so a reload also removes
+    # resources no longer present in the artifact output.
+    cleanup_resources_query = """
+    MATCH (r:Resource {artifact_id: $artifact_id})
+    DETACH DELETE r
+    """
+    run_query(cleanup_resources_query, {"artifact_id": artifact_id})
 
     # Step 2: Create Package node (MERGE to handle sharing)
     # Use the artifact_id as package name (no clear package/iflow distinction in the data)
@@ -192,6 +201,7 @@ def load_artifact(json_path: str) -> dict[str, int]:
             # Step 5: Link resources to this Step
             node_resources = node.get("resources", [])
             for resource_filename in node_resources:
+                resource_key = f"{artifact_id}::{resource_filename}"
                 kind = infer_resource_kind(resource_filename)
                 resolved_data = resolved_resources.get(resource_filename, {})
                 resolved = resolved_data.get("resolved", False)
@@ -212,8 +222,11 @@ def load_artifact(json_path: str) -> dict[str, int]:
 
                 link_resource = """
                 MATCH (s:Step {step_key: $step_key})
-                MERGE (r:Resource {filename: $filename, kind: $kind})
-                SET r.resolved = $resolved,
+                MERGE (r:Resource {resource_key: $resource_key})
+                SET r.filename = $filename,
+                    r.artifact_id = $artifact_id,
+                    r.kind = $kind,
+                    r.resolved = $resolved,
                     r.details_json = $details_json,
                     r.purpose = $purpose,
                     r.complexity = $complexity,
@@ -227,6 +240,8 @@ def load_artifact(json_path: str) -> dict[str, int]:
                     link_resource,
                     {
                         "step_key": step_key,
+                        "resource_key": resource_key,
+                        "artifact_id": artifact_id,
                         "filename": resource_filename,
                         "kind": kind,
                         "resolved": resolved,
@@ -353,19 +368,25 @@ def load_artifact(json_path: str) -> dict[str, int]:
     # Step 9: Create package-level schema Resource nodes (without USES relationships)
     schemas = resources_list.get("schemas", [])
     for schema_filename in schemas:
+        resource_key = f"{artifact_id}::{schema_filename}"
         resolved_data = resolved_resources.get(schema_filename, {})
         resolved = resolved_data.get("resolved", False)
         details_json = json.dumps(resolved_data) if resolved_data else None
 
         create_schema_resource = """
-        MERGE (r:Resource {filename: $filename, kind: "schema"})
-        ON CREATE SET r.resolved = $resolved, r.details_json = $details_json
-        ON MATCH SET r.resolved = $resolved, r.details_json = $details_json
+        MERGE (r:Resource {resource_key: $resource_key})
+        SET r.filename = $filename,
+            r.artifact_id = $artifact_id,
+            r.kind = "schema",
+            r.resolved = $resolved,
+            r.details_json = $details_json
         RETURN r
         """
         run_query(
             create_schema_resource,
             {
+                "resource_key": resource_key,
+                "artifact_id": artifact_id,
                 "filename": schema_filename,
                 "resolved": resolved,
                 "details_json": details_json,
@@ -438,8 +459,11 @@ if __name__ == "__main__":
         print(f"Output directory not found: {output_dir}")
         sys.exit(1)
 
-    # Find all *.json files (excluding .groovy_cache subfolder)
-    json_files = sorted([f for f in output_dir.glob("*.json")])
+    # Find artifact JSON files; subflow_links.json is a relationship manifest,
+    # not an IFlowArtifact and is loaded separately by load_subflow_links.
+    json_files = sorted(
+        f for f in output_dir.glob("*.json") if f.name != "subflow_links.json"
+    )
 
     if not json_files:
         print("No JSON artifact files found in output/")

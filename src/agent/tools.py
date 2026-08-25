@@ -29,7 +29,7 @@ def find_iflows_using_resource(filename: str) -> list:
         single-item list with an {"error": ...} dict.
     """
     query = """
-    MATCH (i:IFlow)<-[:BELONGS_TO]-(s:Step)-[:USES]->(r:Resource {filename: $filename})
+    MATCH (i:IFlow)<-[:PART_OF]-(:Process)<-[:BELONGS_TO]-(s:Step)-[:USES]->(r:Resource {filename: $filename})
     RETURN DISTINCT i.id AS artifact_id
     ORDER BY i.id
     """
@@ -40,18 +40,29 @@ def find_iflows_using_resource(filename: str) -> list:
         return [{"error": f"Query failed: {exc}"}]
 
 
-def get_resource_detail(filename: str) -> dict:
-    """Get detailed information about a specific resource, including which iFlows use it."""
+def get_resource_detail(filename: str, artifact_id: str | None = None) -> dict:
+    """Get resource details.
+
+    A filename can exist in multiple artifacts. Without ``artifact_id``, this
+    returns every distinct artifact-scoped version rather than choosing one.
+    """
     query = """
     MATCH (r:Resource {filename: $filename})
-    OPTIONAL MATCH (i:IFlow)<-[:BELONGS_TO]-(:Step)-[:USES]->(r)
-    RETURN r.filename AS filename, r.kind AS kind, r.resolved AS resolved,
+    WHERE $artifact_id IS NULL OR r.artifact_id = $artifact_id
+    OPTIONAL MATCH (i:IFlow)<-[:PART_OF]-(:Process)<-[:BELONGS_TO]-(:Step)-[:USES]->(r)
+    RETURN r.resource_key AS resource_key, r.artifact_id AS artifact_id,
+           r.filename AS filename, r.kind AS kind, r.resolved AS resolved,
            r.purpose AS purpose, r.complexity AS complexity,
            collect(DISTINCT i.id) AS used_in_iflows
+    ORDER BY artifact_id, resource_key
     """
     try:
-        results = run_query(query, {"filename": filename})
-        return results[0] if results else {}
+        results = run_query(query, {"filename": filename, "artifact_id": artifact_id})
+        if not results:
+            return {}
+        if artifact_id is not None:
+            return dict(results[0])
+        return {"filename": filename, "resources": [dict(row) for row in results]}
     except Exception as exc:
         return {"error": f"Query failed: {exc}"}
 
@@ -145,9 +156,12 @@ def get_iflow_resources(artifact_id: str) -> list:
         iFlow uses no resources. {"error": ...} single-item list on failure.
     """
     query = """
-    MATCH (i:IFlow {id: $artifact_id})<-[:BELONGS_TO]-(:Step)-[:USES]->(r:Resource)
-    RETURN DISTINCT r.filename AS filename, r.kind AS kind, r.purpose AS purpose,
-           r.complexity AS complexity, r.details_json AS details_json
+    MATCH (i:IFlow {id: $artifact_id})<-[:PART_OF]-(:Process)<-[:BELONGS_TO]-(:Step)-[:USES]->(r:Resource)
+    RETURN DISTINCT r.resource_key AS resource_key, r.filename AS filename,
+           r.kind AS kind, r.purpose AS purpose,
+           r.complexity AS complexity, r.details_json AS details_json,
+           r.mapping_format AS mapping_format,
+           r.has_complex_transformations AS has_complex_transformations
     """
     try:
         results = run_query(query, {"artifact_id": artifact_id})
@@ -192,8 +206,9 @@ def get_iflow_systems(artifact_id: str) -> list:
         Empty list if genuinely none. {"error": ...} single-item list on failure.
     """
     query = """
-    MATCH (i:IFlow {id: $artifact_id})<-[:BELONGS_TO]-(s:Step)-[calls:CALLS]->(sys:System)
-    RETURN DISTINCT sys.name AS system_name,
+    MATCH (i:IFlow {id: $artifact_id})<-[:PART_OF]-(:Process)<-[:BELONGS_TO]-(s:Step)-[calls:CALLS]->(sys:System)
+    RETURN DISTINCT s.name AS step_name,
+           sys.name AS system_name,
            calls.direction AS direction,
            calls.component_type AS component_type,
            calls.address AS address
@@ -253,7 +268,9 @@ def find_resources_by_complexity(complexity: str) -> list:
     """
     query = """
     MATCH (r:Resource {complexity: $complexity})
-    RETURN r.filename AS filename, r.purpose AS purpose
+    RETURN r.resource_key AS resource_key, r.artifact_id AS artifact_id,
+           r.filename AS filename, r.purpose AS purpose
+    ORDER BY artifact_id, filename
     """
     try:
         results = run_query(query, {"complexity": complexity})
@@ -284,11 +301,13 @@ def get_unused_resources() -> list:
     query = """
     MATCH (r:Resource)
     WHERE NOT (()-[:USES]->(r))
-    RETURN r.filename AS filename
+    RETURN r.resource_key AS resource_key, r.artifact_id AS artifact_id,
+           r.filename AS filename
+    ORDER BY artifact_id, filename
     """
     try:
         results = run_query(query, {})
-        return [r["filename"] for r in results]
+        return [dict(r) for r in results]
     except Exception as exc:
         return [{"error": f"Query failed: {exc}"}]
 
@@ -310,7 +329,7 @@ def get_iflow_step_count_ranked() -> list:
 def find_systems_shared_across_iflows(min_count: int = 2) -> list:
     """List systems used by more than one iFlow, with counts."""
     query = """
-    MATCH (s:System)<-[:CALLS]-(:Step)-[:BELONGS_TO]->(i:IFlow)
+    MATCH (s:System)<-[:CALLS]-(:Step)-[:BELONGS_TO]->(:Process)-[:PART_OF]->(i:IFlow)
     WITH s.name AS system, count(DISTINCT i) AS iflow_count
     WHERE iflow_count >= $min_count
     RETURN system, iflow_count
@@ -523,7 +542,8 @@ def find_scripts_using_cpi_api(api_name: str) -> dict:
     query = """
     MATCH (i:IFlow)<-[:PART_OF]-(:Process)<-[:BELONGS_TO]-(:Step)-[:USES]->(r:Resource {kind: 'groovy'})
     WHERE r.cpi_apis_json IS NOT NULL
-    RETURN DISTINCT i.id AS artifact_id, r.filename AS script_filename,
+    RETURN DISTINCT r.resource_key AS resource_key, i.id AS artifact_id,
+           r.filename AS script_filename,
            r.cpi_apis_json AS cpi_apis_json
     ORDER BY artifact_id, script_filename
     """
@@ -533,6 +553,7 @@ def find_scripts_using_cpi_api(api_name: str) -> dict:
             for api in json.loads(row["cpi_apis_json"]):
                 if api.get("api_name") == api_name:
                     matches.append({
+                        "resource_key": row["resource_key"],
                         "artifact_id": row["artifact_id"],
                         "script_filename": row["script_filename"],
                         "literal_argument": api.get("literal_argument"),
@@ -543,15 +564,52 @@ def find_scripts_using_cpi_api(api_name: str) -> dict:
 
 
 def find_complex_mappings() -> dict:
-    """List mappings with parser-detected complex transformation structures."""
+    """List .mmap mapping files with non-trivial field transformation logic.
+
+    This identifies mapping transformations that are not direct 1:1 copies;
+    it is not related to Groovy script complexity classifications.
+    """
     query = """
     MATCH (i:IFlow)<-[:PART_OF]-(:Process)<-[:BELONGS_TO]-(:Step)-[:USES]->(r:Resource)
     WHERE r.has_complex_transformations = true
-    RETURN DISTINCT i.id AS artifact_id, r.filename AS filename,
+    RETURN DISTINCT r.resource_key AS resource_key, i.id AS artifact_id,
+           r.filename AS filename,
            r.mapping_format AS mapping_format
     ORDER BY artifact_id, filename
     """
     try:
         return {"complex_mappings": [dict(row) for row in run_query(query)]}
+    except Exception as exc:
+        return {"error": f"Query failed: {exc}"}
+
+
+def get_process_complexity_ranking() -> dict:
+    """Rank iFlows by their combined local-subprocess and error-handling Process counts."""
+    query = """
+    MATCH (i:IFlow)
+    OPTIONAL MATCH (i)<-[:PART_OF]-(p:Process)
+    WITH i,
+         count(CASE WHEN p.classification = 'local_subprocess' THEN 1 END) AS local_subprocess_count,
+         count(CASE WHEN p.classification = 'error_handling' THEN 1 END) AS error_handling_count
+    RETURN i.id AS artifact_id, local_subprocess_count, error_handling_count,
+           local_subprocess_count + error_handling_count AS total_non_main_processes
+    ORDER BY total_non_main_processes DESC, artifact_id
+    """
+    try:
+        return {"ranking": [dict(row) for row in run_query(query)]}
+    except Exception as exc:
+        return {"error": f"Query failed: {exc}"}
+
+
+def get_multicast_step_count() -> dict:
+    """Return the landscape-wide count of Steps with a promoted multicast type."""
+    query = """
+    MATCH (s:Step)
+    WHERE s.multicast_type IS NOT NULL
+    RETURN count(s) AS multicast_step_count
+    """
+    try:
+        rows = run_query(query)
+        return rows[0] if rows else {"multicast_step_count": 0}
     except Exception as exc:
         return {"error": f"Query failed: {exc}"}
