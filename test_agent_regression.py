@@ -20,6 +20,7 @@ suite grows every time trust is earned back.
 """
 
 import sys
+import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -81,6 +82,8 @@ TEST_CASES = [
     },
 ]
 
+REQUEST_DELAY_SECONDS = 15
+
 
 def run_suite():
     passed = 0
@@ -109,6 +112,10 @@ def run_suite():
                 print(f"  Contains known-wrong content: {forbidden_found}")
             print(f"  Full response:\n{response_text}")
             failed += 1
+
+        if i < len(TEST_CASES):
+            print(f"Waiting {REQUEST_DELAY_SECONDS} seconds before the next chat request...")
+            time.sleep(REQUEST_DELAY_SECONDS)
 
     print(f"\n{'='*70}")
     print(f"RESULTS: {passed} passed, {failed} failed out of {len(TEST_CASES)}")

@@ -5,3 +5,6 @@ output/
 .env
 data/raw_artifacts/
 .DS_Store
+node_modules/
+package-lock.json
+package.json

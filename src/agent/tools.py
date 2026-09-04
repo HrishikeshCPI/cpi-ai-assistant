@@ -160,6 +160,7 @@ def get_iflow_resources(artifact_id: str) -> list:
     RETURN DISTINCT r.resource_key AS resource_key, r.filename AS filename,
            r.kind AS kind, r.purpose AS purpose,
            r.complexity AS complexity, r.details_json AS details_json,
+            r.resolved AS resolved,
            r.mapping_format AS mapping_format,
            r.has_complex_transformations AS has_complex_transformations
     """
@@ -202,8 +203,9 @@ def get_iflow_systems(artifact_id: str) -> list:
         artifact_id: The artifact ID of the iFlow (e.g., "NorthWind_Customer_OData_Git")
 
     Returns:
-        List of dicts with system_name, direction, component_type, address.
-        Empty list if genuinely none. {"error": ...} single-item list on failure.
+        List of dicts with system_name, direction, component_type, address,
+        externalized_count, literal_count. Empty list if genuinely none. 
+        {"error": ...} single-item list on failure.
     """
     query = """
     MATCH (i:IFlow {id: $artifact_id})<-[:PART_OF]-(:Process)<-[:BELONGS_TO]-(s:Step)-[calls:CALLS]->(sys:System)
@@ -211,7 +213,9 @@ def get_iflow_systems(artifact_id: str) -> list:
            sys.name AS system_name,
            calls.direction AS direction,
            calls.component_type AS component_type,
-           calls.address AS address
+           calls.address AS address,
+           calls.externalized_count AS externalized_count,
+           calls.literal_count AS literal_count
     ORDER BY sys.name
     """
     try:
@@ -356,11 +360,46 @@ def get_subflow_chain(artifact_id: str) -> dict:
         rows = run_query(query, {"artifact_id": artifact_id})
         if not rows:
             return {}
+
+        def normalize(item: dict | None, kind: str) -> dict:
+           if not item:
+               return {}
+           artifact_id_value = item.get("artifact_id") or item.get(kind) or "Unknown"
+           normalized = dict(item)
+           normalized["artifact_id"] = artifact_id_value
+           normalized[kind] = artifact_id_value
+           return normalized
+
         row = rows[0]
         return {
-            "artifact_id": row["artifact_id"],
-            "calls": [item for item in row["calls"] if item["callee"]],
-            "called_by": [item for item in row["called_by"] if item["caller"]],
+           "artifact_id": row["artifact_id"],
+           "calls": [
+               normalize(item, "callee")
+               for item in row.get("calls", [])
+               if item and item.get("callee")
+           ],
+           "called_by": [
+               normalize(item, "caller")
+               for item in row.get("called_by", [])
+               if item and item.get("caller")
+           ],
+        }
+    except Exception as exc:
+        return {"error": f"Query failed: {exc}"}
+
+
+def get_all_subflow_links() -> dict:
+    """Return every landscape-wide CALLS_SUBFLOW edge as a simple list."""
+    query = """
+    MATCH (caller:IFlow)-[r:CALLS_SUBFLOW]->(callee:IFlow)
+    RETURN caller.id AS caller, callee.id AS callee, r.address AS address
+    ORDER BY caller, callee
+    """
+    try:
+        rows = run_query(query)
+        return {
+           "count": len(rows),
+           "links": [dict(row) for row in rows],
         }
     except Exception as exc:
         return {"error": f"Query failed: {exc}"}
@@ -377,11 +416,11 @@ def find_subflow_callers(artifact_id: str) -> dict:
     try:
         rows = run_query(query, {"artifact_id": artifact_id})
         if not rows:
-            return {}
+           return {}
         row = rows[0]
         return {
-            "artifact_id": row["artifact_id"],
-            "called_by": [item for item in row["called_by"] if item["caller"]],
+           "artifact_id": row["artifact_id"],
+           "called_by": [item for item in row["called_by"] if item["caller"]],
         }
     except Exception as exc:
         return {"error": f"Query failed: {exc}"}
@@ -583,6 +622,29 @@ def find_complex_mappings() -> dict:
         return {"error": f"Query failed: {exc}"}
 
 
+def find_complex_mappings_without_error_handling() -> dict:
+    """Return iFlows that use a complex mapping but have no error-handling Process."""
+    complex_mappings = find_complex_mappings()
+    if "error" in complex_mappings:
+        return complex_mappings
+
+    coverage = get_error_handling_coverage()
+    if "error" in coverage:
+        return coverage
+
+    complex_artifacts = {
+        row["artifact_id"] for row in complex_mappings.get("complex_mappings", [])
+    }
+    covered_artifacts = {
+        row["artifact_id"] for row in coverage.get("iflows_with_error_handling", [])
+    }
+    result = sorted(complex_artifacts - covered_artifacts)
+    return {
+        "count": len(result),
+        "complex_mapping_iflows_without_error_handling": result,
+    }
+
+
 def get_process_complexity_ranking() -> dict:
     """Rank iFlows by their combined local-subprocess and error-handling Process counts."""
     query = """
@@ -611,5 +673,59 @@ def get_multicast_step_count() -> dict:
     try:
         rows = run_query(query)
         return rows[0] if rows else {"multicast_step_count": 0}
+    except Exception as exc:
+        return {"error": f"Query failed: {exc}"}
+
+
+def get_iflow_metadata(artifact_id: str) -> dict:
+    """
+    Load metadata from the artifact JSON file, including developer_description.
+    
+    Args:
+        artifact_id: The artifact ID of the iFlow (e.g., "NorthWind_Customer_OData_Git")
+    
+    Returns:
+        Dictionary with developer_description and other top-level metadata from the JSON.
+        Empty dict if artifact file not found. {"error": ...} on failure.
+    """
+    from pathlib import Path
+    
+    artifact_path = Path("output") / f"{artifact_id}.json"
+    if not artifact_path.exists():
+        return {}
+    
+    try:
+        with open(artifact_path, encoding="utf-8") as f:
+            artifact = json.load(f)
+        return {
+            "artifact_id": artifact_id,
+            "developer_description": artifact.get("developer_description", ""),
+        }
+    except Exception as exc:
+        return {"error": f"Failed to load artifact metadata: {exc}"}
+
+
+def get_graph_summary() -> dict:
+    """
+    Get a summary of the current graph state: total iFlow count and Step count.
+    
+    Returns:
+        Dictionary with iflow_count and step_count, or {"error": ...} on failure.
+    """
+    query = """
+    MATCH (i:IFlow)
+    WITH count(i) AS iflow_count
+    MATCH (s:Step)
+    RETURN iflow_count, count(s) AS step_count
+    """
+    try:
+        results = run_query(query)
+        if results:
+            row = results[0]
+            return {
+                "iflow_count": row.get("iflow_count", 0),
+                "step_count": row.get("step_count", 0),
+            }
+        return {"iflow_count": 0, "step_count": 0}
     except Exception as exc:
         return {"error": f"Query failed: {exc}"}

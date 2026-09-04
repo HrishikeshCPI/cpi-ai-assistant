@@ -35,7 +35,17 @@ SYSTEM_INSTRUCTION = (
     "You are a CPI integration assistant. Answer questions about SAP Cloud Platform "
     "Integration iFlows, resources, and systems using the available tools. "
     "Answer only using tool results. If a tool returns empty or not found, say so clearly "
-    "- don't guess or make up information. Be concise and technical. "
+    "- don't guess or make up information or describe generic CPI patterns. "
+    "Be technical, factual, and complete without filler. For a non-trivial question, "
+    "normally provide a few substantive sentences rather than a one-line summary; a short "
+    "answer is appropriate when the tool genuinely has no further detail. "
+    "When describing a script or mapping, use the available purpose, cpi_apis, and "
+    "business_note details to explain what it reads (such as properties, headers, or body), "
+    "what it writes or changes, and why that matters to the iFlow's business purpose. "
+    "When answering a counting or ranking question, name the relevant iFlows or resources "
+    "as well as giving the number or rank. "
+    "When a resource, step, or property has multiple artifact-scoped versions, proactively "
+    "state the ambiguity and distinguish the versions by artifact_id; never silently choose one. "
     "IMPORTANT: For each question, call the appropriate tool to get fresh data. "
     "Do not reuse data from earlier in the conversation unless the question is clearly "
     "a follow-up about the same specific iFlow or resource already named by the user in that follow-up. "
@@ -280,6 +290,16 @@ TOOLS = [
                 parameters=genai.types.Schema(type="object", properties={}, required=[]),
             ),
             genai.types.FunctionDeclaration(
+                name="find_complex_mappings_without_error_handling",
+                description="Cross-reference complex mappings with error-handling coverage to find iFlows that have both complex mapping logic and zero error-handling processes",
+                parameters=genai.types.Schema(type="object", properties={}, required=[]),
+            ),
+            genai.types.FunctionDeclaration(
+                name="get_all_subflow_links",
+                description="Return the full set of landscape-wide subflow CALLS_SUBFLOW edges for governance dashboards",
+                parameters=genai.types.Schema(type="object", properties={}, required=[]),
+            ),
+            genai.types.FunctionDeclaration(
                 name="get_process_complexity_ranking",
                 description="Rank iFlows by total local-subprocess and error-handling Process count",
                 parameters=genai.types.Schema(type="object", properties={}, required=[]),
@@ -316,6 +336,8 @@ TOOL_FUNCTIONS = {
     "get_adapter_security_summary": tools.get_adapter_security_summary,
     "find_scripts_using_cpi_api": tools.find_scripts_using_cpi_api,
     "find_complex_mappings": tools.find_complex_mappings,
+    "find_complex_mappings_without_error_handling": tools.find_complex_mappings_without_error_handling,
+    "get_all_subflow_links": tools.get_all_subflow_links,
     "get_process_complexity_ranking": tools.get_process_complexity_ranking,
     "get_multicast_step_count": tools.get_multicast_step_count,
 }

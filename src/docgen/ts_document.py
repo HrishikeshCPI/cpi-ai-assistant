@@ -11,10 +11,15 @@ from typing import Any
 
 from src.agent.tools import (
     describe_iflow,
+    get_adapter_security_summary,
+    get_error_handling_coverage,
     get_iflow_diagram,
+    get_iflow_metadata,
     get_iflow_parameters,
+    get_iflow_processes,
     get_iflow_resources,
     get_iflow_systems,
+    get_subflow_chain,
 )
 
 
@@ -128,19 +133,41 @@ Respond with only the summary paragraph, no preamble."""
 def build_ts_content(artifact_id: str) -> dict:
     """Gather all Neo4j-backed data needed for an iFlow TS document."""
     iflow = describe_iflow(artifact_id)
+    metadata = get_iflow_metadata(artifact_id)
     resources = get_iflow_resources(artifact_id)
     systems = get_iflow_systems(artifact_id)
     parameters = get_iflow_parameters(artifact_id)
+    processes = get_iflow_processes(artifact_id)
+    subflows = get_subflow_chain(artifact_id)
+    error_handling = get_error_handling_coverage()
 
-    resource_details = [
-        {key: value for key, value in resource.items() if key != "details_json"}
-        for resource in resources
-    ]
+    resource_details = []
+    for resource in resources:
+        details = resource.get("details_json")
+        business_note = None
+        if details:
+            try:
+                business_note = json.loads(details).get("business_note")
+            except (TypeError, json.JSONDecodeError):
+                business_note = None
+        resource_details.append({
+            key: value for key, value in resource.items() if key != "details_json"
+        } | {"business_note": business_note})
     steps = sorted(iflow.get("steps", []), key=lambda step: step.get("id", ""))
+
+    # Extract error handling details for this specific iFlow
+    error_details_by_process = {}
+    if "iflows_with_error_handling" in error_handling:
+        for entry in error_handling["iflows_with_error_handling"]:
+            if entry["artifact_id"] == artifact_id:
+                for detail in entry["details"]:
+                    error_details_by_process[detail["process_id"]] = detail
+                break
 
     return {
         "artifact_id": iflow.get("artifact_id", artifact_id),
         "version": iflow.get("version", ""),
+        "developer_description": metadata.get("developer_description", ""),
         "scope_summary": generate_scope_summary(artifact_id),
         "steps": steps,
         "systems": systems,
@@ -148,6 +175,9 @@ def build_ts_content(artifact_id: str) -> dict:
         "field_mappings": _field_mappings(resources),
         "parameters": _group_parameters(parameters),
         "diagram": get_iflow_diagram(artifact_id),
+        "processes": processes.get("processes", []),
+        "error_details_by_process": error_details_by_process,
+        "subflows": subflows,
     }
 
 
